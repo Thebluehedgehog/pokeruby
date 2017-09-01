@@ -6,24 +6,24 @@
 const u8 gExpandedPlaceholder_Empty[] = _("");
 const u8 gExpandedPlaceholder_Kun[] = _("");
 const u8 gExpandedPlaceholder_Chan[] = _("");
-const u8 gExpandedPlaceholder_Sapphire[] = _("SAPPHIRE");
-const u8 gExpandedPlaceholder_Ruby[] = _("RUBY");
-const u8 gExpandedPlaceholder_Aqua[] = _("AQUA");
-const u8 gExpandedPlaceholder_Magma[] = _("MAGMA");
-const u8 gExpandedPlaceholder_Archie[] = _("ARCHIE");
-const u8 gExpandedPlaceholder_Maxie[] = _("MAXIE");
-const u8 gExpandedPlaceholder_Kyogre[] = _("KYOGRE");
-const u8 gExpandedPlaceholder_Groudon[] = _("GROUDON");
-const u8 gExpandedPlaceholder_Brendan[] = _("BRENDAN");
-const u8 gExpandedPlaceholder_May[] = _("MAY");
+const u8 gExpandedPlaceholder_Sapphire[] = _("Safira");
+const u8 gExpandedPlaceholder_Ruby[] = _("Rubi");
+const u8 gExpandedPlaceholder_Aqua[] = _("Água");
+const u8 gExpandedPlaceholder_Magma[] = _("Magma");
+const u8 gExpandedPlaceholder_Archie[] = _("Archie");
+const u8 gExpandedPlaceholder_Maxie[] = _("Maxie");
+const u8 gExpandedPlaceholder_Kyogre[] = _("Kyogre");
+const u8 gExpandedPlaceholder_Groudon[] = _("Groudon");
+const u8 gExpandedPlaceholder_Brendan[] = _("Brendan");
+const u8 gExpandedPlaceholder_May[] = _("May");
 
 // system text
-const u8 gSystemText_Egg[] = _("EGG");
-const u8 gSystemText_Pokemon2[] = _("POKéMON");
+const u8 gSystemText_Egg[] = _("ovo");
+const u8 gSystemText_Pokemon2[] = _("pokémon");
 
 // main menu text
 const u8 gMainMenuString_NewGame[] = _("Novo Jogo");
-const u8 gMainMenuString_Continue[] = _("Continuar Jogo");
+const u8 gMainMenuString_Continue[] = _("Continuar");
 const u8 gMainMenuString_Option[] = _("Opções");
 const u8 gMainMenuString_MysteryEvents[] = _("Eventos Misteriosos");
 
@@ -42,38 +42,38 @@ const u8 gBoardNotInstalledMessage[] = _("The 1M sub-circuit board is\nnot insta
 const u8 gBatteryDryMessage[] = _("The internal battery has run dry.\nThe game can be played.\pHowever, clock-based events will\nno longer occur.");
 
 // main menu text 2
-const u8 gMainMenuString_Player[] = _("PLAYER");
-const u8 gMainMenuString_Pokedex[] = _("POKéDEX");
-const u8 gMainMenuString_Time[] = _("TIME");
-const u8 gMainMenuString_Badges[] = _("BADGES");
+const u8 gMainMenuString_Player[] = _("Jogador");
+const u8 gMainMenuString_Pokedex[] = _("Pokédex");
+const u8 gMainMenuString_Time[] = _("Tempo");
+const u8 gMainMenuString_Badges[] = _("Insígnias");
 
 // birch text
-const u8 gBirchText_Boy[] = _("BOY");
-const u8 gBirchText_Girl[] = _("GIRL");
-const u8 gBirchText_NewName[] = _("NEW NAME");
+const u8 gBirchText_Boy[] = _("Garoto");
+const u8 gBirchText_Girl[] = _("Garota");
+const u8 gBirchText_NewName[] = _("Novo Nome");
 
 #ifdef SAPPHIRE
-const u8 gDefaultBoyName1[] = _("SEAN");
+const u8 gDefaultBoyName1[] = _("Sean");
 #else
-const u8 gDefaultBoyName1[] = _("LANDON");
+const u8 gDefaultBoyName1[] = _("Landon");
 #endif
-const u8 gDefaultBoyName2[] = _("TERRY");
-const u8 gDefaultBoyName3[] = _("SETH");
-const u8 gDefaultBoyName4[] = _("TOM");
+const u8 gDefaultBoyName2[] = _("Terry");
+const u8 gDefaultBoyName3[] = _("Seth");
+const u8 gDefaultBoyName4[] = _("Tom");
 
 #ifdef SAPPHIRE
-const u8 gDefaultGirlName1[] = _("MARINA");
+const u8 gDefaultGirlName1[] = _("Marina");
 #else
-const u8 gDefaultGirlName1[] = _("TERRA");
+const u8 gDefaultGirlName1[] = _("Terra");
 #endif
-const u8 gDefaultGirlName2[] = _("KIMMY");
-const u8 gDefaultGirlName3[] = _("NICOLA");
-const u8 gDefaultGirlName4[] = _("SARA");
+const u8 gDefaultGirlName2[] = _("Kimmy");
+const u8 gDefaultGirlName3[] = _("Nicola");
+const u8 gDefaultGirlName4[] = _("Sara");
 
-const u8 gSystemText_IntroWeCall[] = _("This is what we call\na POKéMON.");
+const u8 gSystemText_IntroWeCall[] = _("Isso é o que chamamos\nde pokémon.");
 const u8 gSystemText_NewPara[] = _("\p");
 
-const u8 gDexText_UnknownPoke[] = _("            ????? POKéMON");
+const u8 gDexText_UnknownPoke[] = _("            ????? Pokémon");
 const u8 gDexText_UnknownHeight[] = _("{CLEAR_TO 0x0C}??’??”");
 const u8 gDexText_UnknownWeight[] = _("????.? lbs.$"); // extra terminator?
 const u8 gDexText_CryOf[] = _("{CLEAR_TO 2}CRY OF$"); // extra terminator?
