@@ -48,8 +48,8 @@ const u8 gMainMenuString_Time[] = _("Tempo");
 const u8 gMainMenuString_Badges[] = _("Insígnias");
 
 // birch text
-const u8 gBirchText_Boy[] = _("Garoto");
-const u8 gBirchText_Girl[] = _("Garota");
+const u8 gBirchText_Boy[] = _("Menino");
+const u8 gBirchText_Girl[] = _("Menina");
 const u8 gBirchText_NewName[] = _("Novo Nome");
 
 #ifdef SAPPHIRE
