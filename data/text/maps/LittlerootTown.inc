@@ -41,7 +41,7 @@ LittlerootTown_Text_16AB10:: @ 816AB10
 	.string "pokémon agora...\l"
 	.string "Seu pai ficará muito feliz.\p"
 	.string "... Mas seja cuidadoso.\n"
-	.string "Se acontecer algo, volte para casa.\P"
+	.string "Se acontecer algo, volte para casa.\p"
 	.string "Tome cuidado!$"
 
 LittlerootTown_Text_16AC00:: @ 816AC00
