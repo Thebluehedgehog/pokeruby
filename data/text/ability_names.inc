@@ -1,29 +1,29 @@
 gAbilityNames:: @ 81FA248
 	.string "-------$", 13
-	.string "STENCH$", 13
-	.string "DRIZZLE$", 13
-	.string "SPEED BOOST$", 13
-	.string "BATTLE ARMOR$", 13
-	.string "STURDY$", 13
-	.string "DAMP$", 13
-	.string "LIMBER$", 13
-	.string "SAND VEIL$", 13
-	.string "STATIC$", 13
-	.string "VOLT ABSORB$", 13
-	.string "WATER ABSORB$", 13
-	.string "OBLIVIOUS$", 13
-	.string "CLOUD NINE$", 13
-	.string "COMPOUNDEYES$", 13
-	.string "INSOMNIA$", 13
-	.string "COLOR CHANGE$", 13
-	.string "IMMUNITY$", 13
-	.string "FLASH FIRE$", 13
-	.string "SHIELD DUST$", 13
-	.string "OWN TEMPO$", 13
-	.string "SUCTION CUPS$", 13
-	.string "INTIMIDATE$", 13
-	.string "SHADOW TAG$", 13
-	.string "ROUGH SKIN$", 13
+	.string "Fedor$", 13
+	.string "Chuvisco$", 13
+	.string "Acelerador$", 13
+	.string "CouraçaLuta$", 13
+	.string "Fortificar$", 13
+	.string "Umidade$", 13
+	.string "Elasticidade$", 13
+	.string "Véu De Areia$", 13
+	.string "Estática$", 13
+	.string "Absorve Volt$", 13
+	.string "Absorve Água$", 13
+	.string "Inconsciente$", 13
+	.string "Antitempo$", 13
+	.string "Olho Preciso$", 13
+	.string "Insônia$", 13
+	.string "Troca De Cor$", 13
+	.string "Imunidade$", 13
+	.string "Luz De Fogo$", 13
+	.string "Escudo De Pó$", 13
+	.string "Rítmo Próprio$", 13
+	.string "Braço Sucção$", 13
+	.string "Intimidar$", 13
+	.string "Fio Sombrio$", 13
+	.string "Pele Áspera$", 13
 	.string "WONDER GUARD$", 13
 	.string "LEVITATE$", 13
 	.string "EFFECT SPORE$", 13
