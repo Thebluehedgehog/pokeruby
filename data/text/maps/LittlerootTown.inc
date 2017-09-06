@@ -64,8 +64,8 @@ LittlerootTown_Text_16AD3C:: @ 816AD3C
 	.string "não possuir pokémon.$"
 
 LittlerootTown_Text_16AD82:: @ 816AD82
-	.string "Escuto alguém gritando nessa rota.\p"
-	.string "O que eu faço? O que vamos fazer?\n"
+	.string "Alguém está gritando nessa rota.\p"
+	.string "O que vamos fazer?\n"
 	.string "Alguém tem que ajudar...$"
 
 LittlerootTown_Text_16ADF2:: @ 816ADF2
