@@ -2,7 +2,7 @@ LittlerootTown_Text_16A7C9:: @ 816A7C9
 	.string "Mãe: {PLAYER}, chegamos!\p"
 	.string "Deve ser cansativo viajar com nossas\n"
 	.string "coisas balançando no caminhão.\p"
-	.string "Bem, aqui é Littleroot Town.\p"
+	.string "Bem, aqui é a Vila Das Raízes.\p"
 	.string "Você gostou?\n"
 	.string "Essa é nossa nova casa!\p"
 	.string "Tem uma sensação peculiar, mas parece\n"
@@ -15,7 +15,7 @@ LittlerootTown_Text_16A8EE:: @ 816A8EE
 
 LittlerootTown_Text_16A8FD:: @ 816A8FD
 	.string "Mãe: {PLAYER}! {PLAYER}! Você se\n"
-	.string "apresentou ao professor Birch?\p"
+	.string "apresentou ao Professor Birch?\p"
 	.string "Olha! Que pokémon adorável.\n"
 	.string "Você ganhou do professor Birch?\p"
 	.string "Você realmente parece com o seu pai.\p"
@@ -50,7 +50,7 @@ LittlerootTown_Text_16AC00:: @ 816AC00
 	.string "O poder da ciência é surpreendente!$"
 
 LittlerootTown_Text_16AC56:: @ 816AC56
-	.string "O professor Birch passa dias no seu\n"
+	.string "O Professor Birch passa dias no seu\n"
 	.string "laboratório estudando, e só sai para\l"
 	.string "fazer pesquisa de campo.\p"
 	.string "Quando o professor vai para casa?$"
@@ -65,7 +65,7 @@ LittlerootTown_Text_16AD3C:: @ 816AD3C
 
 LittlerootTown_Text_16AD82:: @ 816AD82
 	.string "Escuto alguém gritando nessa rota.\p"
-	.string "O que eu faço? O que devemos fazer?\n"
+	.string "O que eu faço? O que vamos fazer?\n"
 	.string "Alguém tem que ajudar...$"
 
 LittlerootTown_Text_16ADF2:: @ 816ADF2
@@ -74,17 +74,17 @@ LittlerootTown_Text_16ADF2:: @ 816ADF2
 
 LittlerootTown_Text_16AE25:: @ 816AE25
 	.string "Você vai capturar pokémons?\n"
-	.string "Boa sorte então!$"
+	.string "Então, Boa sorte!$"
 
 LittlerootTown_Text_16AE50:: @ 816AE50
-	.string "Littleroot Town\n"
-	.string "“A cidade que não pode ser sombreada.”$"
+	.string "Vila Das Raízes\n"
+	.string "“A vila que não pode ser sombreada.”$"
 
 LittlerootTown_Text_16AE87:: @ 816AE87
-	.string "Laboratório do professor Birch$"
+	.string "Laboratório do Professor Birch$"
 
 LittlerootTown_Text_16AEA1:: @ 816AEA1
 	.string "Casa do {PLAYER}$"
 
 LittlerootTown_Text_16AEAC:: @ 816AEAC
-	.string "Casa do professor Birch$"
+	.string "Casa do Professor Birch$"
