@@ -641,7 +641,7 @@ const struct Item gItems[] =
         .secondaryId = 0,
     },
     {
-        .name = _("Flauta Bege"),
+        .name = _("Flauta Ouro"),
         .itemId = ITEM_YELLOW_FLUTE,
         .price = 200,
         .holdEffect = HOLD_EFFECT_NONE,
@@ -657,7 +657,7 @@ const struct Item gItems[] =
         .secondaryId = 0,
     },
     {
-        .name = _("Flauta Rosa"),
+        .name = _("Flauta Rubra"),
         .itemId = ITEM_RED_FLUTE,
         .price = 300,
         .holdEffect = HOLD_EFFECT_NONE,
@@ -689,7 +689,7 @@ const struct Item gItems[] =
         .secondaryId = 0,
     },
     {
-        .name = _("Flauta Cinza"),
+        .name = _("Flauta Clara"),
         .itemId = ITEM_WHITE_FLUTE,
         .price = 500,
         .holdEffect = HOLD_EFFECT_NONE,
@@ -4257,7 +4257,7 @@ const struct Item gItems[] =
         .secondaryId = 0,
     },
     {
-        .name = _("Passe Concu."),
+        .name = _("B. Concurso"),
         .itemId = ITEM_CONTEST_PASS,
         .price = 0,
         .holdEffect = HOLD_EFFECT_NONE,
