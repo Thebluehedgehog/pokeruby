@@ -41,7 +41,7 @@ gMoveNames:: @ 81F8320
 	.string "Rabo Chicote$", 13
 	.string "Ferroada$", 13
 	.string "Agulha Gêmea$", 13
-	.string "Espinhos$", 13
+	.string "Míssil Farpa$", 13
 	.string "Encarar$", 13
 	.string "Mordida", 13
 	.string "Rosnar$", 13
@@ -165,92 +165,92 @@ gMoveNames:: @ 81F8320
 	.string "Talhada$", 13
 	.string "Substituto$", 13
 	.string "Insistência$", 13
-	.string "Desenho$", 13
+	.string "Esboço$", 13
 	.string "Chute Triplo$", 13
 	.string "Ladrão$", 13
-	.string "Teia de Aranha$", 13
-	.string "Leitor de Mente$", 13
+	.string "Teia Aranha$", 13
+	.string "Ler Mentes$", 13
 	.string "Pesadelo$", 13
-	.string "Roda de Fogo$", 13
-	.string "Ronco$", 13
+	.string "Roda De Fogo$", 13
+	.string "Roncar$", 13
 	.string "Maldição$", 13
 	.string "Espancar$", 13
 	.string "Conversão 2$", 13
-	.string "Explosão Aérea$", 13
-	.string "Espóros Algodão$", 13
-	.string "Reverso$", 13
-	.string "Enfraquecer$", 13
-	.string "Pó de Gelo$", 13
+	.string "Explosão Ar$", 13
+	.string "Pó Algodão$", 13
+	.string "Reversão$", 13
+	.string "Rancor$", 13
+	.string "Pó de Neve$", 13
 	.string "Proteção$", 13
 	.string "Soco Rápido$", 13
-	.string "Cara Assustadora$", 13
-	.string "Ataque Traição$", 13
+	.string "Cara Feia$", 13
+	.string "Golpe Falso$", 13
 	.string "Beijo Doce$", 13
-	.string "Barriga Tambor$", 13
-	.string "Rajada Tóxica$", 13
+	.string "Tambor$", 13
+	.string "Bomba Lodo$", 13
 	.string "Tapa de Lama$", 13
 	.string "Octazooka$", 13
 	.string "Espinhos$", 13
-	.string "Canhão Elétrico$", 13
-	.string "Procurar$", 13
-	.string "Vínculo do Destino$", 13
-	.string "Canção Sofrida$", 13
+	.string "Canhão Zap$", 13
+	.string "Previsão$", 13
+	.string "Laço Destino$", 13
+	.string "Canto Mortal$", 13
 	.string "Vento Gelado$", 13
 	.string "Detectar$", 13
-	.string "Sabe de Osso$", 13
+	.string "Fúria Ossos$", 13
 	.string "Mirar$", 13
-	.string "Ataque Raiva$", 13
-	.string "Tempestade Areia$", 13
-	.string "Giga Dreno$", 13
-	.string "Endurecer$", 13
+	.string "Ultraje$", 13
+	.string "Vento Areia$", 13
+	.string "Gigadreno$", 13
+	.string "Resistência$", 13
 	.string "Charme$", 13
-	.string "Rolar$", 13
-	.string "Garra Ernegizada$", 13
-	.string "Provação$", 13
+	.string "Rolagem$", 13
+	.string "Corte Falso$", 13
+	.string "Arrogância$", 13
 	.string "Beber Leite$", 13
 	.string "Faísca$", 13
 	.string "Corte Fúria$", 13
-	.string "Asas de Ferro$", 13
-	.string "Olhar Malvado$", 13
+	.string "Asa De Ferro$", 13
+	.string "Olhar Mal$", 13
 	.string "Atração$", 13
-	.string "Ataque Sonâmbulo$", 13
-	.string "Campainha da Cura$", 13
-	.string "Retornar$", 13
+	.string "Sonambulismo$", 13
+	.string "Sino Da Cura$", 13
+	.string "Retorno$", 13
 	.string "Presente$", 13
 	.string "Frustração$", 13
-	.string "Salva Guarda$", 13
-	.string "Dividir Dor$", 13
+	.string "Salvaguarda$", 13
+	.string "Divide Dor$", 13
 	.string "Fogo Sagrado$", 13
 	.string "Magnitude$", 13
-	.string "Soco Dinâmico$", 13
+	.string "Soco Ativo$", 13
 	.string "Mega Chifre$", 13
 	.string "Bafo Dragão$", 13
-	.string "Passar o Bastão$", 13
+	.string "Passa Bastão$", 13
 	.string "Repetir$", 13
 	.string "Perseguição$", 13
 	.string "Giro Rápido$", 13
-	.string "Fragrância Doce $", 13
-	.string "Rabo de Ferro$", 13
-	.string "Garra de Metal$", 13
+	.string "Aroma Doce$", 13
+	.string "Cauda Ferro$", 13
+	.string "Garra Metal$", 13
 	.string "Tiro Vital$", 13
-	.string "Sol da Manhã$", 13
+	.string "Sol Da Manhã$", 13
 	.string "Síntese$", 13
-	.string "Luz da Lua$", 13
+	.string "Luar$", 13
 	.string "Poder Oculto$", 13
-	.string "Corte Crusado$", 13
-	.string "Twister$", 13
+	.string "Golpe Cruz$", 13
+	.string "Ciclone$", 13
 	.string "Dança Chuva$", 13
-	.string "Dia de Sol$", 13
+	.string "Dia De Sol$", 13
 	.string "Mastigada$", 13
-	.string "Ataque Espelho$", 13
-	.string "Aumento Psíquico$", 13
-	.string "Velocida Extrema$", 13
+	.string "Capa Espelho$", 13
+	.string "Mais Psico$", 13
+	.string "Velocidade$", 13
 	.string "Poder Antigo$", 13
 	.string "Bola Sombria$", 13
 	.string "Visão Futura$", 13
 	.string "Esmaga Rocha$", 13
 	.string "Redemuinho$", 13
-	.string "Recrutar$", 13
+	.string "Brigar$", 13
 	.string "Surpresa Ruim$", 13
 	.string "Uproar$", 13
 	.string "Estocagem$", 13
