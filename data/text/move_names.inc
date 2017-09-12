@@ -251,16 +251,16 @@ gMoveNames:: @ 81F8320
 	.string "Esmaga Rocha$", 13
 	.string "Redemuinho$", 13
 	.string "Brigar$", 13
-	.string "Surpresa Ruim$", 13
-	.string "Uproar$", 13
+	.string "Fingimento$", 13
+	.string "Gritaria$", 13
 	.string "Estocagem$", 13
 	.string "Liberação$", 13
-	.string "Liquido de Cura$", 13
+	.string "Engolir$", 13
 	.string "Onda de Calor$", 13
 	.string "Granizo$", 13
-	.string "Tormentar$", 13
+	.string "Atormentar$", 13
 	.string "Comemorar$", 13
-	.string "Laberada$", 13
+	.string "Labareda$", 13
 	.string "Suicídio$", 13
 	.string "Fachada$", 13
 	.string "Soco Focalizado$", 13
