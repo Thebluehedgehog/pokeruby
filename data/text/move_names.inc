@@ -256,101 +256,101 @@ gMoveNames:: @ 81F8320
 	.string "Estocagem$", 13
 	.string "Liberação$", 13
 	.string "Engolir$", 13
-	.string "Onda de Calor$", 13
+	.string "Onda De Calor$", 13
 	.string "Granizo$", 13
 	.string "Atormentar$", 13
 	.string "Comemorar$", 13
 	.string "Labareda$", 13
-	.string "Suicídio$", 13
+	.string "Sacrifício$", 13
 	.string "Fachada$", 13
-	.string "Soco Focalizado$", 13
-	.string "Sal Mal Cheiroso$", 13
-	.string "Siga-me$", 13
-	.string "Poder da Natureza$", 13
-	.string "Carga$", 13
-	.string "Irritação$", 13
+	.string "Soco Foco$", 13
+	.string "Estímulo$", 13
+	.string "Isca-Viva$", 13
+	.string "Natureza$", 13
+	.string "Carregar$", 13
+	.string "Insultar$", 13
 	.string "Mão Amiga$", 13
 	.string "Truque$", 13
-	.string "Troca de Tema$", 13
+	.string "Jogo Teatral$", 13
 	.string "Desejo$", 13
-	.string "Ajudar$", 13
+	.string "Assitência$", 13
 	.string "Enraizar$", 13
-	.string "Super Poder$", 13
-	.string "Ataque Mágico$", 13
+	.string "Superpoder$", 13
+	.string "Capa Mágica$", 13
 	.string "Reciclar$", 13
 	.string "Vingança$", 13
-	.string "Quebra Tijolo$", 13
+	.string "Quebra Bloco$", 13
 	.string "Bocejo$", 13
 	.string "Nocaute$", 13
 	.string "Esforço$", 13
 	.string "Erupção$", 13
-	.string "Troca Habilidade$", 13
-	.string "Imprisão$", 13
+	.string "Troca Jeito$", 13
+	.string "Aprisionar$", 13
 	.string "Refrescar$", 13
-	.string "Grude$", 13
-	.string "Agarrar$", 13
-	.string "Poder Secreto$", 13
+	.string "Rancor$", 13
+	.string "Arrebatar$", 13
+	.string "Secreto$", 13
 	.string "Mergulho$", 13
-	.string "Golpe de Braço$", 13
+	.string "Golpe Braço$", 13
 	.string "Camuflagem$", 13
-	.string "Cauda Brilhante$", 13
-	.string "Brilho Purificador$", 13
-	.string "Bola da Neblina$", 13
-	.string "Dança das Penas$", 13
-	.string "Chuva da Confusão$", 13
+	.string "Cauda Brilho$", 13
+	.string "Raio Puro$", 13
+	.string "Bola Névoa$", 13
+	.string "Dança Penas$", 13
+	.string "Dança Caos$", 13
 	.string "Chute Fogo$", 13
-	.string "Campo de Lama$", 13
-	.string "Bola de Gelo$", 13
-	.string "Braço de Agulha$", 13
+	.string "Campo Lama$", 13
+	.string "Bola De Gelo$", 13
+	.string "Braço Agulha$", 13
 	.string "Relaxar$", 13
 	.string "Hiper Voz$", 13
-	.string "Presa Venenosa$", 13
-	.string "Garra Esmagadora$", 13
-	.string "Explosão Incendiária$", 13
+	.string "Presa Veneno$", 13
+	.string "Garra Brutal$", 13
+	.string "Explode Fogo$", 13
 	.string "Hidro Canhão$", 13
-	.string "Mistura Meteoro$", 13
+	.string "Soco Meteoro$", 13
 	.string "Assustar$", 13
-	.string "Bola Climática$", 13
-	.string "Terapia Aroma$", 13
-	.string "Lágrimas Crocodilo$", 13
+	.string "Bola Clima$", 13
+	.string "Terapia Odor$", 13
+	.string "Choro Falso$", 13
 	.string "Corte Aéreo$", 13
-	.string "Super Aquecer$", 13
-	.string "Odor Detectante$", 13
-	.string "Tumba de Pedras$", 13
-	.string "Vento Prateado$", 13
-	.string "Som de Metal$", 13
-	.string "Apito de Folha$", 13
-	.string "Cócega$", 13
-	.string "Poder Cósmico$", 13
-	.string "Tromba de Água$", 13
-	.string "Raio Sinalizador$", 13
-	.string "Soco das Sombras$", 13
+	.string "Super Aquece$", 13
+	.string "Odor Detecta$", 13
+	.string "Tumba Pedras$", 13
+	.string "Vento Prata$", 13
+	.string "Som Metálico$", 13
+	.string "Apito Folha$", 13
+	.string "Cócegas$", 13
+	.string "Cósmico$", 13
+	.string "Tromba Água$", 13
+	.string "Raio Sinal$", 13
+	.string "Soco Sombrio$", 13
 	.string "Extra Sensor$", 13
-	.string "Soco dos Céus$", 13
-	.string "Tombada de Areia$", 13
-	.string "Frio Absoluto$", 13
-	.string "Mar de Lama$", 13
-	.string "Bala de Sementes$", 13
-	.string "Ataque Aéreo$", 13
-	.string "Lança de Gelo$", 13
-	.string "Defesa de Ferro$", 13
+	.string "Gancho Céu$", 13
+	.string "Fosso Areia$", 13
+	.string "Frio Extremo$", 13
+	.string "Mar De Lama$", 13
+	.string "Bala Semente$", 13
+	.string "Ás Dos Ares$", 13
+	.string "Lança Gelo$", 13
+	.string "Defesa Ferro$", 13
 	.string "Bloquear$", 13
-	.string "Roar$", 13
-	.string "Garra do Dragão$", 13
-	.string "Planta Mortal$", 13
-	.string "Aumentar Massa$", 13
+	.string "Uivo$", 13
+	.string "Garra Dragão$", 13
+	.string "Planta Morte$", 13
+	.string "Força Bruta$", 13
 	.string "Ricochetear$", 13
-	.string "Rajada Lama$", 13
-	.string "Cauda de Veneno$", 13
-	.string "Cobiçar$", 13
-	.string "Investida Trovão$", 13
+	.string "Tiro Lama$", 13
+	.string "Cauda Veneno$", 13
+	.string "Cobiça$", 13
+	.string "Golpe Trovão$", 13
 	.string "Folha Mágica$", 13
-	.string "Campo de Água$", 13
-	.string "Mente acalma$", 13
+	.string "Campo Água$", 13
+	.string "Mente Calma$", 13
 	.string "Lâmina Folha$", 13
-	.string "Dança do Dragão$", 13
-	.string "Explosão Pedra$", 13
+	.string "Dança Dragão$", 13
+	.string "Bomba Pedra$", 13
 	.string "Onda Choque$", 13
-	.string "Pulso da Água$", 13
-	.string "Morte Simultânea$", 13
-	.string "Aumento Psíquico$", 13
+	.string "Pulso Água$", 13
+	.string "Desejo Cruel$", 13
+	.string "Ímpeto Psico$", 13
