@@ -59,7 +59,7 @@ gMoveNames:: @ 81F8320
 	.string "Surfar$", 13
 	.string "Raio de Gelo$", 13
 	.string "Nevasca$", 13
-	.string "Raio Psíquico$", 13
+	.string "Raio Psico$", 13
 	.string "Rajada Bolha$", 13
 	.string "Raio Aurora$", 13
 	.string "Hiper Raio$", 13
@@ -188,7 +188,7 @@ gMoveNames:: @ 81F8320
 	.string "Beijo Doce$", 13
 	.string "Tambor$", 13
 	.string "Bomba Lodo$", 13
-	.string "Tapa de Lama$", 13
+	.string "Tapa De Lama$", 13
 	.string "Octazooka$", 13
 	.string "Espinhos$", 13
 	.string "Canhão Zap$", 13
@@ -256,7 +256,7 @@ gMoveNames:: @ 81F8320
 	.string "Estocagem$", 13
 	.string "Liberação$", 13
 	.string "Engolir$", 13
-	.string "Onda De Calor$", 13
+	.string "Onda Calor$", 13
 	.string "Granizo$", 13
 	.string "Atormentar$", 13
 	.string "Comemorar$", 13

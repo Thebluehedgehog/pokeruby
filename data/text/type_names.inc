@@ -1,19 +1,19 @@
 gTypeNames:: @ 81F9870
 	.string "Normal$", 7
-	.string "Lutador$", 7
+	.string "Lutado$", 7
 	.string "Voador$", 7
 	.string "Veneno$", 7
-	.string "Terrest$", 7
+	.string "Terres$", 7
 	.string "Pedra$", 7
 	.string "Inseto$", 7
-	.string "Fantasm$", 7
+	.string "Fantas$", 7
 	.string "Aço$", 7
 	.string "???$", 7
 	.string "Fogo$", 7
 	.string "Água$", 7
 	.string "Grama$", 7
-	.string "Elétric$", 7
-	.string "Psíquic$", 7
+	.string "Elétri$", 7
+	.string "Psíqui$", 7
 	.string "Gelo$", 7
 	.string "Dragão$", 7
-	.string "Noturno$", 7
+	.string "Noturn$", 7
