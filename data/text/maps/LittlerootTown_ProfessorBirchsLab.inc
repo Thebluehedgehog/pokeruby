@@ -1,163 +1,163 @@
 UnknownString_8173A9D: @ 8173A9D
-	.string "POKéMON SPECIES & HABITATS...\n"
-	.string "HUMAN & POKéMON COEXISTENCE...\l"
-	.string "POKéMONOLOGY FOR BEGINNERS...\p"
-	.string "It’s brimming with books written by\n"
-	.string "PROF. BIRCH.$"
+	.string "ESPÉCIES E HABITAR DE POKÉMONS...\n"
+	.string "COEXISTÊNCIA HUMANA E POKÉMON...\l"
+	.string "POKÉMONOLOGIA PARA INICIADORES...\p"
+	.string "Está repleto de livros escritos pelo\n"
+	.string "professor Birch.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_173B29:: @ 8173B29
-	.string "Hunh? PROF. BIRCH?\p"
-	.string "The PROF’s away on fieldwork.\n"
-	.string "Ergo, he isn’t here.\p"
-	.string "Oh, let me explain what fieldwork is.\p"
-	.string "It is to study things in the natural\n"
-	.string "environment, like fields and mountains,\l"
-	.string "instead of a laboratory.\p"
-	.string "The PROF isn’t one for doing desk work.\n"
-	.string "He’s the type of person who would\l"
-	.string "rather go outside and experience\l"
-	.string "things than read about them here.$"
+	.string "Hunh? Professor Brich?\p"
+     .string "O professor saiu para estudar no campo\n"
+     .string "Ergo, ele não está aqui.\p"
+     .string "Oh, deixe-me explicar o que é o trabalho de campo.\p"
+     .string "É estudar coisas no ambiente natural\n"
+     .string", como campos e montanha,\l "
+     .string "em vez de um laboratório.\p"
+     .string "O professor não é um para fazer trabalhos de mesa.\n"
+     .string "Ele é o tipo de pessoa que iria"
+     .string "prefere sair e experimentar\l"
+     .string "coisas que lidas sobre eles aqui.$"
 
-LittlerootTown_ProfessorBirchsLab_Text_173C88:: @ 8173C88
-	.string "The PROF isn’t one for doing desk work.\n"
-	.string "He’s the type of person who would\l"
-	.string "rather go outside and experience\l"
-	.string "things than read about them here.$"
+LittlerootTown_ProfessorBirchsLab_Text_173C88 :: @ 8173C88
+     .string "O professor não é um para fazer trabalhos de mesa.\n"
+     .string "Ele é o tipo de pessoa que iria\n"
+     .string "prefere sair e experimentar\l"
+     .string "coisas que lidas sobre eles aqui.$"
 
-LittlerootTown_ProfessorBirchsLab_Text_173D15:: @ 8173D15
-	.string "PROF. BIRCH is studying the habitats\n"
-	.string "and distribution of POKéMON.\p"
-	.string "The PROF enjoys {RIVAL}’s help, too.\n"
-	.string "There’s a lot of love there.$"
+LittlerootTown_ProfessorBirchLab_Text_173D15 :: @ 8173D15
+     .string "Professor Birch está estudando os habitats\n"
+     .string "e distribuição de POKéMON.\p"
+     .string "O professor desfruta também da ajuda do {RIVAL}.\n"
+     .string "Há muito amor lá.$"
 
-LittlerootTown_ProfessorBirchsLab_Text_173D94:: @ 8173D94
-	.string "PROF. BIRCH: So, {PLAYER}{KUN}.\p"
-	.string "I’ve heard so much about you from\n"
-	.string "your father.\p"
-	.string "I’ve heard that you don’t have your\n"
-	.string "own POKéMON yet.\p"
-	.string "But the way you battled earlier,\n"
-	.string "you pulled it off with aplomb!\p"
-	.string "I guess you have your father’s blood\n"
-	.string "in your veins after all!\p"
-	.string "Oh, yes. As thanks for rescuing me,\n"
-	.string "I’d like you to have the POKéMON you\l"
-	.string "used earlier.\p"
-	.string "{PLAYER} received the {STR_VAR_1}!$"
+LittlerootTown_ProfessorBirchsLab_Text_173D94 :: @ 8173D94
+     .string "Professor Birch: Então, {PLAYER} {KUN}.\p"
+     .string "Eu já ouvi falar sobre você de\n"
+     .string "seu pai.\p"
+     .string "Eu ouvi dizer que você não tem o seu\n"
+     .string "próprio POKéMON ainda.\p"
+     .string "Mas a maneira como você lutou anteriormente,\n"
+     .string " você puxou-o com aplomo! \ p"
+     .string "Eu acho que você tem o sangue do seu pai\n"
+     .string "em suas veias depois de tudo!\p"
+     .string "Oh, sim. Como obrigado por me resgatar,\n"
+     .string "Eu gostaria que você tivesse o POKéMON você\l"
+     .string "usado anteriormente.\p"
+     .string "{PLAYER} recebeu o {STR_VAR_1}!$"
 
-LittlerootTown_ProfessorBirchsLab_Text_173EF8:: @ 8173EF8
-	.string "PROF. BIRCH: While you’re at it, why not\n"
-	.string "give a nickname to that {STR_VAR_1}?$"
+LittlerootTown_ProfessorBirchsLab_Text_173EF8 :: @ 8173EF8
+     .string "Professor Birch: Enquanto você está nisso, por que não\n"
+     .string "dê um apelido para o {STR_VAR_1}?$"
 
-LittlerootTown_ProfessorBirchsLab_Text_173F3D:: @ 8173F3D
-	.string "PROF. BIRCH: If you work at POKéMON\n"
-	.string "and gain experience, I think you’ll make\l"
-	.string "a darn good TRAINER.\p"
-	.string "My kid, {RIVAL}, is out on ROUTE 103\n"
-	.string "studying POKéMON.\p"
-	.string "It might not be a bad idea for you to\n"
-	.string "go see {RIVAL}. What do you think?$"
+LittlerootTown_ProfessorBirchsLab_Text_173F3D :: @ 8173F3D
+     .string "Professor Birch: Se você trabalha com seu POKéMON\n"
+     .string "e ganhar experiência, acho que você será\l"
+     .string "um bom treinador.\p"
+     .string "Minha filha, {RIVAL}, está na ROTA 103\n"
+     .string "estudando POKéMON. \ p"
+     .string "Talvez não seja uma má idéia para você\n"
+     .string "vá ver {RIVAL}. O que você acha?$"
 
-LittlerootTown_ProfessorBirchsLab_Text_174015:: @ 8174015
-	.string "PROF. BIRCH: Great!\n"
-	.string "{RIVAL} should be happy, too.\p"
-	.string "Get {RIVAL} to teach you what it\n"
-	.string "means to be a TRAINER.$"
+LittlerootTown_ProfessorBirchsLab_Text_174015 :: @ 8174015
+     .string "Professor Birch: Ótimo!\n"
+     .string "{RIVAL} também deve ser feliz.\p"
+     .string "Obter um RIVAL para ensinar o que\n"
+     .string "significa ser um TREINADOR.$"
 
-LittlerootTown_ProfessorBirchsLab_Text_174075:: @ 8174075
-	.string "PROF. BIRCH: Oh, don’t be that way.\n"
-	.string "You should go meet my kid.$"
+LittlerootTown_ProfessorBirchsLab_Text_174075 :: @ 8174075
+     .string "Professor Birch: Oh, não seja assim.\n"
+     .string "Você deve ir até {RIVAL}!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_1740B4:: @ 81740B4
-	.string "PROF. BIRCH: {RIVAL} should be on\n"
-	.string "ROUTE 103 somewhere.\p"
-	.string "If you or your POKéMON get tired,\n"
-	.string "get some rest at home.$"
+	.string "Professor Birch: {RIVAL} deve estar em\n"
+	.string "ROTA 103 em algum lugar.\p"
+	.string "Se você ou seu POKéMON ficarem cansados,\n"
+	.string " descance em casa.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_17411F:: @ 817411F
-	.string "PROF. BIRCH: Oh, hi, {PLAYER}{KUN}!\p"
-	.string "I heard you beat {RIVAL} on\n"
-	.string "your first try. That’s excellent!\p"
-	.string "{RIVAL}’s been helping with my research\n"
-	.string "for a long time.\p"
-	.string "{RIVAL} has an extensive history as\n"
-	.string "a TRAINER already.\p"
-	.string "Here, {PLAYER}{KUN}, I ordered this for my\n"
-	.string "research, but I think you should have\l"
-	.string "this POKéDEX.$"
+	.string "Professor Birch: Oh, oi, {PLAYER}{KUN}!\p"
+	.string "Eu ouvi dizer que você ganhou de {RIVAL} em\n"
+	.string "sua primeira batalha. Bacana!\p"
+	.string "{RIVAL} me ajudou na pesquisa\n"
+	.string "num longo tempo.\p"
+	.string "{RIVAL} tem uma extensa história como\n"
+	.string "um TREINADOR.\p"
+	.string "Aqui, {PLAYER}{KUN}, eu pedi isso aqui para meu\n"
+	.string "ajudante, mas acho que você deveria\l"
+	.string "ter a POKéDEX.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_17422F:: @ 817422F
-	.string "{PLAYER} received the POKéDEX!$"
+	.string "{PLAYER} recebeu a POKéDEX!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_174248:: @ 8174248
-	.string "PROF. BIRCH: The POKéDEX is a high-tech\n"
-	.string "tool that automatically makes a record\l"
-	.string "of any POKéMON you meet or catch.\p"
-	.string "My kid, {RIVAL}, goes everywhere\n"
-	.string "with it.\p"
-	.string "Whenever my kid catches a rare POKéMON\n"
-	.string "and records its data in the POKéDEX,\l"
-	.string "why, {RIVAL} looks for me while I’m out\l"
-	.string "doing fieldwork, and shows me.$"
+	.string "Professor Birch: O POKéDEX e uma alta tecnológica\n"
+	.string "que faz automaticamente uma gravação\l"
+	.string "de qualquer POKÉMON que você veja ou captura.\p"
+	.string "Meu filho, {RIVAL}, vai em todo lugar\n"
+	.string "com ele.\p"
+	.string "Sempre que meu filho pegue um POKéMON raro\n"
+	.string "ele registra os dados nele com a POKéDEX,\l"
+	.string "porque, {RIVAL} procura-me quando estou fora\l"
+	.string "fazendo trabalho de campo, e me mostra.$"
 
-LittlerootTown_ProfessorBirchsLab_Text_17436C:: @ 817436C
-	.string "PROF. BIRCH: Countless POKéMON await\n"
-	.string "you!\p"
-	.string "Argh, I’m getting the itch to get out\n"
-	.string "and do fieldwork again!$"
+LittlerootTown_ProfessorBirchLab_Text_17436C:: @ 817436C
+	.string "Professor Birch: inúmeros POKéMON aguardam\n"
+	.string "você!\p"
+	.string "Argh, estou recebendo um chamado para sair\n"
+	.string "para fazer trabalho de campo novamente!$"
 
-LittlerootTown_ProfessorBirchsLab_Text_1743D4:: @ 81743D4
-	.string "MAY: Oh, wow, {PLAYER}{KUN}!\n"
-	.string "You got a POKéDEX, too!\p"
-	.string "That’s great! Just like me!\n"
-	.string "I’ve got something for you, too!$"
+LittlerootTown_ProfessorBirchLab_Text_1743D4:: @ 81743D4
+	.string "May: Oh, uau, {PLAYER}{KUN}!\n"
+	.string "você recebeu a POKéDEX, também!\p"
+	.string "Que bom! Assim como eu!\n"
+	.string "Eu também tenho algo para você!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_17443D:: @ 817443D
-	.string "MAY: It’s fun if you can get a lot of\n"
+	.string "May: O mais divertido é capturar muitos\n"
 	.string "POKéMON!\p"
-	.string "I’m going to look all over the place\n"
-	.string "because I want different POKéMON.\p"
-	.string "If I find any cute POKéMON, I’ll catch\n"
-	.string "them with POKé BALLS!$"
+	.string "Eu vou olhar em diferentes lugares\n"
+	.string "Pois eu quero diferentes POKéMON.\p"
+	.string "Se eu encontrar qualquer POKéMON bonito,\n"
+	.string " vou pegar,pois tenho POKÉBOLAS!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_1744F0:: @ 81744F0
-	.string "Oh? Your BAG’s full.$"
+	.string "Oh? Sua mochila está cheia.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_174505:: @ 8174505
-	.string "MAY: I wonder where I should go look\n"
-	.string "for POKéMON next?$"
+	.string "May: Eu me pergunto onde deveria olhar\n"
+	.string "um POKéMON depois?$"
 
 LittlerootTown_ProfessorBirchsLab_Text_17453C:: @ 817453C
-	.string "BRENDAN: Huh...\n"
-	.string "So you got a POKéDEX, too.\p"
-	.string "Well then, here.\n"
-	.string "I’ll give you this.$"
+	.string "Brendan: Huh...\n"
+	.string "Você tem a POKéDEX, também.\p"
+	.string "Bem então, aqui.\n"
+	.string "Vou te dar isso.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_17458C:: @ 817458C
-	.string "BRENDAN: You know it’s more fun to\n"
-	.string "have a whole bunch of POKéMON.\p"
-	.string "I’m going to explore all over the place\n"
-	.string "to find different POKéMON.\p"
-	.string "If I find any cool POKéMON, you bet\n"
-	.string "I’ll try to get them with POKé BALLS.$"
+	.string "Brendan: Você sabe o que é mais divertido\n"
+	.string "ter muitos POKéMON.\p"
+	.string "Eu vou explorar todo lugar\n"
+	.string "para encontrar diferentes POKéMON.\p"
+	.string "Se eu encontrar um POKéMON legal,\n"
+	.string " vou pega-lo com POKéBALLS.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_17465B:: @ 817465B
-	.string "Hey, your BAG’s full.$"
+	.string "Hey, sua mochila está cheia.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_174671:: @ 8174671
-	.string "BRENDAN: Where should I look for\n"
-	.string "POKéMON next...$"
+	.string "BRENDAN: Onde devo procurar um\n"
+	.string "um POKéMON seguinte...$"
 
 LittlerootTown_ProfessorBirchsLab_Text_1746A2:: @ 81746A2
-	.string "It’s a serious-looking machine.\n"
-	.string "The PROF must use this for research.$"
+	.string "É uma maquina séria.\n"
+	.string "O professor deve usar pra pesquisar .$"
 
 LittlerootTown_ProfessorBirchsLab_Text_1746E7:: @ 81746E7
-	.string "It’s a PC used for research.\n"
-	.string "Better not mess around with it.$"
+	.string "É um PC usado para pesquisa.\n"
+	.string "Melhor não mexer nisso.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_174724:: @ 8174724
-	.string "It’s crammed with books on POKéMON.$"
+	.string "São livros sobre  POKéMON.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_174748:: @ 8174748
-	.string "It’s a book that’s too hard to read.$"
+	.string "É um livro difícil de ler.$"
