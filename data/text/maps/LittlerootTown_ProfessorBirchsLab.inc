@@ -30,37 +30,33 @@ LittlerootTown_ProfessorBirchsLab_Text_173D15:: @ 8173D15
 
 LittlerootTown_ProfessorBirchsLab_Text_173D94:: @ 8173D94
      .string "Professor Birch: Então, {PLAYER} {KUN}.\p"
-     .string "Eu já ouvi falar sobre você de\n"
-     .string "seu pai.\p"
+     .string "Seu pai me falou sobre você.\p"
      .string "Eu ouvi dizer que você não tem o seu\n"
      .string "próprio POKéMON ainda.\p"
-     .string "Mas a maneira como você lutou anteriormente,\n"
-     .string "você puxou-o com aplomo!\p"
-     .string "Eu acho que você tem o sangue do seu pai\n"
-     .string "em suas veias depois de tudo!\p"
-     .string "Oh, sim. Como obrigado por me resgatar,\n"
-     .string "Eu gostaria que você tivesse o POKéMON você\l"
-     .string "usado anteriormente.\p"
-     .string "{PLAYER} recebeu o {STR_VAR_1}!$"
+     .string "Mas você lutou de maneira incrível.\p"
+     .string "Ah, sim. Como agradecimento por me\n"
+	 .string "resgatar, gosta que ficasse com o\l"
+     .string "pokémon que você usou.\p"
+     .string "{PLAYER} recebeu {STR_VAR_1}!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_173EF8:: @ 8173EF8
-     .string "Professor Birch: Enquanto você está nisso, por que não\n"
-     .string "dê um apelido para o {STR_VAR_1}?$"
+     .string "Professor Birch: Aproveitando, o quê\n"
+     .string "você acha de apelidar o {STR_VAR_1}?$"
 
 LittlerootTown_ProfessorBirchsLab_Text_173F3D:: @ 8173F3D
-     .string "Professor Birch: Se você trabalha com seu POKéMON\n"
-     .string "e ganhar experiência, acho que você será\l"
-     .string "um bom treinador.\p"
-     .string "Minha filha, {RIVAL}, está na ROTA 103\n"
-     .string "estudando POKéMON.\p"
-     .string "Talvez não seja uma má idéia para você\n"
-     .string "vá ver {RIVAL}. O que você acha?$"
+     .string "Professor Birch: Batalhando com o\n"
+     .string "pokémon, você poderá se tornar\l"
+     .string "um grande treinador.\p"
+     .string "{RIVAL}, está na Rota 103 estudando\n"
+     .string "sobre pokémons selvagens.\p"
+     .string "Talvez não seja má idéia para você\n"
+     .string "ir ver {RIVAL}. O que você acha?$"
 
 LittlerootTown_ProfessorBirchsLab_Text_174015:: @ 8174015
      .string "Professor Birch: Ótimo!\n"
-     .string "{RIVAL} também deve ser feliz.\p"
-     .string "Obter um RIVAL para ensinar o que\n"
-     .string "significa ser um TREINADOR.$"
+     .string "{RIVAL} vai ficar feliz.\p"
+     .string "Chegue até {RIVAL} para ensinar como\n"
+     .string "ser um treinador melhor.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_174075:: @ 8174075
      .string "Professor Birch: Oh, não seja assim.\n"
@@ -68,9 +64,9 @@ LittlerootTown_ProfessorBirchsLab_Text_174075:: @ 8174075
 
 LittlerootTown_ProfessorBirchsLab_Text_1740B4:: @ 81740B4
 	.string "Professor Birch: {RIVAL} deve estar em\n"
-	.string "ROTA 103 em algum lugar.\p"
-	.string "Se você ou seu POKéMON ficarem cansados,\n"
-	.string " descance em casa.$"
+	.string "algum lugar na rota 103.\p"
+	.string "Você pode descansar em casa,\n"
+	.string "se estiver cansado.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_17411F:: @ 817411F
 	.string "Professor Birch: Oh, oi, {PLAYER}{KUN}!\p"

@@ -64,7 +64,7 @@ LittlerootTown_Text_16AD3C:: @ 816AD3C
 	.string "não possuir pokémon.$"
 
 LittlerootTown_Text_16AD82:: @ 816AD82
-	.string "Alguém está gritando nessa rota.\p"
+	.string "Alguém está gritando.\p"
 	.string "O que vamos fazer?\n"
 	.string "Alguém tem que ajudar...$"
 
@@ -74,17 +74,17 @@ LittlerootTown_Text_16ADF2:: @ 816ADF2
 
 LittlerootTown_Text_16AE25:: @ 816AE25
 	.string "Você vai capturar pokémons?\n"
-	.string "Então, Boa sorte!$"
+	.string "Então, boa sorte!$"
 
 LittlerootTown_Text_16AE50:: @ 816AE50
 	.string "Vila Das Raízes\n"
 	.string "“A vila que não pode ser sombreada.”$"
 
 LittlerootTown_Text_16AE87:: @ 816AE87
-	.string "Laboratório do Professor Birch$"
+	.string "Laboratório do professor Birch$"
 
 LittlerootTown_Text_16AEA1:: @ 816AEA1
 	.string "Casa do {PLAYER}$"
 
 LittlerootTown_Text_16AEAC:: @ 816AEAC
-	.string "Casa do Professor Birch$"
+	.string "Casa do professor Birch$"
