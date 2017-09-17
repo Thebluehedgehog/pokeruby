@@ -86,7 +86,7 @@ LittlerootTown_ProfessorBirchsLab_Text_174248:: @ 8174248
 	.string "Professor Birch: A Pokédex é um\n"
 	.string "equipamento de alta tecnologia que\l"
 	.string "faz automaticamente um registro\l"
-	.string "de qualquer pokémon que você encontre\l
+	.string "de qualquer pokémon que você encontre\l"
 	.string "ou capture em sua jornada.\p"
 	.string "{RIVAL}, vai para todo lugar com ele.\p"
 	.string "Sempre que {RIVAL} pega um pokémon,\n"
