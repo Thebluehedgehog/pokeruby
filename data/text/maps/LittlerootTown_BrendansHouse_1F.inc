@@ -127,7 +127,16 @@ LittlerootTown_BrendansHouse_1F_Text_172BBC:: @ 8172BBC
 UnknownString_8172C50: @ 8172C50
 	.string "Nós lhe trazemos um boletim de notícias especial.\p"
 	.string "Recebemos relatórios de um voador azul.\n"
-	.string "pokémons em vários locais de Hoeen.\p"
+	.string "pokémons em vários locais de Hoenn.\p"
+	.string "A identidade desse pokémon não tem.\n"
+	.string "Ainda não foi determinado.\p"
+	.string "Agora devolvemos você ao seu regular\n"
+	.string "apresentaçao do filme.$"
+
+UnknownString_8172D30: @ 8172D30
+	.string "Nós lhe trazemos um boletim de notícias especial.\p"
+	.string "Recebemos relatórios de um voador vermelho.\n"
+	.string "pokémons em vários locais de Hoenn.\p"
 	.string "A identidade desse pokémon não tem.\n"
 	.string "Ainda não foi determinado.\p"
 	.string "Agora devolvemos você ao seu regular\n"

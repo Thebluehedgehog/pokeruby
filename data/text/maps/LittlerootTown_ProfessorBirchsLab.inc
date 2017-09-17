@@ -34,9 +34,9 @@ LittlerootTown_ProfessorBirchsLab_Text_173D94:: @ 8173D94
      .string "Eu ouvi dizer que você não tem o seu\n"
      .string "próprio POKéMON ainda.\p"
      .string "Mas você lutou de maneira incrível.\p"
-     .string "Ah, sim. Como agradecimento por me\n"
-	 .string "resgatar, gosta que ficasse com o\l"
-     .string "pokémon que você usou.\p"
+     .string "Como agradecimento por me resgatar,\n"
+	 .string "gostaria que ficasse com o pokémon\l"
+     .string "que você usou.\p"
      .string "{PLAYER} recebeu {STR_VAR_1}!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_173EF8:: @ 8173EF8
@@ -71,87 +71,87 @@ LittlerootTown_ProfessorBirchsLab_Text_1740B4:: @ 81740B4
 LittlerootTown_ProfessorBirchsLab_Text_17411F:: @ 817411F
 	.string "Professor Birch: Oh, oi, {PLAYER}{KUN}!\p"
 	.string "Eu ouvi dizer que você ganhou de {RIVAL} em\n"
-	.string "sua primeira batalha. Bacana!\p"
+	.string "sua primeira batalha. Muito bem.\p"
 	.string "{RIVAL} me ajudou na pesquisa\n"
-	.string "num longo tempo.\p"
-	.string "{RIVAL} tem uma extensa história como\n"
-	.string "um TREINADOR.\p"
-	.string "Aqui, {PLAYER}{KUN}, eu pedi isso aqui para meu\n"
-	.string "ajudante, mas acho que você deveria\l"
-	.string "ter a POKéDEX.$"
+	.string "durante bastante tempo.\p"
+	.string "{RIVAL} tem experiência em batalha.\p"
+	.string "Aqui, {PLAYER}{KUN}, eu pedi isso aqui\n"
+	.string "para meu ajudante, mas acho que você\l"
+	.string "deveria ter a Pokédex.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_17422F:: @ 817422F
-	.string "{PLAYER} recebeu a POKéDEX!$"
+	.string "{PLAYER} recebeu a Pokédex!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_174248:: @ 8174248
-	.string "Professor Birch: O POKéDEX e uma alta tecnológica\n"
-	.string "que faz automaticamente uma gravação\l"
-	.string "de qualquer POKÉMON que você veja ou captura.\p"
-	.string "Meu filho, {RIVAL}, vai em todo lugar\n"
-	.string "com ele.\p"
-	.string "Sempre que meu filho pegue um POKéMON raro\n"
-	.string "ele registra os dados nele com a POKéDEX,\l"
-	.string "porque, {RIVAL} procura-me quando estou fora\l"
-	.string "fazendo trabalho de campo, e me mostra.$"
+	.string "Professor Birch: A Pokédex é um\n"
+	.string "equipamento de alta tecnologia que\l"
+	.string "faz automaticamente um registro\l"
+	.string "de qualquer pokémon que você encontre\l
+	.string "ou capture em sua jornada.\p"
+	.string "{RIVAL}, vai para todo lugar com ele.\p"
+	.string "Sempre que {RIVAL} pega um pokémon,\n"
+	.string "ele registra os dados com a Pokédex\l"
+	.string "e vai rapidamente atrás de mim para\l"
+	.string "me mostrar e estudar o pokémon.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_17436C:: @ 817436C
-	.string "Professor Birch: inúmeros POKéMON aguardam\n"
-	.string "você!\p"
-	.string "Argh, estou recebendo um chamado para sair\n"
-	.string "para fazer trabalho de campo novamente!$"
+	.string "Professor Birch: Inúmeros pokémons\n"
+	.string "aguardam você lá fora.\p"
+	.string "Argh, estou recebendo um chamado para\n"
+	.string "fazer trabalho de campo de novo.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_1743D4:: @ 81743D4
 	.string "May: Oh, uau, {PLAYER}{KUN}!\n"
-	.string "você recebeu a POKéDEX, também!\p"
+	.string "você recebeu a Pokédex, também!\p"
 	.string "Que bom! Assim como eu!\n"
-	.string "Eu também tenho algo para você!$"
+	.string "Eu também tenho algo para lhe dar!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_17443D:: @ 817443D
-	.string "May: O mais divertido é capturar muitos\n"
-	.string "POKéMON!\p"
-	.string "Eu vou olhar em diferentes lugares\n"
-	.string "Pois eu quero diferentes POKéMON.\p"
-	.string "Se eu encontrar qualquer POKéMON bonito,\n"
-	.string " vou pegar,pois tenho POKÉBOLAS!$"
+	.string "May: A coisa mais divertida em uma\n"
+	.string "aventura é capturar vários pokémon.\p"
+	.string "Eu vou olhar em diversos lugares,\n"
+	.string "para pegar diferentes pokémons.\p"
+	.string "Quando encontrar um pokémon bonito,\n"
+	.string "vou usar a Pokébola para capturar!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_1744F0:: @ 81744F0
 	.string "Oh? Sua mochila está cheia.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_174505:: @ 8174505
-	.string "May: Eu me pergunto onde deveria olhar\n"
-	.string "um POKéMON depois?$"
+	.string "May: Eu me pergunto. Onde eu deveria\n"
+	.string "procurar pokémon depois?$"
 
 LittlerootTown_ProfessorBirchsLab_Text_17453C:: @ 817453C
 	.string "Brendan: Huh...\n"
-	.string "Você tem a POKéDEX, também.\p"
-	.string "Bem então, aqui.\n"
+	.string "Você tem a Pokédex, também.\p"
+	.string "Bem então, olhe!\n"
 	.string "Vou te dar isso.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_17458C:: @ 817458C
-	.string "Brendan: Você sabe o que é mais divertido\n"
-	.string "ter muitos POKéMON.\p"
-	.string "Eu vou explorar todo lugar\n"
-	.string "para encontrar diferentes POKéMON.\p"
-	.string "Se eu encontrar um POKéMON legal,\n"
-	.string " vou pega-lo com POKéBALLS.$"
+	.string "Brendan: É muito divertido ter vários\n"
+	.string "pokémons com você.\p"
+	.string "Eu vou explorar todos os lugares\n"
+	.string "para encontrar diferentes pokémons.\p"
+	.string "Se eu encontrar um pokémon legal,\n"
+	.string "vou pega-lo com a Pokébola.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_17465B:: @ 817465B
 	.string "Hey, sua mochila está cheia.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_174671:: @ 8174671
-	.string "BRENDAN: Onde devo procurar um\n"
-	.string "um POKéMON seguinte...$"
+	.string "BRENDAN: Onde devo procurar meu\n"
+	.string "próximo pokémon?$"
 
 LittlerootTown_ProfessorBirchsLab_Text_1746A2:: @ 81746A2
-	.string "É uma maquina séria.\n"
-	.string "O professor deve usar pra pesquisar .$"
+	.string "É uma maquina complicada.\n"
+	.string "O professor deve usar pra pesquisas .$"
 
 LittlerootTown_ProfessorBirchsLab_Text_1746E7:: @ 81746E7
 	.string "É um PC usado para pesquisa.\n"
 	.string "Melhor não mexer nisso.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_174724:: @ 8174724
-	.string "São livros sobre  POKéMON.$"
+	.string "São livros sobre pokémon.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_174748:: @ 8174748
 	.string "É um livro difícil de ler.$"
