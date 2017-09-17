@@ -26,7 +26,7 @@ gAbilityDescription_SandVeil: @ 81F9A89
 	.string "Evasão em tempestade areia.$"
 
 gAbilityDescription_Static: @ 81F9AA5
-	.string "Paraliza em contato.$
+	.string "Paraliza em contato.$"
 
 gAbilityDescription_VoltAbsorb: @ 81F9ABB
 	.string "Absorve a eletricidade.$"
@@ -217,7 +217,7 @@ gAbilityDescription_ArenaTrap: @ 81FA079
 gAbilityDescription_VitalSpirit: @ 81FA08B
 	.string "Evita dormir.$"
 
-gAbilotyDescription_WhiteSmoke: @ 81FA09B
+gAbilityDescription_WhiteSmoke: @ 81FA09B
 	.string "Evita redução.$"
 
 gAbilityDescription_PurePower: @ 81FA0B7
