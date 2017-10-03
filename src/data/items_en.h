@@ -145,7 +145,7 @@ const struct Item gItems[] =
         .secondaryId = 7,
     },
     {
-        .name = _("Bola Repetir"),
+        .name = _("Bola Repete"),
         .itemId = ITEM_REPEAT_BALL,
         .price = 1000,
         .holdEffect = HOLD_EFFECT_NONE,
