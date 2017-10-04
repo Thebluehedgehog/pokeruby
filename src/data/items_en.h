@@ -4161,7 +4161,7 @@ const struct Item gItems[] =
         .secondaryId = 0,
     },
     {
-        .name = _("Cofre"),
+        .name = _("Porta Moedas"),
         .itemId = ITEM_COIN_CASE,
         .price = 0,
         .holdEffect = HOLD_EFFECT_NONE,
@@ -4337,7 +4337,7 @@ const struct Item gItems[] =
         .secondaryId = 0,
     },
     {
-        .name = _("Chave Porão"),
+        .name = _("Chave Base"),
         .itemId = ITEM_BASEMENT_KEY,
         .price = 0,
         .holdEffect = HOLD_EFFECT_NONE,
@@ -4417,7 +4417,7 @@ const struct Item gItems[] =
         .secondaryId = 1,
     },
     {
-        .name = _("Orb Vermelho"),
+        .name = _("Orbe Rubro"),
         .itemId = ITEM_RED_ORB,
         .price = 0,
         .holdEffect = HOLD_EFFECT_NONE,
@@ -4433,7 +4433,7 @@ const struct Item gItems[] =
         .secondaryId = 0,
     },
     {
-        .name = _("Orb Azul"),
+        .name = _("Orbe Azul"),
         .itemId = ITEM_BLUE_ORB,
         .price = 0,
         .holdEffect = HOLD_EFFECT_NONE,

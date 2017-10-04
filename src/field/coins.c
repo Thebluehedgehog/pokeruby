@@ -13,13 +13,13 @@ void UpdateCoinsWindow(s32 coins, u8 x, u8 y)
 
 void ShowCoinsWindow(u32 coins, u8 x, u8 y)
 {
-    MenuDrawTextWindow(x, y, x + 9, y + 3);
+    MenuDrawTextWindow(x, y, x + 10, y + 3);
     UpdateCoinsWindow(coins, x, y);
 }
 
 void HideCoinsWindow(u8 x, u8 y)
 {
-    MenuZeroFillWindowRect(x, y, x + 9, y + 3);
+    MenuZeroFillWindowRect(x, y, x + 10, y + 3);
 }
 
 void PrintCoins(s32 coins, u8 b, u8 x, u8 y)
