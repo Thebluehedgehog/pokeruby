@@ -331,7 +331,7 @@ gMoveNames:: @ 81F8320
 	.string "Frio Extremo$", 13
 	.string "Mar De Lama$", 13
 	.string "Bala Semente$", 13
-	.string "Ás Dos Ares$", 13
+	.string "Ás Aéreo$", 13
 	.string "Lança Gelo$", 13
 	.string "Defesa Ferro$", 13
 	.string "Bloquear$", 13
