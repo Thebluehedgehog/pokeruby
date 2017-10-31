@@ -32,7 +32,7 @@
 #define MON_DATA_HP_EV             26
 #define MON_DATA_ATK_EV            27
 #define MON_DATA_DEF_EV            28
-#define MON_DATA_SPD_EV            29
+#define MON_DATA_SPEED_EV          29
 #define MON_DATA_SPATK_EV          30
 #define MON_DATA_SPDEF_EV          31
 #define MON_DATA_FRIENDSHIP        32
@@ -45,7 +45,7 @@
 #define MON_DATA_HP_IV             39
 #define MON_DATA_ATK_IV            40
 #define MON_DATA_DEF_IV            41
-#define MON_DATA_SPD_IV            42
+#define MON_DATA_SPEED_IV          42
 #define MON_DATA_SPATK_IV          43
 #define MON_DATA_SPDEF_IV          44
 #define MON_DATA_IS_EGG            45
@@ -64,7 +64,7 @@
 #define MON_DATA_MAX_HP            58
 #define MON_DATA_ATK               59
 #define MON_DATA_DEF               60
-#define MON_DATA_SPD               61
+#define MON_DATA_SPEED             61
 #define MON_DATA_SPATK             62
 #define MON_DATA_SPDEF             63
 #define MON_DATA_MAIL              64
@@ -89,7 +89,7 @@
 #define MON_DATA_83                83
 #define MON_DATA_ATK2              84
 #define MON_DATA_DEF2              85
-#define MON_DATA_SPD2              86
+#define MON_DATA_SPEED2            86
 #define MON_DATA_SPATK2            87
 #define MON_DATA_SPDEF2            88
 
@@ -522,7 +522,7 @@ void SetMonMoveSlot(struct Pokemon *mon, u16 move, u8 slot);
 void SetBattleMonMoveSlot(struct BattlePokemon *mon, u16 move, u8 slot);
 void GiveMonInitialMoveset(struct Pokemon *mon);
 void GiveBoxMonInitialMoveset(struct BoxPokemon *boxMon);
-u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 a2);
+u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove);
 void DeleteFirstMoveAndGiveMoveToMon(struct Pokemon *mon, u16 move);
 void DeleteFirstMoveAndGiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move);
 
@@ -568,6 +568,8 @@ void CopyPlayerPartyMonToBattleData(u8 battleIndex, u8 partyIndex);
 u8 GetNature(struct Pokemon *mon);
 u8 GetNatureFromPersonality(u32 personality);
 
+u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 type, u16 evolutionItem);
+
 u16 nature_stat_mod(u8 nature, u16 n, u8 statIndex);
 
 void MonRestorePP(struct Pokemon *);
@@ -598,7 +600,8 @@ bool8 IsOtherTrainer(u32, u8 *);
 void sub_8040B8C(void);
 void SetWildMonHeldItem(void);
 u8 *sub_8040D08();
-bool32 sub_8040D3C(u16 species, u8 *name, u8 language);
+bool32 ShouldHideGenderIconForLanguage(u16 species, u8 *name, u8 language);
+bool32 ShouldHideGenderIcon(u16 species, u8 *name);
 s8 sub_8040A54(struct Pokemon *, u8);
 u16 GetMonEVCount(struct Pokemon *);
 u16 GetEvolutionTargetSpecies(struct Pokemon *, u8, u16);
@@ -606,5 +609,6 @@ const struct CompressedSpritePalette *GetMonSpritePalStruct(struct Pokemon *);
 bool8 IsPokeSpriteNotFlipped(u16);
 u8 GetLevelUpMovesBySpecies(u16, u16 *);
 u8 TryIncrementMonLevel(struct Pokemon *);
+
 
 #endif // GUARD_POKEMON_H

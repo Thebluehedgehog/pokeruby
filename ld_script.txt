@@ -100,9 +100,7 @@ SECTIONS {
         src/field/field_tasks.o(.text);
         src/engine/clock.o(.text);
         src/engine/reset_rtc_screen.o(.text);
-        asm/party_menu.o(.text);
         src/field/party_menu.o(.text);
-        asm/party_menu.o(.text_8070968);
         src/field/start_menu.o(.text);
         src/engine/menu.o(.text);
         src/engine/tileset_anim.o(.text);
@@ -156,7 +154,6 @@ SECTIONS {
         src/engine/record_mixing.o(.text);
         src/debug/sound_check_menu.o(.text);
         src/field/secret_base.o(.text);
-        asm/secret_base.o(.text_80BC1D0);
         src/field/tv.o(.text);
         asm/contest_link_80C2020.o(.text);
         src/script_pokemon_util_80C4BF0.o(.text);
@@ -350,7 +347,7 @@ SECTIONS {
         src/field/coord_event_weather.o(.rodata);
         src/field/field_tasks.o(.rodata);
         data/reset_rtc_screen.o(.rodata);
-        data/party_menu.o(.rodata);
+        src/field/party_menu.o(.rodata);
         src/field/start_menu.o(.rodata);
         src/engine/menu.o(.rodata);
         data/tileset_anim.o(.rodata);
@@ -398,13 +395,12 @@ SECTIONS {
         src/engine/record_mixing.o(.data);
         src/engine/record_mixing.o(.rodata);
         src/debug/sound_check_menu.o(.rodata);
-        data/secret_base.o(.rodata);
+        src/field/secret_base.o(.rodata);
         data/tv.o(.rodata);
         data/contest_link_80C2020.o(.rodata);
         src/pokemon/pokemon_size_record.o(.rodata);
         data/fldeff_80C5CD4.o(.rodata);
         src/field/field_special_scene.o(.rodata);
-        data/field_special_scene.o(.rodata);
         src/field/rotating_gate.o(.rodata);
         src/field/item_use.o(.rodata);
         data/battle_anim_80CA710.o(.rodata);

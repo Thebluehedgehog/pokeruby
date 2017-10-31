@@ -1578,13 +1578,13 @@ void (*const gUnknown_0836DA88[])(struct Sprite *) =
 const u8 gUnknown_0836DBBC[] = {0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 const u8 gUnknown_0836DC09[] = {DIR_SOUTH, DIR_SOUTH, DIR_SOUTH, DIR_NORTH, DIR_SOUTH, DIR_WEST, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, DIR_EAST, DIR_SOUTH, DIR_SOUTH, DIR_SOUTH, DIR_WEST, DIR_NORTH, DIR_NORTH, DIR_SOUTH, DIR_SOUTH, DIR_SOUTH, DIR_SOUTH, DIR_NORTH, DIR_SOUTH, DIR_SOUTH, DIR_SOUTH, DIR_NORTH, DIR_SOUTH, DIR_WEST, DIR_EAST, DIR_NORTH, DIR_EAST, DIR_SOUTH, DIR_WEST, DIR_NORTH, DIR_WEST, DIR_SOUTH, DIR_EAST, DIR_WEST, DIR_NORTH, DIR_EAST, DIR_SOUTH, DIR_EAST, DIR_NORTH, DIR_WEST, DIR_SOUTH, DIR_NORTH, DIR_SOUTH, DIR_WEST, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, DIR_EAST, DIR_SOUTH, DIR_SOUTH, DIR_NORTH, DIR_SOUTH, DIR_WEST, DIR_EAST, DIR_SOUTH, DIR_SOUTH, DIR_NORTH, DIR_WEST, DIR_EAST, DIR_SOUTH, DIR_NORTH, DIR_WEST, DIR_EAST, DIR_SOUTH, DIR_NORTH, DIR_WEST, DIR_EAST, DIR_SOUTH};
 
-#include "data/field_map_obj/map_object_graphics_info_pointers.h"
-#include "data/field_map_obj/field_effect_object_template_pointers.h"
-#include "data/field_map_obj/map_object_pic_tables.h"
-#include "data/field_map_obj/map_object_anims.h"
-#include "data/field_map_obj/base_oam.h"
-#include "data/field_map_obj/map_object_subsprites.h"
-#include "data/field_map_obj/map_object_graphics_info.h"
+#include "../data/field_map_obj/map_object_graphics_info_pointers.h"
+#include "../data/field_map_obj/field_effect_object_template_pointers.h"
+#include "../data/field_map_obj/map_object_pic_tables.h"
+#include "../data/field_map_obj/map_object_anims.h"
+#include "../data/field_map_obj/base_oam.h"
+#include "../data/field_map_obj/map_object_subsprites.h"
+#include "../data/field_map_obj/map_object_graphics_info.h"
 
 const struct SpritePalette gUnknown_0837377C[] = {
     {gMapObjectPalette0, 0x1103},
@@ -1790,14 +1790,14 @@ const u16 *const gUnknown_0837399C[] = {
     Unknown_8373988
 };
 
-#include "data/field_map_obj/berry_tree_graphics_tables.h"
-#include "data/field_map_obj/field_effect_objects.h"
+#include "../data/field_map_obj/berry_tree_graphics_tables.h"
+#include "../data/field_map_obj/field_effect_objects.h"
 
 const s16 gUnknown_0837520C[] = {0x20, 0x40, 0x60, 0x80};
 const s16 gUnknown_08375204[] = {0x20, 0x40, 0x80, 0xc0};
 const s16 gUnknown_0837521C[] = {0x20, 0x30, 0x40, 0x50};
 
-#include "data/field_map_obj/callback_subroutine_pointers.h"
+#include "../data/field_map_obj/callback_subroutine_pointers.h"
 
 const u8 gUnknown_083755F4[] = {0x00, 0x00, 0x01, 0x02, 0x03, 0x00, 0x00, 0x01, 0x01};
 const u8 gUnknown_083755FD[] = {0x04, 0x04, 0x05, 0x06, 0x07, 0x04, 0x04, 0x05, 0x05};
@@ -1886,7 +1886,7 @@ const u8 gUnknown_08375767[][4] = {
     {3, 4, 2, 1}
 };
 
-#include "data/field_map_obj/anim_func_ptrs.h"
+#include "../data/field_map_obj/anim_func_ptrs.h"
 
 // text
 
@@ -5010,7 +5010,7 @@ u8 mss_npc_reset_oampriv3_1_unk2_unk3(struct MapObject *mapObject, struct Sprite
 
 u8 sub_805F364(struct MapObject *mapObject, struct Sprite *sprite)
 {
-    if (gMapObjects[gPlayerAvatar.mapObjectId].mapobj_unk_1C == 0xFF || gPlayerAvatar.running1 == 2)
+    if (gMapObjects[gPlayerAvatar.mapObjectId].mapobj_unk_1C == 0xFF || gPlayerAvatar.tileTransitionState == T_TILE_CENTER)
     {
         return 0;
     }
@@ -5172,7 +5172,7 @@ fieldmap_object_cb(sub_805F8E0, sub_805F904, gUnknown_083755C0);
 
 u8 mss_08062EA4(struct MapObject *mapObject, struct Sprite *sprite)
 {
-    if (gMapObjects[gPlayerAvatar.mapObjectId].mapobj_unk_1C == 0xFF || gPlayerAvatar.running1 == 2)
+    if (gMapObjects[gPlayerAvatar.mapObjectId].mapobj_unk_1C == 0xFF || gPlayerAvatar.tileTransitionState == T_TILE_CENTER)
     {
         return 0;
     }
@@ -5549,17 +5549,16 @@ static bool8 DoesObjectCollideWithObjectAt(struct MapObject *mapObject, s16 x, s
     return 0;
 }
 
-bool8 sub_8060234(u8 localId, u8 mapNum, u8 mapGroup)
+// this function is only used in berry.c, but its unknown whether its intended context is the berry tree check or if its checking for the flickering.
+bool8 IsBerryTreeSparkling(u8 localId, u8 mapNum, u8 mapGroup)
 {
     u8 mapObjectId;
+
     if (!TryGetFieldObjectIdByLocalIdAndMap(localId, mapNum, mapGroup, &mapObjectId))
-    {
         if (gSprites[gMapObjects[mapObjectId].spriteId].data7 & 2)
-        {
-            return 1;
-        }
-    }
-    return 0;
+            return TRUE;
+
+    return FALSE;
 }
 
 void sub_8060288(u8 localId, u8 mapNum, u8 mapGroup)

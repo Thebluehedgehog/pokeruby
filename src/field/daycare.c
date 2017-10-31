@@ -13,7 +13,6 @@
 #include "moves.h"
 #include "trade.h"
 #include "strings2.h"
-#include "data/pokemon/egg_moves.h"
 #include "party_menu.h"
 #include "field_effect.h"
 #include "main.h"
@@ -32,6 +31,8 @@ IWRAM_DATA u16 gUnknown_03000500[4];
 static void sub_80417F4(struct DayCareMail *);
 static void sub_80420FC(struct Pokemon *, u16, struct DayCareData *);
 static u8 daycare_relationship_score(struct DayCareData *);
+
+#include "../data/pokemon/egg_moves.h"
 
 const u8 *const gUnknown_08209AC4[] = {
     DaycareText_GetAlongVeryWell,
@@ -388,8 +389,8 @@ static void InheritIVs(struct Pokemon *egg, struct DayCareData *dayCareData)
                 SetMonData(egg, MON_DATA_DEF_IV, &iv);
                 break;
             case 3:
-                iv = GetBoxMonData(&dayCareData->mons[whichParent[i]], MON_DATA_SPD_IV);
-                SetMonData(egg, MON_DATA_SPD_IV, &iv);
+                iv = GetBoxMonData(&dayCareData->mons[whichParent[i]], MON_DATA_SPEED_IV);
+                SetMonData(egg, MON_DATA_SPEED_IV, &iv);
                 break;
             case 4:
                 iv = GetBoxMonData(&dayCareData->mons[whichParent[i]], MON_DATA_SPATK_IV);
@@ -1685,6 +1686,6 @@ void ShowDaycareLevelMenu(void)
 
 void ChooseSendDaycareMon(void)
 {
-    OpenPartyMenu(6, 0);
+    OpenPartyMenu(PARTY_MENU_TYPE_DAYCARE, 0);
     gMain.savedCallback = c2_exit_to_overworld_2_switch;
 }
