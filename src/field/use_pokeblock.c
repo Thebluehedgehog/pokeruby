@@ -22,10 +22,10 @@
 
 #ifdef GERMAN
 extern const u16 ConditionUpDownPalette[16];
-extern const u32 ConditionUpDownTiles[0x80];
+extern const u8 ConditionUpDownTiles[0x200];
 #else
 const u16 ConditionUpDownPalette[] = INCBIN_U16("graphics/misc/condition_up_down.gbapal");
-const u32 ConditionUpDownTiles[] = INCBIN_U32("graphics/misc/condition_up_down.4bpp");
+const u8 ConditionUpDownTiles[] = INCBIN_U8("graphics/misc/condition_up_down.4bpp");
 #endif
 
 static const u32 sContestStatsMonData[] = {
@@ -49,7 +49,7 @@ static const u8 *const sContextStatNames[] = {
 };
 
 static const struct SpriteSheet gSpriteSheet_ConditionUpDown = {
-    (u8 *)ConditionUpDownTiles,
+    ConditionUpDownTiles,
     sizeof ConditionUpDownTiles,
     GFX_TAG_CONDITIONUPDOWN
 };
@@ -244,7 +244,7 @@ static void sub_8136294(void)
         case 6:
             gUnknown_083DFEC4->unk76AA = 0;
             gUnknown_083DFEC4->unk87E0 = NULL;
-            gUnknown_083DFEC4->unk030C = 0x20;
+            gUnknown_083DFEC4->unk030C.val = 0x20;
             gUnknown_02039304->unk50++;
             break;
         case 7:

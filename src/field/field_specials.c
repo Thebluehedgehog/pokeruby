@@ -1789,7 +1789,7 @@ u16 sub_810F404(void)
 
 void sub_810F414(void)
 {
-    sub_8135FF4(gStringVar1);
+    SetEReaderTrainerName(gStringVar1);
 }
 
 const u8 gUnknown_083F83E0[] = {12, 2, 4, 5, 1, 8, 7, 11, 3, 10, 9, 6};
@@ -1905,13 +1905,13 @@ void PutZigzagoonInPlayerParty(void)
     u16 monData;
     CreateMon(&gPlayerParty[0], SPECIES_ZIGZAGOON, 7, 0x20, FALSE, 0, FALSE, 0);
     monData = TRUE;
-    SetMonData(&gPlayerParty[0], MON_DATA_ALT_ABILITY, (u8 *)&monData);
+    SetMonData(&gPlayerParty[0], MON_DATA_ALT_ABILITY, &monData);
     monData = MOVE_TACKLE;
-    SetMonData(&gPlayerParty[0], MON_DATA_MOVE1, (u8 *)&monData);
+    SetMonData(&gPlayerParty[0], MON_DATA_MOVE1, &monData);
     monData = MOVE_NONE;
-    SetMonData(&gPlayerParty[0], MON_DATA_MOVE2, (u8 *)&monData);
-    SetMonData(&gPlayerParty[0], MON_DATA_MOVE3, (u8 *)&monData);
-    SetMonData(&gPlayerParty[0], MON_DATA_MOVE4, (u8 *)&monData);
+    SetMonData(&gPlayerParty[0], MON_DATA_MOVE2, &monData);
+    SetMonData(&gPlayerParty[0], MON_DATA_MOVE3, &monData);
+    SetMonData(&gPlayerParty[0], MON_DATA_MOVE4, &monData);
 }
 
 bool8 IsStarterInParty(void)
