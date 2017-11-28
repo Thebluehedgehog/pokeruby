@@ -16,9 +16,9 @@
 #include "trade.h"
 #include "menu.h"
 #include "pokedex.h"
-#include "species.h"
+#include "constants/species.h"
 #include "sound.h"
-#include "songs.h"
+#include "constants/songs.h"
 #include "overworld.h"
 #include "battle_message.h"
 #include "pokemon_summary_screen.h"
@@ -85,9 +85,9 @@ extern u8 gBattleCommunication[];
 #define sEvoCursorPos        gBattleCommunication[1] // when learning a new move
 #define sEvoGraphicsTaskID   gBattleCommunication[2]
 
-extern const u8 gUnknown_08400C4A[];
-extern const u8 gUnknown_08400C60[];
-extern const u8 gUnknown_08400C8D[];
+extern const u8 BattleText_StartEvo[];
+extern const u8 BattleText_FinishEvo[];
+extern const u8 BattleText_StopEvo[];
 extern void * const gUnknown_081FAF4C[];
 extern const u8* const gBattleStringsTable[];
 
@@ -131,7 +131,7 @@ static void CB2_BeginEvolutionScene(void)
 #define tLearnsFirstMove    data[6]
 #define tLearnMoveState     data[8]
 #define tData9              data[9]
-#define tData10             data[10]
+#define tdata10             data[10]
 #define tEvoWasStopped      data[11]
 #define tPartyID            data[12]
 
@@ -557,7 +557,7 @@ static void Task_EvolutionScene(u8 taskID)
     case 1: // print 'whoa, poke is evolving!!!' msg
         if (!gPaletteFade.active)
         {
-            StringExpandPlaceholders(gStringVar4, gUnknown_08400C4A);
+            StringExpandPlaceholders(gStringVar4, BattleText_StartEvo);
             sub_8002EB0(&gUnknown_03004210, gStringVar4, 144, 2, 15);
             gTasks[taskID].tState++;
         }
@@ -645,7 +645,7 @@ static void Task_EvolutionScene(u8 taskID)
     case 13: // congratulations string and rename prompt
         if (IsCryFinished() && !gPaletteFade.active)
         {
-            StringExpandPlaceholders(gStringVar4, gUnknown_08400C60);
+            StringExpandPlaceholders(gStringVar4, BattleText_FinishEvo);
             sub_8002EB0(&gUnknown_03004210, gStringVar4, 144, 2, 15);
             PlayBGM(BGM_FANFA5);
             gTasks[taskID].tState++;
@@ -714,7 +714,7 @@ static void Task_EvolutionScene(u8 taskID)
     case 18: // after the cry, print the string 'WHOA IT DID NOT EVOLVE!!!'
         if (IsCryFinished())
         {
-            StringExpandPlaceholders(gStringVar4, gUnknown_08400C8D);
+            StringExpandPlaceholders(gStringVar4, BattleText_StopEvo);
             sub_8002EB0(&gUnknown_03004210, gStringVar4, 144, 2, 15);
             gTasks[taskID].tEvoWasStopped = TRUE;
             gTasks[taskID].tState = 14;
@@ -763,7 +763,7 @@ static void Task_EvolutionScene(u8 taskID)
                 StrCpyDecodeToDisplayedStringBattle(gBattleStringsTable[6]);
                 sub_8002EB0(&gUnknown_03004210, gDisplayedStringBattle, 144, 2, 15);
                 gTasks[taskID].tData9 = 5;
-                gTasks[taskID].tData10 = 9;
+                gTasks[taskID].tdata10 = 9;
                 gTasks[taskID].tLearnMoveState++;
             }
         case 3:
@@ -797,7 +797,7 @@ static void Task_EvolutionScene(u8 taskID)
                 sub_8002EB0(&gUnknown_03004210, gDisplayedStringBattle, 144, 2, 15);
                 PlaySE(SE_SELECT);
                 if (sEvoCursorPos != 0)
-                    gTasks[taskID].tLearnMoveState = gTasks[taskID].tData10;
+                    gTasks[taskID].tLearnMoveState = gTasks[taskID].tdata10;
                 else
                 {
                     gTasks[taskID].tLearnMoveState = gTasks[taskID].tData9;
@@ -811,13 +811,13 @@ static void Task_EvolutionScene(u8 taskID)
                 StrCpyDecodeToDisplayedStringBattle(gBattleStringsTable[292]);
                 sub_8002EB0(&gUnknown_03004210, gDisplayedStringBattle, 144, 2, 15);
                 PlaySE(SE_SELECT);
-                gTasks[taskID].tLearnMoveState = gTasks[taskID].tData10;
+                gTasks[taskID].tLearnMoveState = gTasks[taskID].tdata10;
             }
             break;
         case 5:
             if (!gPaletteFade.active)
             {
-                sub_809D9F0(gPlayerParty, gTasks[taskID].tPartyID,
+                ShowSelectMovePokemonSummaryScreen(gPlayerParty, gTasks[taskID].tPartyID,
                             gPlayerPartyCount - 1, CB2_EvolutionSceneLoadGraphics,
                             gMoveToLearn);
                 gTasks[taskID].tLearnMoveState++;
@@ -874,7 +874,7 @@ static void Task_EvolutionScene(u8 taskID)
             StrCpyDecodeToDisplayedStringBattle(gBattleStringsTable[8]);
             sub_8002EB0(&gUnknown_03004210, gDisplayedStringBattle, 144, 2, 15);
             gTasks[taskID].tData9 = 10;
-            gTasks[taskID].tData10 = 0;
+            gTasks[taskID].tdata10 = 0;
             gTasks[taskID].tLearnMoveState = 3;
             break;
         case 10:
@@ -899,7 +899,7 @@ static void Task_TradeEvolutionScene(u8 taskID)
     switch (gTasks[taskID].tState)
     {
     case 0:
-        StringExpandPlaceholders(gStringVar4, gUnknown_08400C4A);
+        StringExpandPlaceholders(gStringVar4, BattleText_StartEvo);
         sub_8002EB0(&gUnknown_03004828->window, gStringVar4, gUnknown_03004828->textWindowBaseTileNum, 2, 15);
         gTasks[taskID].tState++;
         break;
@@ -987,7 +987,7 @@ static void Task_TradeEvolutionScene(u8 taskID)
     case 12:
         if (IsCryFinished() && !gPaletteFade.active)
         {
-            StringExpandPlaceholders(gStringVar4, gUnknown_08400C60);
+            StringExpandPlaceholders(gStringVar4, BattleText_FinishEvo);
             sub_8002EB0(&gUnknown_03004828->window, gStringVar4, gUnknown_03004828->textWindowBaseTileNum, 2, 15);
             PlayFanfare(BGM_FANFA5);
             gTasks[taskID].tState++;
@@ -1077,7 +1077,7 @@ static void Task_TradeEvolutionScene(u8 taskID)
                 StrCpyDecodeToDisplayedStringBattle(gBattleStringsTable[6]);
                 sub_8002EB0(&gUnknown_03004828->window, gDisplayedStringBattle, gUnknown_03004828->textWindowBaseTileNum, 2, 15);
                 gTasks[taskID].tData9 = 5;
-                gTasks[taskID].tData10 = 9;
+                gTasks[taskID].tdata10 = 9;
                 gTasks[taskID].tLearnMoveState++;
             }
         case 3:
@@ -1116,7 +1116,7 @@ static void Task_TradeEvolutionScene(u8 taskID)
                 sub_8002EB0(&gUnknown_03004828->window, gDisplayedStringBattle, gUnknown_03004828->textWindowBaseTileNum, 2, 15);
                 PlaySE(SE_SELECT);
                 if (sEvoCursorPos != 0)
-                    gTasks[taskID].tLearnMoveState = gTasks[taskID].tData10;
+                    gTasks[taskID].tLearnMoveState = gTasks[taskID].tdata10;
                 else
                 {
                     gTasks[taskID].tLearnMoveState = gTasks[taskID].tData9;
@@ -1131,13 +1131,13 @@ static void Task_TradeEvolutionScene(u8 taskID)
                 StrCpyDecodeToDisplayedStringBattle(gBattleStringsTable[292]);
                 sub_8002EB0(&gUnknown_03004828->window, gDisplayedStringBattle, gUnknown_03004828->textWindowBaseTileNum, 2, 15);
                 PlaySE(SE_SELECT);
-                gTasks[taskID].tLearnMoveState = gTasks[taskID].tData10;
+                gTasks[taskID].tLearnMoveState = gTasks[taskID].tdata10;
             }
             break;
         case 5:
             if (!gPaletteFade.active)
             {
-                sub_809D9F0(gPlayerParty, gTasks[taskID].tPartyID,
+                ShowSelectMovePokemonSummaryScreen(gPlayerParty, gTasks[taskID].tPartyID,
                             gPlayerPartyCount - 1, CB2_TradeEvolutionSceneLoadGraphics,
                             gMoveToLearn);
                 gTasks[taskID].tLearnMoveState++;
@@ -1194,7 +1194,7 @@ static void Task_TradeEvolutionScene(u8 taskID)
             StrCpyDecodeToDisplayedStringBattle(gBattleStringsTable[8]);
             sub_8002EB0(&gUnknown_03004828->window, gDisplayedStringBattle, gUnknown_03004828->textWindowBaseTileNum, 2, 15);
             gTasks[taskID].tData9 = 10;
-            gTasks[taskID].tData10 = 0;
+            gTasks[taskID].tdata10 = 0;
             gTasks[taskID].tLearnMoveState = 3;
             break;
         case 10:

@@ -2,7 +2,7 @@
 #include "main.h"
 #include "menu_cursor.h"
 #include "text_window.h"
-#include "songs.h"
+#include "constants/songs.h"
 #include "sound.h"
 #include "sprite.h"
 
@@ -24,8 +24,8 @@ struct PokemonMarkMenu
     /*0x000C*/ struct Sprite *menuWindowSprites[2]; // upper and lower halves of menu window
     /*0x0014*/ struct Sprite *menuMarkingSprites[4];
     /*0x0024*/ struct Sprite *menuTextSprite;
-    /*0x0028*/ u8 *frameTiles;
-    /*0x002C*/ u16 *framePalette;
+    /*0x0028*/ const u8 *frameTiles;
+    /*0x002C*/ const u16 *framePalette;
     /*0x0030*/ u8 menuWindowSpriteTiles[0x1000];
     /*0x1030*/ u8 filler1030[0x80];
     /*0x10B0*/ u8 tileLoadState;
@@ -45,11 +45,11 @@ extern const union AnimCmd *const gSpriteAnimTable_83E533C[];
 
 static EWRAM_DATA struct PokemonMarkMenu *sMenu = NULL;
 
-void sub_80F761C(s16, s16, u16, u16);
-void nullsub_65(struct Sprite *);
-void sub_80F78CC(struct Sprite *);
-void sub_80F7908(struct Sprite *);
-struct Sprite *sub_80F7960(u16, u16, u16 *, u16);
+static void sub_80F761C(s16, s16, u16, u16);
+static void nullsub_65(struct Sprite *);
+static void sub_80F78CC(struct Sprite *);
+static void sub_80F7908(struct Sprite *);
+static struct Sprite *sub_80F7960(u16, u16, const u16 *, u16);
 
 void sub_80F727C(struct PokemonMarkMenu *ptr)
 {
@@ -284,7 +284,7 @@ void sub_80F761C(s16 x, s16 y, u16 baseTileTag, u16 basePaletteTag)
         if (spriteId != 64)
         {
             sMenu->menuMarkingSprites[i] = &gSprites[spriteId];
-            gSprites[spriteId].data0 = i;
+            gSprites[spriteId].data[0] = i;
         }
         else
         {
@@ -324,10 +324,10 @@ void nullsub_65(struct Sprite *sprite)
 
 void sub_80F78CC(struct Sprite *sprite)
 {
-    if (sMenu->markingsArray[sprite->data0])
-        StartSpriteAnim(sprite, 2 * sprite->data0 + 1);
+    if (sMenu->markingsArray[sprite->data[0]])
+        StartSpriteAnim(sprite, 2 * sprite->data[0] + 1);
     else
-        StartSpriteAnim(sprite, 2 * sprite->data0);
+        StartSpriteAnim(sprite, 2 * sprite->data[0]);
 }
 
 void sub_80F7908(struct Sprite *sprite)
@@ -335,21 +335,21 @@ void sub_80F7908(struct Sprite *sprite)
     sprite->pos1.y = 16 * sMenu->cursorPos + sMenu->cursorBaseY;
 }
 
-struct Sprite *sub_80F7920(u16 tileTag, u16 paletteTag, u16 *palette)
+struct Sprite *sub_80F7920(u16 tileTag, u16 paletteTag, const u16 *palette)
 {
     if (!palette)
         palette = gUnknown_083E49F4;
     return sub_80F7960(tileTag, paletteTag, palette, 16);
 }
 
-struct Sprite *sub_80F7940(u16 tileTag, u16 paletteTag, u16 *palette)
+struct Sprite *sub_80F7940(u16 tileTag, u16 paletteTag, const u16 *palette)
 {
     if (!palette)
         palette = gUnknown_083E49F4;
     return sub_80F7960(tileTag, paletteTag, palette, 1);
 }
 
-struct Sprite *sub_80F7960(u16 tileTag, u16 paletteTag, u16 *palette, u16 size)
+struct Sprite *sub_80F7960(u16 tileTag, u16 paletteTag, const u16 *palette, u16 size)
 {
     u8 spriteId;
     struct SpriteTemplate sprTemplate;

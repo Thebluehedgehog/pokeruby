@@ -11,9 +11,9 @@
 #include "pokemon.h"
 #include "rom_8077ABC.h"
 #include "rom_8094928.h"
-#include "songs.h"
+#include "constants/songs.h"
 #include "sound.h"
-#include "species.h"
+#include "constants/species.h"
 #include "sprite.h"
 #include "task.h"
 #include "text.h"
@@ -43,8 +43,8 @@ extern u8 gBattleAnimBankAttacker;
 extern u8 gBattleAnimBankTarget;
 extern void (*gAnimScriptCallback)(void);
 extern u8 gAnimScriptActive;
-extern const u8 *const gBattleAnims_Unknown1[];
-extern const u8 *const gBattleAnims_Unknown2[];
+extern const u8 *const gBattleAnims_General[];
+extern const u8 *const gBattleAnims_Special[];
 extern const struct CompressedSpriteSheet gTrainerFrontPicTable[];
 extern const struct MonCoords gTrainerFrontPicCoords[];
 extern const struct CompressedSpritePalette gTrainerFrontPicPaletteTable[];
@@ -86,7 +86,7 @@ void sub_80328A4(struct Sprite *);
 
 void sub_80312F0(struct Sprite *sprite)
 {
-    u8 spriteId = sprite->data1;
+    u8 spriteId = sprite->data[1];
 
     if (gSprites[spriteId].affineAnimEnded && !gSprites[spriteId].invisible)
     {
@@ -116,7 +116,7 @@ void sub_80313A0(struct Sprite *sprite)
 {
     if (!(gUnknown_02024DE8 & 1))
     {
-        sprite->pos2.x += sprite->data0;
+        sprite->pos2.x += sprite->data[0];
         if (sprite->pos2.x == 0)
             sprite->callback = SpriteCallbackDummy;
     }
@@ -177,7 +177,7 @@ bool8 move_anim_start_t3(u8 a, u8 b, u8 c, u8 d, u16 e)
     gBattleAnimBankAttacker = b;
     gBattleAnimBankTarget = c;
     ewram17840.unk0 = e;
-    DoMoveAnim(gBattleAnims_Unknown1, d, 0);
+    DoMoveAnim(gBattleAnims_General, d, 0);
     taskId = CreateTask(sub_80315E8, 10);
     gTasks[taskId].data[0] = a;
     ewram17810[gTasks[taskId].data[0]].unk0_5 = 1;
@@ -216,7 +216,7 @@ void move_anim_start_t4(u8 a, u8 b, u8 c, u8 d)
 
     gBattleAnimBankAttacker = b;
     gBattleAnimBankTarget = c;
-    DoMoveAnim(gBattleAnims_Unknown2, d, 0);
+    DoMoveAnim(gBattleAnims_Special, d, 0);
     taskId = CreateTask(sub_80316CC, 10);
     gTasks[taskId].data[0] = a;
     ewram17810[gTasks[taskId].data[0]].unk0_6 = 1;
@@ -858,19 +858,19 @@ void sub_80327CC(void)
     LoadCompressedObjectPic(&gUnknown_081FAF24);
     r5 = GetBankByPlayerAI(1);
     ewram17810[r5].unk7 = CreateSprite(&gSpriteTemplate_81FAF34, sub_8077ABC(r5, 0), sub_8077ABC(r5, 1) + 32, 0xC8);
-    gSprites[ewram17810[r5].unk7].data0 = r5;
+    gSprites[ewram17810[r5].unk7].data[0] = r5;
     if (IsDoubleBattle())
     {
         r5 = GetBankByPlayerAI(3);
         ewram17810[r5].unk7 = CreateSprite(&gSpriteTemplate_81FAF34, sub_8077ABC(r5, 0), sub_8077ABC(r5, 1) + 32, 0xC8);
-        gSprites[ewram17810[r5].unk7].data0 = r5;
+        gSprites[ewram17810[r5].unk7].data[0] = r5;
     }
 }
 
 void sub_80328A4(struct Sprite *sprite)
 {
     bool8 invisible = FALSE;
-    u8 r4 = sprite->data0;
+    u8 r4 = sprite->data[0];
     struct Sprite *r7 = &gSprites[gObjectBankIDs[r4]];
 
     if (!r7->inUse || AnimBankSpriteExists(r4) == 0)

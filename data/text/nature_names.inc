@@ -1,77 +1,77 @@
 gNatureName_Hardy: @ 83C0F60
-	.string "Ousada$"
+	.string "HARDY$"
 
 gNatureName_Lonely: @ 83C0F66
-	.string "Solitária$"
+	.string "LONELY$"
 
 gNatureName_Brave: @ 83C0F6D
-	.string "Valente$"
+	.string "BRAVE$"
 
 gNatureName_Adamant: @ 83C0F73
-	.string "Inflexível$"
+	.string "ADAMANT$"
 
 gNatureName_Naughty: @ 83C0F7B
-	.string "Travessa$"
+	.string "NAUGHTY$"
 
 gNatureName_Bold: @ 83C0F83
-	.string "Audaciosa$"
+	.string "BOLD$"
 
 gNatureName_Docile: @ 83C0F88
-	.string "Dócil$"
+	.string "DOCILE$"
 
 gNatureName_Relaxed: @ 83C0F8F
-	.string "Descontraída$"
+	.string "RELAXED$"
 
 gNatureName_Impish: @ 83C0F97
-	.string "Transtornada$"
+	.string "IMPISH$"
 
 gNatureName_Lax: @ 83C0F9E
-	.string "Relaxada$"
+	.string "LAX$"
 
 gNatureName_Timid: @ 83C0FA2
-	.string "Tímida$"
+	.string "TIMID$"
 
 gNatureName_Hasty: @ 83C0FA8
-	.string "Apressada$"
+	.string "HASTY$"
 
 gNatureName_Serious: @ 83C0FAE
-	.string "Séria$"
+	.string "SERIOUS$"
 
 gNatureName_Jolly: @ 83C0FB6
-	.string "Alegre$"
+	.string "JOLLY$"
 
 gNatureName_Naive: @ 83C0FBC
-	.string "Ingênua$"
+	.string "NAIVE$"
 
 gNatureName_Modest: @ 83C0FC2
-	.string "Modesta$"
+	.string "MODEST$"
 
 gNatureName_Mild: @ 83C0FC9
-	.string "Branda$"
+	.string "MILD$"
 
 gNatureName_Quiet: @ 83C0FCE
-	.string "Quieta$"
+	.string "QUIET$"
 
 gNatureName_Bashful: @ 83C0FD4
-	.string "Envergonhada$"
+	.string "BASHFUL$"
 
 gNatureName_Rash: @ 83C0FDC
-	.string "Precipitada$"
+	.string "RASH$"
 
 gNatureName_Calm: @ 83C0FE1
-	.string "Calma$"
+	.string "CALM$"
 
 gNatureName_Gentle: @ 83C0FE6
-	.string "Gentil$"
+	.string "GENTLE$"
 
 gNatureName_Sassy: @ 83C0FED
-	.string "Descarada$"
+	.string "SASSY$"
 
 gNatureName_Careful: @ 83C0FF3
-	.string "Cuidadosa$"
+	.string "CAREFUL$"
 
 gNatureName_Quirky: @ 83C0FFB
-	.string "Peculiar$"
+	.string "QUIRKY$"
 
 	.align 2
 gNatureNames:: @ 83C1004

@@ -12,7 +12,7 @@
 #include "pokemon_summary_screen.h"
 #include "rom_8077ABC.h"
 #include "rom_8094928.h"
-#include "songs.h"
+#include "constants/songs.h"
 #include "sound.h"
 #include "string_util.h"
 #include "strings.h"
@@ -625,7 +625,7 @@ static void Task_ShowSummaryScreen(u8 taskId)
     {
         DestroyTask(taskId);
         EWRAM_1B000.unk262 = 1;
-        ShowPokemonSummaryScreen(gPlayerParty, partySelection, gPlayerPartyCount - 1, Task_809535C, 4);
+        ShowPokemonSummaryScreen(gPlayerParty, partySelection, gPlayerPartyCount - 1, Task_809535C, PSS_MODE_NO_MOVE_ORDER_EDIT);
     }
 }
 

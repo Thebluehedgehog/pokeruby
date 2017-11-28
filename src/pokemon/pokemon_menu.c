@@ -5,13 +5,13 @@
 #include "palette.h"
 #include "menu.h"
 #include "mail_data.h"
-#include "songs.h"
+#include "constants/songs.h"
 #include "sound.h"
 #include "main.h"
 #include "overworld.h"
 #include "menu_helpers.h"
 #include "pokemon_summary_screen.h"
-#include "moves.h"
+#include "constants/moves.h"
 #include "data2.h"
 #include "strings.h"
 #include "item_use.h"
@@ -347,10 +347,10 @@ static void sub_8089F44(u8 taskID)
 {
     if (!gPaletteFade.active)
     {
-        u8 spriteID = gSprites[gTasks[taskID].data[3] >> 8].data0;
+        u8 spriteID = gSprites[gTasks[taskID].data[3] >> 8].data[0];
         DestroyTask(taskID);
         ewram1B000_alt.unk262 = 1;
-        ShowPokemonSummaryScreen(gPlayerParty, spriteID, gPlayerPartyCount - 1, sub_8089F14, 0);
+        ShowPokemonSummaryScreen(gPlayerParty, spriteID, gPlayerPartyCount - 1, sub_8089F14, PSS_MODE_NORMAL);
     }
 }
 

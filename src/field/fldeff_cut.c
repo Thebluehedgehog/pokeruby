@@ -11,7 +11,7 @@
 #include "overworld.h"
 #include "rom6.h"
 #include "script.h"
-#include "songs.h"
+#include "constants/songs.h"
 #include "sound.h"
 #include "sprite.h"
 #include "task.h"
@@ -22,8 +22,6 @@ extern void (*gFieldCallback)(void);
 extern void (*gUnknown_03005CE4)(void);
 
 extern struct SpriteTemplate gSpriteTemplate_CutGrass;
-
-extern struct MapPosition gUnknown_0203923C;
 
 extern u8 gLastFieldPokeMenuOpened;
 
@@ -136,7 +134,7 @@ bool8 FldEff_CutGrass(void)
     {
         eCutGrassSpriteArray[i] = CreateSprite((struct SpriteTemplate *)&gSpriteTemplate_CutGrass,
         gSprites[gPlayerAvatar.spriteId].oam.x + 8, gSprites[gPlayerAvatar.spriteId].oam.y + 20, 0);
-        gSprites[eCutGrassSpriteArray[i]].data2 = 32 * i;
+        gSprites[eCutGrassSpriteArray[i]].data[2] = 32 * i;
     }
     return 0;
 }
@@ -242,9 +240,9 @@ void sub_80A28F4(s16 x, s16 y)
 
 void sub_80A2A48(struct Sprite *sprite)
 {
-    sprite->data0 = 8;
-    sprite->data1 = 0;
-    sprite->data3 = 0;
+    sprite->data[0] = 8;
+    sprite->data[1] = 0;
+    sprite->data[3] = 0;
     sprite->callback = (void *)objc_8097BBC;
 }
 
@@ -253,16 +251,16 @@ void objc_8097BBC(struct Sprite *sprite)
     u16 tempdata;
     u16 tempdata2;
 
-    sprite->pos2.x = Sin(sprite->data2, sprite->data0);
-    sprite->pos2.y = Cos(sprite->data2, sprite->data0);
+    sprite->pos2.x = Sin(sprite->data[2], sprite->data[0]);
+    sprite->pos2.y = Cos(sprite->data[2], sprite->data[0]);
 
-    sprite->data2 = (sprite->data2 + 8) & 0xFF;
-    sprite->data0 += ((tempdata2 = sprite->data3) << 16 >> 18) + 1; // what?
-    sprite->data3 = tempdata2 + 1;
+    sprite->data[2] = (sprite->data[2] + 8) & 0xFF;
+    sprite->data[0] += ((tempdata2 = sprite->data[3]) << 16 >> 18) + 1; // what?
+    sprite->data[3] = tempdata2 + 1;
 
-    tempdata = sprite->data1;
+    tempdata = sprite->data[1];
     if((s16)tempdata != 28) // done rotating the grass, execute clean up function
-        sprite->data1++;
+        sprite->data[1]++;
     else
         sprite->callback = (void *)sub_80A2AB8;
 }

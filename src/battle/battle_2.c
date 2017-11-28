@@ -1,5 +1,5 @@
 #include "global.h"
-#include "abilities.h"
+#include "constants/abilities.h"
 #include "battle.h"
 #include "battle_interface.h"
 #include "battle_setup.h"
@@ -13,30 +13,23 @@
 #include "pokeball.h"
 #include "pokedex.h"
 #include "pokemon.h"
-#include "rng.h"
+#include "random.h"
 #include "rom3.h"
 #include "rom_8077ABC.h"
 #include "rom_8094928.h"
-#include "songs.h"
+#include "constants/songs.h"
 #include "sound.h"
-#include "species.h"
+#include "constants/species.h"
 #include "sprite.h"
 #include "task.h"
 #include "text.h"
 #include "trig.h"
 #include "unknown_task.h"
 #include "util.h"
-#include "items.h"
-#include "hold_effects.h"
-#include "battle_move_effects.h"
+#include "constants/items.h"
+#include "constants/hold_effects.h"
+#include "constants/battle_move_effects.h"
 #include "ewram.h"
-
-struct UnknownStruct6
-{
-    u16 unk0[0xA0];
-    u8 fillerA0[0x640];
-    u16 unk780[0xA0];
-};
 
 struct UnknownStruct7
 {
@@ -123,8 +116,6 @@ extern void (*gBattleMainFunc)(void);
 extern u8 gLeveledUpInBattle;
 extern void (*gBattleBankFunc[])(void);
 extern u8 gHealthboxIDs[];
-extern struct UnknownStruct6 gUnknown_03004DE0;
-//extern u16 gUnknown_03004DE0[][0xA0];  // possibly?
 extern u16 gBattleTypeFlags;
 extern s8 gBattleTerrain;  // I'm not sure if this is supposed to be s8 or u8. Regardless, it must have the same type as the return value of BattleSetup_GetTerrain.
 extern u8 gReservedSpritePaletteCount;
@@ -175,14 +166,14 @@ void InitBattle(void)
 
     for (i = 0; i < 80; i++)
     {
-        gUnknown_03004DE0.unk0[i] = 0xF0;
-        gUnknown_03004DE0.unk780[i] = 0xF0;
+        gUnknown_03004DE0[0][i] = 0xF0;
+        gUnknown_03004DE0[1][i] = 0xF0;
     }
     for (i = 80; i < 160; i++)
     {
         asm(""::"r"(i));  // Needed to stop the compiler from optimizing out the loop counter
-        gUnknown_03004DE0.unk0[i] = 0xFF10;
-        gUnknown_03004DE0.unk780[i] = 0xFF10;
+        gUnknown_03004DE0[0][i] = 0xFF10;
+        gUnknown_03004DE0[1][i] = 0xFF10;
     }
     //sub_80895F8(gUnknown_081F9674.unk0, gUnknown_081F9674.unk4, gUnknown_081F9674.unk8);
     sub_80895F8(gUnknown_081F9674);
@@ -857,7 +848,7 @@ void sub_800F808(void)
 
 void sub_800F828(struct Sprite *sprite)
 {
-    sprite->data0 = 0;
+    sprite->data[0] = 0;
     sprite->callback = sub_800F838;
 }
 
@@ -865,42 +856,42 @@ void sub_800F838(struct Sprite *sprite)
 {
     u16 *arr = (u16 *)gSharedMem;
 
-    switch (sprite->data0)
+    switch (sprite->data[0])
     {
     case 0:
-        sprite->data0++;
-        sprite->data1 = 0;
-        sprite->data2 = 0x281;
-        sprite->data3 = 0;
-        sprite->data4 = 1;
+        sprite->data[0]++;
+        sprite->data[1] = 0;
+        sprite->data[2] = 0x281;
+        sprite->data[3] = 0;
+        sprite->data[4] = 1;
         // fall through
     case 1:
-        sprite->data4--;
-        if (sprite->data4 == 0)
+        sprite->data[4]--;
+        if (sprite->data[4] == 0)
         {
             s32 i;
             s32 r2;
             s32 r0;
 
-            sprite->data4 = 2;
-            r2 = sprite->data1 + sprite->data3 * 32;
-            r0 = sprite->data2 - sprite->data3 * 32;
+            sprite->data[4] = 2;
+            r2 = sprite->data[1] + sprite->data[3] * 32;
+            r0 = sprite->data[2] - sprite->data[3] * 32;
             for (i = 0; i < 29; i += 2)
             {
                 arr[r2 + i] = 0x3D;
                 arr[r0 + i] = 0x3D;
             }
-            sprite->data3++;
-            if (sprite->data3 == 21)
+            sprite->data[3]++;
+            if (sprite->data[3] == 21)
             {
-                sprite->data0++;
-                sprite->data1 = 32;
+                sprite->data[0]++;
+                sprite->data[1] = 32;
             }
         }
         break;
     case 2:
-        sprite->data1--;
-        if (sprite->data1 == 20)
+        sprite->data[1]--;
+        if (sprite->data[1] == 20)
             SetMainCallback2(sub_800E7C4);
         break;
     }
@@ -1034,11 +1025,11 @@ void nullsub_36(struct Sprite *sprite)
 
 void sub_800FDB0(struct Sprite *sprite)
 {
-    if (sprite->data0 != 0)
-        sprite->pos1.x = sprite->data1 + ((sprite->data2 & 0xFF00) >> 8);
+    if (sprite->data[0] != 0)
+        sprite->pos1.x = sprite->data[1] + ((sprite->data[2] & 0xFF00) >> 8);
     else
-        sprite->pos1.x = sprite->data1 - ((sprite->data2 & 0xFF00) >> 8);
-    sprite->data2 += 0x180;
+        sprite->pos1.x = sprite->data[1] - ((sprite->data[2] & 0xFF00) >> 8);
+    sprite->data[2] += 0x180;
     if (sprite->affineAnimEnded)
     {
         FreeSpriteTilesByTag(0x2710);
@@ -1153,14 +1144,14 @@ void c2_8011A1C(void)
 
     for (i = 0; i < 80; i++)
     {
-        gUnknown_03004DE0.unk0[i] = 0xF0;
-        gUnknown_03004DE0.unk780[i] = 0xF0;
+        gUnknown_03004DE0[0][i] = 0xF0;
+        gUnknown_03004DE0[1][i] = 0xF0;
     }
     for (i = 80; i < 160; i++)
     {
         asm(""::"r"(i));  // Needed to stop the compiler from optimizing out the loop counter
-        gUnknown_03004DE0.unk0[i] = 0xFF10;
-        gUnknown_03004DE0.unk780[i] = 0xFF10;
+        gUnknown_03004DE0[0][i] = 0xFF10;
+        gUnknown_03004DE0[1][i] = 0xFF10;
     }
     SetUpWindowConfig(&gWindowConfig_81E6C58);
     ResetPaletteFade();
@@ -1242,7 +1233,7 @@ void sub_8010278(struct Sprite *sprite)
         if (sprite->pos2.x == 0)
         {
             sprite->callback = sub_80102AC;
-            PlayCry1(sprite->data2, 25);
+            PlayCry1(sprite->data[2], 25);
         }
     }
 }
@@ -1251,8 +1242,8 @@ void sub_80102AC(struct Sprite *sprite)
 {
     if (sprite->animEnded)
     {
-        sub_804777C(sprite->data0);
-        sub_8043DFC(gHealthboxIDs[sprite->data0]);
+        sub_804777C(sprite->data[0]);
+        sub_8043DFC(gHealthboxIDs[sprite->data[0]]);
         sprite->callback = nullsub_37;
         StartSpriteAnimIfDifferent(sprite, 0);
         BeginNormalPaletteFade(0x00020000, 0, 10, 0, 0x3DEF);
@@ -1265,20 +1256,20 @@ void nullsub_37(struct Sprite *sprite)
 
 void unref_sub_801030C(struct Sprite *sprite)
 {
-    sprite->data3 = 6;
-    sprite->data4 = 1;
+    sprite->data[3] = 6;
+    sprite->data[4] = 1;
     sprite->callback = sub_8010320;
 }
 
 void sub_8010320(struct Sprite *sprite)
 {
-    sprite->data4--;
-    if (sprite->data4 == 0)
+    sprite->data[4]--;
+    if (sprite->data[4] == 0)
     {
-        sprite->data4 = 8;
+        sprite->data[4] = 8;
         sprite->invisible ^= 1;
-        sprite->data3--;
-        if (sprite->data3 == 0)
+        sprite->data[3]--;
+        if (sprite->data[3] == 0)
         {
             sprite->invisible = FALSE;
             sprite->callback = nullsub_37;
@@ -1289,14 +1280,14 @@ void sub_8010320(struct Sprite *sprite)
 
 void sub_8010384(struct Sprite *sprite)
 {
-    u8 r6 = sprite->data0;
+    u8 r6 = sprite->data[0];
     u16 species;
     u8 yOffset;
 
     if (ewram17800[r6].transformedSpecies != 0)
         species = ewram17800[r6].transformedSpecies;
     else
-        species = sprite->data2;
+        species = sprite->data[2];
 
     GetMonData(&gEnemyParty[gBattlePartyID[r6]], MON_DATA_PERSONALITY);  // Unused return value
 
@@ -1326,8 +1317,8 @@ void sub_8010384(struct Sprite *sprite)
         yOffset = gMonFrontPicCoords[species].y_offset;
     }
 
-    sprite->data3 = 8 - yOffset / 8;
-    sprite->data4 = 1;
+    sprite->data[3] = 8 - yOffset / 8;
+    sprite->data[4] = 1;
     sprite->callback = sub_8010494;
 }
 
@@ -1336,13 +1327,13 @@ void sub_8010494(struct Sprite *sprite)
     s32 i;
     u8 *dst;
 
-    sprite->data4--;
-    if (sprite->data4 == 0)
+    sprite->data[4]--;
+    if (sprite->data[4] == 0)
     {
-        sprite->data4 = 2;
+        sprite->data[4] = 2;
         sprite->pos2.y += 8;
-        sprite->data3--;
-        if (sprite->data3 < 0)
+        sprite->data[3]--;
+        if (sprite->data[3] < 0)
         {
             FreeSpriteOamMatrix(sprite);
             DestroySprite(sprite);
@@ -1350,35 +1341,35 @@ void sub_8010494(struct Sprite *sprite)
         else
         {
             // this should use a MEMSET_ALT, but *(dst++) wont match with it.
-            dst = (u8 *)gUnknown_081FAF4C[GetBankIdentity(sprite->data0)] + (gBattleMonForms[sprite->data0] << 11) + (sprite->data3 << 8);
+            dst = (u8 *)gUnknown_081FAF4C[GetBankIdentity(sprite->data[0])] + (gBattleMonForms[sprite->data[0]] << 11) + (sprite->data[3] << 8);
             for (i = 0; i < 0x100; i++)
                 *(dst++) = 0;
-            StartSpriteAnim(sprite, gBattleMonForms[sprite->data0]);
+            StartSpriteAnim(sprite, gBattleMonForms[sprite->data[0]]);
         }
     }
 }
 
 void sub_8010520(struct Sprite *sprite)
 {
-    sprite->data3 = 8;
-    sprite->data4 = sprite->invisible;
+    sprite->data[3] = 8;
+    sprite->data[4] = sprite->invisible;
     sprite->callback = sub_801053C;
 }
 
 void sub_801053C(struct Sprite *sprite)
 {
-    sprite->data3--;
-    if (sprite->data3 == 0)
+    sprite->data[3]--;
+    if (sprite->data[3] == 0)
     {
         sprite->invisible ^= 1;
-        sprite->data3 = 8;
+        sprite->data[3] = 8;
     }
 }
 
 void sub_8010574(struct Sprite *sprite)
 {
-    sprite->invisible = sprite->data4;
-    sprite->data4 = FALSE;
+    sprite->invisible = sprite->data[4];
+    sprite->data[4] = FALSE;
     sprite->callback = nullsub_37;
 }
 
@@ -1395,7 +1386,7 @@ void oac_poke_ally_(struct Sprite *sprite)
         if (sprite->pos2.x == 0)
         {
             sprite->callback = nullsub_86;
-            sprite->data1 = 0;
+            sprite->data[1] = 0;
         }
     }
 }
@@ -1413,8 +1404,8 @@ void sub_80105EC(struct Sprite *sprite)
 {
     if ((gUnknown_02024DE8 & 1) == 0)
     {
-        sprite->pos2.x += sprite->data1;
-        sprite->pos2.y += sprite->data2;
+        sprite->pos2.x += sprite->data[1];
+        sprite->pos2.y += sprite->data[2];
     }
 }
 
@@ -1440,19 +1431,19 @@ void dp11b_obj_instanciate(u8 bank, u8 b, s8 c, s8 d)
         objectID = gHealthboxIDs[bank];
         ewram17810[bank].unk2 = spriteId;
         ewram17810[bank].unk0_1 = 1;
-        gSprites[spriteId].data0 = 0x80;
+        gSprites[spriteId].data[0] = 0x80;
     }
     else
     {
         objectID = gObjectBankIDs[bank];
         ewram17810[bank].unk3 = spriteId;
         ewram17810[bank].unk0_2 = 1;
-        gSprites[spriteId].data0 = 0xC0;
+        gSprites[spriteId].data[0] = 0xC0;
     }
-    gSprites[spriteId].data1 = c;
-    gSprites[spriteId].data2 = d;
-    gSprites[spriteId].data3 = objectID;
-    gSprites[spriteId].data4 = b;
+    gSprites[spriteId].data[1] = c;
+    gSprites[spriteId].data[2] = d;
+    gSprites[spriteId].data[3] = objectID;
+    gSprites[spriteId].data[4] = b;
     gSprites[objectID].pos2.x = 0;
     gSprites[objectID].pos2.y = 0;
 }
@@ -1465,7 +1456,7 @@ void dp11b_obj_free(u8 a, u8 b)
     {
         if (!ewram17810[a].unk0_1)
             return;
-        r4 = gSprites[ewram17810[a].unk2].data3;
+        r4 = gSprites[ewram17810[a].unk2].data[3];
         DestroySprite(&gSprites[ewram17810[a].unk2]);
         ewram17810[a].unk0_1 = 0;
     }
@@ -1473,7 +1464,7 @@ void dp11b_obj_free(u8 a, u8 b)
     {
         if (!ewram17810[a].unk0_2)
             return;
-        r4 = gSprites[ewram17810[a].unk3].data3;
+        r4 = gSprites[ewram17810[a].unk3].data[3];
         DestroySprite(&gSprites[ewram17810[a].unk3]);
         ewram17810[a].unk0_2 = 0;
     }
@@ -1483,16 +1474,16 @@ void dp11b_obj_free(u8 a, u8 b)
 
 void objc_dp11b_pingpong(struct Sprite *sprite)
 {
-    u8 spriteId = sprite->data3;
+    u8 spriteId = sprite->data[3];
     s32 var;
 
-    if (sprite->data4 == 1)
-        var = sprite->data0;
+    if (sprite->data[4] == 1)
+        var = sprite->data[0];
     else
-        var = sprite->data0;
+        var = sprite->data[0];
 
-    gSprites[spriteId].pos2.y = Sin(var, sprite->data2) + sprite->data2;
-    sprite->data0 = (sprite->data0 + sprite->data1) & 0xFF;
+    gSprites[spriteId].pos2.y = Sin(var, sprite->data[2]) + sprite->data[2];
+    sprite->data[0] = (sprite->data[0] + sprite->data[1]) & 0xFF;
 }
 
 void nullsub_41(void)

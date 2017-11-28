@@ -10,18 +10,18 @@
 #include "field_poison.h"
 #include "field_specials.h"
 #include "fieldmap.h"
-#include "flags.h"
+#include "constants/flags.h"
 #include "item_menu.h"
 #include "metatile_behavior.h"
 #include "overworld.h"
 #include "safari_zone.h"
 #include "script.h"
 #include "secret_base.h"
-#include "songs.h"
+#include "constants/songs.h"
 #include "sound.h"
 #include "start_menu.h"
 #include "trainer_see.h"
-#include "vars.h"
+#include "constants/vars.h"
 #include "wild_encounter.h"
 
 struct Coords32
@@ -500,9 +500,9 @@ bool8 sub_8068894(void)
         ScriptContext1_SetupScript(gUnknown_081A14B8);
         return TRUE;
     }
-    if (sub_80422A0())
+    if (ShouldEggHatch())
     {
-        IncrementGameStat(13);
+        IncrementGameStat(GAME_STAT_HATCHED_EGGS);
         ScriptContext1_SetupScript(S_EggHatch);
         return TRUE;
     }
