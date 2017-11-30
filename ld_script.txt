@@ -504,7 +504,6 @@ SECTIONS {
         src/field/trainer_see.o(.rodata);
         data/trainer_see.o(.rodata);
         src/field/wild_encounter.o(.rodata);
-        data/wild_encounter.o(.rodata);
         src/field/field_effect.o(.rodata);
         src/pokemon/pokemon_menu.o(.rodata);
         src/engine/option_menu.o(.rodata);
@@ -514,7 +513,7 @@ SECTIONS {
         data/pokemon_storage_system.o(.rodata);
         src/pokemon/pokemon_icon.o(.rodata);
         src/pokemon/pokemon_summary_screen.o(.rodata);
-        data/fldeff_cut.o(.rodata);
+        src/field/fldeff_cut.o(.rodata);
         src/field/item_menu.o(.rodata);
         data/battle_anim_80A7E7C.o(.rodata);
         src/field/item.o(.rodata);
@@ -536,8 +535,8 @@ SECTIONS {
         src/pokemon/pokemon_size_record.o(.rodata);
         src/field/pc_screen_effect.o(.rodata);
         data/pc_screen_effect.o(.rodata);
-        data/fldeff_secretpower.o(.rodata);
-        data/fldeff_decoration.o(.rodata);
+        src/field/fldeff_secretpower.o(.rodata);
+        src/field/fldeff_decoration.o(.rodata);
         src/field/fldeff_recordmixing.o(.rodata);
         src/field/field_special_scene.o(.rodata);
         src/field/rotating_gate.o(.rodata);
@@ -546,9 +545,9 @@ SECTIONS {
         src/field/bike.o(.rodata);
         data/easy_chat.o(.rodata);
         data/pokenav.o(.rodata);
-        data/mon_markings.o(.rodata);
+        src/pokemon/mon_markings.o(.rodata);
         src/field/mauville_man.o(.rodata);
-        data/mail.o(.rodata);
+        src/pokemon/mail.o(.rodata);
         src/field/menu_helpers.o(.rodata);
         src/field/heal_location.o(.rodata);
         src/field/region_map.o(.rodata);
