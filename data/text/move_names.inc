@@ -167,7 +167,7 @@ gMoveNames:: @ 81F8320
 	.string "Insistência$", 13
 	.string "Esboço$", 13
 	.string "Chute Triplo$", 13
-	.string "Ladrão$", 13
+	.string "Roubar$", 13
 	.string "Teia Aranha$", 13
 	.string "Ler Mentes$", 13
 	.string "Pesadelo$", 13
