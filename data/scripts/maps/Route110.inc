@@ -13,11 +13,11 @@ Route110_MapScript1_14F914:: @ 814F914
 	call Route110_EventScript_1A014E
 	call Route110_EventScript_1A0172
 	compare VAR_CYCLING_CHALLENGE_STATE, 1
-	call_if 1, Route110_EventScript_14F92F
+	call_if_eq Route110_EventScript_14F92F
 	end
 
 Route110_EventScript_14F92F:: @ 814F92F
-	savebgm 403 @ Bicycle music
+	savebgm BGM_CYCLING
 	return
 
 Route110_MapScript2_14F933:: @ 814F933
@@ -177,7 +177,7 @@ Route110_EventScript_14FAA5:: @ 814FAA5
 
 Route110_EventScript_14FABC:: @ 814FABC
 	trainerbattle 0, OPPONENT_EDWIN_1, 0, Route110_Text_1BA7D2, Route110_Text_1BA803
-	specialvar RESULT, sub_8082C68
+	specialvar RESULT, ShouldTryRematchBattle
 	compare RESULT, 1
 	goto_if_eq Route110_EventScript_14FAE3
 	msgbox Route110_Text_1BA829, 6
@@ -205,7 +205,7 @@ Route110_EventScript_14FB28:: @ 814FB28
 
 Route110_EventScript_14FB3F:: @ 814FB3F
 	trainerbattle 0, OPPONENT_BENJAMIN_1, 0, Route110_Text_1BA352, Route110_Text_1BA379
-	specialvar RESULT, sub_8082C68
+	specialvar RESULT, ShouldTryRematchBattle
 	compare RESULT, 1
 	goto_if_eq Route110_EventScript_14FB66
 	msgbox Route110_Text_1BA3A5, 6
@@ -223,7 +223,7 @@ Route110_EventScript_14FB7D:: @ 814FB7D
 
 Route110_EventScript_14FB94:: @ 814FB94
 	trainerbattle 0, OPPONENT_ABIGAIL_1, 0, Route110_Text_1BA4A0, Route110_Text_1BA50F
-	specialvar RESULT, sub_8082C68
+	specialvar RESULT, ShouldTryRematchBattle
 	compare RESULT, 1
 	goto_if_eq Route110_EventScript_14FBBB
 	msgbox Route110_Text_1BA52E, 6
@@ -236,7 +236,7 @@ Route110_EventScript_14FBBB:: @ 814FBBB
 
 Route110_EventScript_14FBD2:: @ 814FBD2
 	trainerbattle 0, OPPONENT_ISABEL_1, 0, Route110_Text_1BA990, Route110_Text_1BA9D0
-	specialvar RESULT, sub_8082C68
+	specialvar RESULT, ShouldTryRematchBattle
 	compare RESULT, 1
 	goto_if_eq Route110_EventScript_14FBF9
 	msgbox Route110_Text_1BA9E9, 6
@@ -327,9 +327,9 @@ Route110_EventScript_14FD34:: @ 814FD34
 	lockall
 	checkplayergender
 	compare RESULT, 0
-	call_if 1, Route110_EventScript_14FDA7
+	call_if_eq Route110_EventScript_14FDA7
 	compare RESULT, 1
-	call_if 1, Route110_EventScript_14FDAC
+	call_if_eq Route110_EventScript_14FDAC
 	applymovement 28, Route110_Movement_1A0845
 	waitmovement 0
 	applymovement 28, Route110_Movement_1A0833
@@ -338,11 +338,11 @@ Route110_EventScript_14FD34:: @ 814FD34
 	waitmovement 0
 	delay 30
 	compare VAR_SPECIAL_8, 1
-	call_if 1, Route110_EventScript_14FF14
+	call_if_eq Route110_EventScript_14FF14
 	compare VAR_SPECIAL_8, 2
-	call_if 1, Route110_EventScript_14FF1F
+	call_if_eq Route110_EventScript_14FF1F
 	compare VAR_SPECIAL_8, 3
-	call_if 1, Route110_EventScript_14FF2A
+	call_if_eq Route110_EventScript_14FF2A
 	checkplayergender
 	compare RESULT, 0
 	goto_if_eq Route110_EventScript_14FDB1
@@ -352,11 +352,11 @@ Route110_EventScript_14FD34:: @ 814FD34
 	end
 
 Route110_EventScript_14FDA7:: @ 814FDA7
-	playbgm 415, 1
+	playbgm BGM_GIRL_SUP, TRUE
 	return
 
 Route110_EventScript_14FDAC:: @ 814FDAC
-	playbgm 421, 1
+	playbgm BGM_BOY_SUP, TRUE
 	return
 
 Route110_EventScript_14FDB1:: @ 814FDB1
@@ -426,22 +426,22 @@ Route110_EventScript_14FEA5:: @ 814FEA5
 Route110_EventScript_14FEB2:: @ 814FEB2
 	closemessage
 	compare VAR_SPECIAL_8, 1
-	call_if 1, Route110_EventScript_14FF56
+	call_if_eq Route110_EventScript_14FF56
 	compare VAR_SPECIAL_8, 2
-	call_if 1, Route110_EventScript_14FF5E
+	call_if_eq Route110_EventScript_14FF5E
 	compare VAR_SPECIAL_8, 3
-	call_if 1, Route110_EventScript_14FF66
+	call_if_eq Route110_EventScript_14FF66
 	setobjectmovementtype 28, 10
 	setobjectmovementtype 29, 10
 	removeobject 28
 	addobject 29
 	delay 45
 	compare VAR_SPECIAL_8, 1
-	call_if 1, Route110_EventScript_14FF35
+	call_if_eq Route110_EventScript_14FF35
 	compare VAR_SPECIAL_8, 2
-	call_if 1, Route110_EventScript_14FF40
+	call_if_eq Route110_EventScript_14FF40
 	compare VAR_SPECIAL_8, 3
-	call_if 1, Route110_EventScript_14FF4B
+	call_if_eq Route110_EventScript_14FF4B
 	removeobject 29
 	setvar VAR_ROUTE110_STATE, 1
 	savebgm 0

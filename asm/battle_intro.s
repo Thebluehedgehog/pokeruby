@@ -76,14 +76,14 @@ sub_80E443C: @ 80E443C
 	lsls r0, 24
 	lsrs r0, 24
 	bl DestroyTask
-	ldr r0, _080E4474 @ =gUnknown_030042C0
+	ldr r0, _080E4474 @ =gBattle_BG1_X
 	movs r1, 0
 	strh r1, [r0]
-	ldr r0, _080E4478 @ =gUnknown_030041B4
+	ldr r0, _080E4478 @ =gBattle_BG1_Y
 	strh r1, [r0]
-	ldr r0, _080E447C @ =gUnknown_03004288
+	ldr r0, _080E447C @ =gBattle_BG2_X
 	strh r1, [r0]
-	ldr r0, _080E4480 @ =gUnknown_03004280
+	ldr r0, _080E4480 @ =gBattle_BG2_Y
 	strh r1, [r0]
 	ldr r0, _080E4484 @ =REG_BLDCNT
 	strh r1, [r0]
@@ -100,10 +100,10 @@ sub_80E443C: @ 80E443C
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080E4474: .4byte gUnknown_030042C0
-_080E4478: .4byte gUnknown_030041B4
-_080E447C: .4byte gUnknown_03004288
-_080E4480: .4byte gUnknown_03004280
+_080E4474: .4byte gBattle_BG1_X
+_080E4478: .4byte gBattle_BG1_Y
+_080E447C: .4byte gBattle_BG2_X
+_080E4480: .4byte gBattle_BG2_Y
 _080E4484: .4byte REG_BLDCNT
 _080E4488: .4byte 0x00003f3f
 	thumb_func_end sub_80E443C
@@ -117,7 +117,7 @@ task_battle_intro_80BC47C: @ 80E448C
 	sub sp, 0x4
 	lsls r0, 24
 	lsrs r4, r0, 24
-	ldr r1, _080E44C4 @ =gUnknown_030042C0
+	ldr r1, _080E44C4 @ =gBattle_BG1_X
 	ldrh r0, [r1]
 	adds r0, 0x6
 	strh r0, [r1]
@@ -139,7 +139,7 @@ _080E44B8:
 	ldr r0, [r0]
 	mov pc, r0
 	.align 2, 0
-_080E44C4: .4byte gUnknown_030042C0
+_080E44C4: .4byte gBattle_BG1_X
 _080E44C8: .4byte gTasks
 _080E44CC: .4byte _080E44D0
 	.align 2, 0
@@ -200,7 +200,7 @@ _080E452C:
 	.align 2, 0
 _080E453C: .4byte REG_WININ
 _080E4540:
-	ldr r1, _080E457C @ =gUnknown_03004240
+	ldr r1, _080E457C @ =gBattle_WIN0V
 	ldrh r0, [r1]
 	subs r0, 0xFF
 	strh r0, [r1]
@@ -231,7 +231,7 @@ _080E4558:
 	strh r0, [r2]
 	b _080E46BE
 	.align 2, 0
-_080E457C: .4byte gUnknown_03004240
+_080E457C: .4byte gBattle_WIN0V
 _080E4580: .4byte gUnknown_02024DE8
 _080E4584: .4byte 0x0000fffe
 _080E4588:
@@ -254,7 +254,7 @@ _080E45A4:
 	ldrsh r0, [r2, r1]
 	cmp r0, 0x1
 	bne _080E45C4
-	ldr r2, _080E45BC @ =gUnknown_030041B4
+	ldr r2, _080E45BC @ =gBattle_BG1_Y
 	ldrh r1, [r2]
 	ldr r0, _080E45C0 @ =0x0000ffb0
 	cmp r1, r0
@@ -262,10 +262,10 @@ _080E45A4:
 	subs r0, r1, 0x2
 	b _080E45D0
 	.align 2, 0
-_080E45BC: .4byte gUnknown_030041B4
+_080E45BC: .4byte gBattle_BG1_Y
 _080E45C0: .4byte 0x0000ffb0
 _080E45C4:
-	ldr r2, _080E4690 @ =gUnknown_030041B4
+	ldr r2, _080E4690 @ =gBattle_BG1_Y
 	ldrh r1, [r2]
 	ldr r0, _080E4694 @ =0x0000ffc8
 	cmp r1, r0
@@ -274,7 +274,7 @@ _080E45C4:
 _080E45D0:
 	strh r0, [r2]
 _080E45D2:
-	ldr r2, _080E4698 @ =gUnknown_03004240
+	ldr r2, _080E4698 @ =gBattle_WIN0V
 	ldrh r1, [r2]
 	movs r0, 0xFF
 	lsls r0, 8
@@ -299,9 +299,9 @@ _080E45E6:
 	strh r0, [r1, 0xC]
 _080E45FE:
 	movs r3, 0
-	ldr r5, _080E46A0 @ =gUnknown_03004DC0
+	ldr r5, _080E46A0 @ =gScanlineEffect
 	mov r9, r5
-	ldr r7, _080E46A4 @ =gUnknown_03004DE0
+	ldr r7, _080E46A4 @ =gScanlineEffectRegBuffers
 	mov r6, r9
 	adds r5, r1, 0
 _080E460A:
@@ -319,8 +319,8 @@ _080E460A:
 	ble _080E460A
 	cmp r3, 0x9F
 	bgt _080E464E
-	ldr r7, _080E46A4 @ =gUnknown_03004DE0
-	ldr r6, _080E46A0 @ =gUnknown_03004DC0
+	ldr r7, _080E46A4 @ =gScanlineEffectRegBuffers
+	ldr r6, _080E46A0 @ =gScanlineEffect
 	ldr r1, _080E46A8 @ =gTasks
 	mov r2, r12
 	adds r0, r2, r4
@@ -373,12 +373,12 @@ _080E464E:
 	strh r0, [r1]
 	b _080E46BE
 	.align 2, 0
-_080E4690: .4byte gUnknown_030041B4
+_080E4690: .4byte gBattle_BG1_Y
 _080E4694: .4byte 0x0000ffc8
-_080E4698: .4byte gUnknown_03004240
+_080E4698: .4byte gBattle_WIN0V
 _080E469C: .4byte 0xfffffc04
-_080E46A0: .4byte gUnknown_03004DC0
-_080E46A4: .4byte gUnknown_03004DE0
+_080E46A0: .4byte gScanlineEffect
+_080E46A4: .4byte gScanlineEffectRegBuffers
 _080E46A8: .4byte gTasks
 _080E46AC: .4byte 0x0600e000
 _080E46B0: .4byte 0x05000200
@@ -425,14 +425,14 @@ _080E46FC:
 	cmp r0, 0x4
 	bne _080E4714
 _080E4700:
-	ldr r1, _080E4708 @ =gUnknown_030042C0
+	ldr r1, _080E4708 @ =gBattle_BG1_X
 	ldrh r0, [r1]
 	adds r0, 0x8
 	b _080E4712
 	.align 2, 0
-_080E4708: .4byte gUnknown_030042C0
+_080E4708: .4byte gBattle_BG1_X
 _080E470C:
-	ldr r1, _080E4750 @ =gUnknown_030042C0
+	ldr r1, _080E4750 @ =gBattle_BG1_X
 	ldrh r0, [r1]
 	adds r0, 0x6
 _080E4712:
@@ -447,7 +447,7 @@ _080E4714:
 	adds r6, r0, 0
 	cmp r1, 0x4
 	bne _080E4778
-	ldr r7, _080E4754 @ =gUnknown_030041B4
+	ldr r7, _080E4754 @ =gBattle_BG1_Y
 	ldrh r0, [r4, 0x14]
 	bl Cos2
 	lsls r0, 16
@@ -468,8 +468,8 @@ _080E473A:
 	adds r0, r1, 0x4
 	b _080E475E
 	.align 2, 0
-_080E4750: .4byte gUnknown_030042C0
-_080E4754: .4byte gUnknown_030041B4
+_080E4750: .4byte gBattle_BG1_X
+_080E4754: .4byte gBattle_BG1_Y
 _080E4758: .4byte 0x000001ff
 _080E475C:
 	adds r0, r1, 0x6
@@ -562,7 +562,7 @@ _080E47F6:
 _080E4804: .4byte gTasks
 _080E4808: .4byte REG_WININ
 _080E480C:
-	ldr r1, _080E484C @ =gUnknown_03004240
+	ldr r1, _080E484C @ =gBattle_WIN0V
 	ldrh r0, [r1]
 	subs r0, 0xFF
 	strh r0, [r1]
@@ -595,7 +595,7 @@ _080E4824:
 	strh r0, [r2]
 	b _080E4996
 	.align 2, 0
-_080E484C: .4byte gUnknown_03004240
+_080E484C: .4byte gBattle_WIN0V
 _080E4850: .4byte gTasks
 _080E4854: .4byte gUnknown_02024DE8
 _080E4858: .4byte 0x0000fffe
@@ -646,7 +646,7 @@ _080E4898:
 	movs r0, 0x4
 	strh r0, [r1, 0x12]
 _080E48B8:
-	ldr r3, _080E4970 @ =gUnknown_03004240
+	ldr r3, _080E4970 @ =gBattle_WIN0V
 	ldrh r1, [r3]
 	movs r0, 0xFF
 	lsls r0, 8
@@ -669,9 +669,9 @@ _080E48CC:
 	strh r0, [r1, 0xC]
 _080E48E0:
 	movs r3, 0
-	ldr r4, _080E4978 @ =gUnknown_03004DC0
+	ldr r4, _080E4978 @ =gScanlineEffect
 	mov r8, r4
-	ldr r0, _080E497C @ =gUnknown_03004DE0
+	ldr r0, _080E497C @ =gScanlineEffectRegBuffers
 	mov r12, r0
 	mov r7, r8
 	adds r4, r1, 0
@@ -690,9 +690,9 @@ _080E48EE:
 	ble _080E48EE
 	cmp r3, 0x9F
 	bgt _080E4932
-	ldr r1, _080E497C @ =gUnknown_03004DE0
+	ldr r1, _080E497C @ =gScanlineEffectRegBuffers
 	mov r12, r1
-	ldr r7, _080E4978 @ =gUnknown_03004DC0
+	ldr r7, _080E4978 @ =gScanlineEffect
 	ldr r1, _080E4980 @ =gTasks
 	adds r0, r6, r5
 	lsls r0, 3
@@ -743,10 +743,10 @@ _080E4932:
 	strh r0, [r1]
 	b _080E4996
 	.align 2, 0
-_080E4970: .4byte gUnknown_03004240
+_080E4970: .4byte gBattle_WIN0V
 _080E4974: .4byte 0xfffffc04
-_080E4978: .4byte gUnknown_03004DC0
-_080E497C: .4byte gUnknown_03004DE0
+_080E4978: .4byte gScanlineEffect
+_080E497C: .4byte gScanlineEffectRegBuffers
 _080E4980: .4byte gTasks
 _080E4984: .4byte 0x0600e000
 _080E4988: .4byte 0x05000200
@@ -786,7 +786,7 @@ task_battle_intro_anim: @ 80E49C0
 	sub sp, 0x4
 	lsls r0, 24
 	lsrs r4, r0, 24
-	ldr r1, _080E49F4 @ =gUnknown_030042C0
+	ldr r1, _080E49F4 @ =gBattle_BG1_X
 	ldrh r0, [r1]
 	adds r0, 0x8
 	strh r0, [r1]
@@ -808,7 +808,7 @@ _080E49EA:
 	ldr r0, [r0]
 	mov pc, r0
 	.align 2, 0
-_080E49F4: .4byte gUnknown_030042C0
+_080E49F4: .4byte gBattle_BG1_X
 _080E49F8: .4byte gTasks
 _080E49FC: .4byte _080E4A00
 	.align 2, 0
@@ -884,7 +884,7 @@ _080E4A84:
 _080E4A94: .4byte gTasks
 _080E4A98: .4byte REG_WININ
 _080E4A9C:
-	ldr r1, _080E4ADC @ =gUnknown_03004240
+	ldr r1, _080E4ADC @ =gBattle_WIN0V
 	ldrh r0, [r1]
 	subs r0, 0xFF
 	strh r0, [r1]
@@ -918,7 +918,7 @@ _080E4AB4:
 	strh r0, [r2]
 	b _080E4C06
 	.align 2, 0
-_080E4ADC: .4byte gUnknown_03004240
+_080E4ADC: .4byte gBattle_WIN0V
 _080E4AE0: .4byte gTasks
 _080E4AE4: .4byte gUnknown_02024DE8
 _080E4AE8: .4byte 0x0000fffe
@@ -954,7 +954,7 @@ _080E4B06:
 	movs r0, 0x6
 	strh r0, [r2, 0x12]
 _080E4B26:
-	ldr r2, _080E4BE0 @ =gUnknown_03004240
+	ldr r2, _080E4BE0 @ =gBattle_WIN0V
 	ldrh r1, [r2]
 	movs r0, 0xFF
 	lsls r0, 8
@@ -978,9 +978,9 @@ _080E4B3A:
 	strh r0, [r1, 0xC]
 _080E4B50:
 	movs r3, 0
-	ldr r6, _080E4BE8 @ =gUnknown_03004DC0
+	ldr r6, _080E4BE8 @ =gScanlineEffect
 	mov r8, r6
-	ldr r7, _080E4BEC @ =gUnknown_03004DE0
+	ldr r7, _080E4BEC @ =gScanlineEffectRegBuffers
 	adds r5, r1, 0
 _080E4B5A:
 	lsls r2, r3, 1
@@ -997,8 +997,8 @@ _080E4B5A:
 	ble _080E4B5A
 	cmp r3, 0x9F
 	bgt _080E4B9E
-	ldr r7, _080E4BEC @ =gUnknown_03004DE0
-	ldr r6, _080E4BE8 @ =gUnknown_03004DC0
+	ldr r7, _080E4BEC @ =gScanlineEffectRegBuffers
+	ldr r6, _080E4BE8 @ =gScanlineEffect
 	ldr r1, _080E4BF0 @ =gTasks
 	mov r2, r12
 	adds r0, r2, r4
@@ -1051,10 +1051,10 @@ _080E4B9E:
 	strh r0, [r1]
 	b _080E4C06
 	.align 2, 0
-_080E4BE0: .4byte gUnknown_03004240
+_080E4BE0: .4byte gBattle_WIN0V
 _080E4BE4: .4byte 0xfffffc04
-_080E4BE8: .4byte gUnknown_03004DC0
-_080E4BEC: .4byte gUnknown_03004DE0
+_080E4BE8: .4byte gScanlineEffect
+_080E4BEC: .4byte gScanlineEffectRegBuffers
 _080E4BF0: .4byte gTasks
 _080E4BF4: .4byte 0x0600e000
 _080E4BF8: .4byte 0x05000200
@@ -1109,7 +1109,7 @@ sub_80E4C34: @ 80E4C34
 	ldrsh r0, [r7, r2]
 	cmp r0, 0
 	bne _080E4CAA
-	ldr r2, _080E4C84 @ =gUnknown_030042C0
+	ldr r2, _080E4C84 @ =gBattle_BG1_X
 	ldrh r1, [r2]
 	movs r0, 0x80
 	lsls r0, 8
@@ -1123,15 +1123,15 @@ sub_80E4C34: @ 80E4C34
 _080E4C72:
 	adds r0, r1, 0x3
 	strh r0, [r2]
-	ldr r1, _080E4C88 @ =gUnknown_03004288
+	ldr r1, _080E4C88 @ =gBattle_BG2_X
 	ldrh r0, [r1]
 	subs r0, 0x3
 	strh r0, [r1]
 	b _080E4CAA
 	.align 2, 0
 _080E4C80: .4byte gTasks
-_080E4C84: .4byte gUnknown_030042C0
-_080E4C88: .4byte gUnknown_03004288
+_080E4C84: .4byte gBattle_BG1_X
+_080E4C88: .4byte gBattle_BG2_X
 _080E4C8C:
 	str r5, [sp]
 	ldr r1, _080E4CCC @ =0x0600e000
@@ -1265,7 +1265,7 @@ _080E4D9C: .4byte 0x0001608b
 _080E4DA0: .4byte REG_WININ
 _080E4DA4: .4byte 0x00003f06
 _080E4DA8:
-	ldr r1, _080E4DE0 @ =gUnknown_03004240
+	ldr r1, _080E4DE0 @ =gBattle_WIN0V
 	ldrh r0, [r1]
 	subs r0, 0xFF
 	strh r0, [r1]
@@ -1295,11 +1295,11 @@ _080E4DC0:
 	strh r0, [r2]
 	b _080E4EBA
 	.align 2, 0
-_080E4DE0: .4byte gUnknown_03004240
+_080E4DE0: .4byte gBattle_WIN0V
 _080E4DE4: .4byte gUnknown_02024DE8
 _080E4DE8: .4byte 0x0000fffe
 _080E4DEC:
-	ldr r2, _080E4E9C @ =gUnknown_03004240
+	ldr r2, _080E4E9C @ =gBattle_WIN0V
 	ldrh r1, [r2]
 	movs r0, 0xFF
 	lsls r0, 8
@@ -1323,9 +1323,9 @@ _080E4E00:
 	strh r0, [r1, 0xC]
 _080E4E16:
 	movs r3, 0
-	ldr r0, _080E4EA4 @ =gUnknown_03004DC0
+	ldr r0, _080E4EA4 @ =gScanlineEffect
 	mov r9, r0
-	ldr r2, _080E4EA8 @ =gUnknown_03004DE0
+	ldr r2, _080E4EA8 @ =gScanlineEffectRegBuffers
 	mov r8, r2
 	mov r7, r9
 	adds r4, r1, 0
@@ -1344,9 +1344,9 @@ _080E4E24:
 	ble _080E4E24
 	cmp r3, 0x9F
 	bgt _080E4E68
-	ldr r0, _080E4EA8 @ =gUnknown_03004DE0
+	ldr r0, _080E4EA8 @ =gScanlineEffectRegBuffers
 	mov r8, r0
-	ldr r7, _080E4EA4 @ =gUnknown_03004DC0
+	ldr r7, _080E4EA4 @ =gScanlineEffect
 	ldr r1, _080E4EAC @ =gTasks
 	adds r0, r5, r6
 	lsls r0, 3
@@ -1393,10 +1393,10 @@ _080E4E94:
 	strh r0, [r1]
 	b _080E4EBA
 	.align 2, 0
-_080E4E9C: .4byte gUnknown_03004240
+_080E4E9C: .4byte gBattle_WIN0V
 _080E4EA0: .4byte 0xfffffc04
-_080E4EA4: .4byte gUnknown_03004DC0
-_080E4EA8: .4byte gUnknown_03004DE0
+_080E4EA4: .4byte gScanlineEffect
+_080E4EA8: .4byte gScanlineEffectRegBuffers
 _080E4EAC: .4byte gTasks
 _080E4EB0: .4byte REG_BG1CNT
 _080E4EB4:
@@ -1474,7 +1474,7 @@ sub_80E4EF8: @ 80E4EF8
 	lsls r5, 24
 	lsrs r5, 24
 	adds r0, r4, 0
-	bl GetBankByPlayerAI
+	bl GetBankByIdentity
 	lsls r0, 24
 	lsrs r0, 24
 	ldr r2, _080E4FCC @ =0x040000d4

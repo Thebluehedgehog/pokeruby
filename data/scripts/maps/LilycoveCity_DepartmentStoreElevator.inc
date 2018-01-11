@@ -4,10 +4,9 @@ LilycoveCity_DepartmentStoreElevator_MapScripts:: @ 815A39B
 LilycoveCity_DepartmentStoreElevator_EventScript_15A39C:: @ 815A39C
 	lock
 	faceplayer
-	checkflag FLAG_TEMP_2
-	call_if 0, LilycoveCity_DepartmentStoreElevator_EventScript_15A4CF
+	call_if_unset FLAG_TEMP_2, LilycoveCity_DepartmentStoreElevator_EventScript_15A4CF
 	copyvar VAR_SPECIAL_5, VAR_DEPT_STORE_FLOOR
-	special sub_810E944
+	special DisplayCurrentElevatorFloor
 	message LilycoveCity_DepartmentStoreElevator_Text_1A0EF6
 	waitmessage
 	multichoice 0, 0, 57, 0
@@ -74,7 +73,7 @@ LilycoveCity_DepartmentStoreElevator_EventScript_15A4B8:: @ 815A4B8
 	erasebox 0, 0, 29, 19
 	applymovement LAST_TALKED, LilycoveCity_DepartmentStoreElevator_Movement_1A0845
 	waitmovement 0
-	special sub_810EBEC
+	special ShakeScreenInElevator
 	waitstate
 	setflag FLAG_TEMP_2
 	return

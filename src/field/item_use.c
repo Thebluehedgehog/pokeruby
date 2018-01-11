@@ -14,6 +14,7 @@
 #include "fieldmap.h"
 #include "item.h"
 #include "item_menu.h"
+#include "constants/flags.h"
 #include "constants/items.h"
 #include "mail.h"
 #include "main.h"
@@ -122,7 +123,7 @@ void HandleDeniedItemUseMessage(u8 var1, u8 playerMenuStatus, const u8 *text)
     switch (playerMenuStatus)
     {
     case 0: // Item Menu
-        MenuZeroFillWindowRect(0, 13, 13, 20);
+        Menu_EraseWindowRect(0, 13, 13, 20);
         DisplayItemMessageOnField(var1, gStringVar4, CleanUpItemMenuMessage, 1);
         break;
     default: // Field
@@ -311,7 +312,7 @@ void RunItemfinderResults(u8 taskId)
 
 void ExitItemfinder(u8 taskId)
 {
-    MenuZeroFillWindowRect(0, 14, 29, 19);
+    Menu_EraseWindowRect(0, 14, 29, 19);
     sub_8064E2C();
     ScriptContext2_Disable();
     DestroyTask(taskId);
@@ -328,7 +329,7 @@ bool8 ItemfinderCheckForHiddenItems(struct MapEvents *events, u8 taskId)
 
     for (i = 0; i < events->bgEventCount; i++)
     {
-        if ((events -> bgEvents[i].kind == 7) && !FlagGet(events -> bgEvents[i].bgUnion.hiddenItem.hiddenItemId + 600))
+        if ((events -> bgEvents[i].kind == 7) && !FlagGet(events -> bgEvents[i].bgUnion.hiddenItem.hiddenItemId + FLAG_HIDDEN_ITEMS_START))
         {
             // do a distance lookup of each item so long as the index remains less than the objects on the current map.
             distanceX = (u16)events -> bgEvents[i].x + 7;
@@ -360,7 +361,7 @@ bool8 HiddenItemAtPos(struct MapEvents *events, s16 x, s16 y)
     {
         if (bgEvent[i].kind == 7 && x == (u16)bgEvent[i].x && y == (u16)bgEvent[i].y) // hidden item and coordinates matches x and y passed?
         {
-            if (!FlagGet(bgEvent[i].bgUnion.hiddenItem.hiddenItemId + 600))
+            if (!FlagGet(bgEvent[i].bgUnion.hiddenItem.hiddenItemId + FLAG_HIDDEN_ITEMS_START))
                 return TRUE;
             else
                 return FALSE;
@@ -743,7 +744,7 @@ void ItemUseOutOfBattle_CoinCase(u8 taskId)
 
     if (!gTasks[taskId].data[2])
     {
-        MenuZeroFillWindowRect(0, 0xD, 0xD, 0x14);
+        Menu_EraseWindowRect(0, 0xD, 0xD, 0x14);
         DisplayItemMessageOnField(taskId, gStringVar4, CleanUpItemMenuMessage, 1);
     }
     else
@@ -769,7 +770,7 @@ void ItemUseOutOfBattle_SSTicket(u8 taskId)
 {
     if (gTasks[taskId].data[2] == 0)
     {
-        MenuZeroFillWindowRect(0, 0xD, 0xD, 0x14);
+        Menu_EraseWindowRect(0, 0xD, 0xD, 0x14);
         DisplayItemMessageOnField(taskId, gUnknown_083D61DC[ItemId_GetSecondaryId(gSpecialVar_ItemId)], sub_80C9BB8, 1);
     }
     else
@@ -874,7 +875,7 @@ void ItemUseOutOfBattle_RareCandy(u8 taskId)
 
 void ItemUseOutOfBattle_TMHM(u8 taskId)
 {
-    MenuZeroFillWindowRect(0, 0xD, 0xD, 0x14);
+    Menu_EraseWindowRect(0, 0xD, 0xD, 0x14);
 
     if (gSpecialVar_ItemId >= ITEM_HM01)
         DisplayItemMessageOnField(taskId, gOtherText_BootedHM, sub_80C9EE4, 1); // HM
@@ -1021,7 +1022,7 @@ void ItemUseInBattle_PokeBall(u8 var)
     }
     else
     {
-        MenuZeroFillWindowRect(0, 0xD, 0xD, 0x14);
+        Menu_EraseWindowRect(0, 0xD, 0xD, 0x14);
         DisplayItemMessageOnField(var, gOtherText_BoxIsFull, CleanUpItemMenuMessage, 1);
     }
 }
@@ -1046,7 +1047,7 @@ void ItemUseInBattle_StatIncrease(u8 taskId)
 {
     u16 partyId = gBattlePartyID[gBankInMenu];
 
-    MenuZeroFillWindowRect(0, 0xD, 0xD, 0x14);
+    Menu_EraseWindowRect(0, 0xD, 0xD, 0x14);
 
     if (ExecuteTableBasedItemEffect_(&gPlayerParty[partyId], gSpecialVar_ItemId, partyId, 0) != FALSE)
     {
@@ -1095,7 +1096,7 @@ void ItemUseInBattle_PPRecovery(u8 var)
 
 void unref_sub_80CA448(u8 var)
 {
-    MenuZeroFillWindowRect(0, 0xD, 0xD, 0x14);
+    Menu_EraseWindowRect(0, 0xD, 0xD, 0x14);
 
     if (ExecuteTableBasedItemEffect__(0, gSpecialVar_ItemId, 0) == FALSE)
     {
@@ -1112,7 +1113,7 @@ void unref_sub_80CA448(u8 var)
 
 void ItemUseInBattle_Escape(u8 taskId)
 {
-    MenuZeroFillWindowRect(0, 0xD, 0xD, 0x14);
+    Menu_EraseWindowRect(0, 0xD, 0xD, 0x14);
 
     if((gBattleTypeFlags & BATTLE_TYPE_TRAINER) == FALSE)
     {

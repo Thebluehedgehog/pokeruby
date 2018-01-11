@@ -229,10 +229,10 @@
 	@ Generic compare macro which attempts to deduce argument types based on their values
 	@ Any values between 0x4000 to 0x4FFF and 0x8000 to 0x8FFF are considered event variable identifiers
 	.macro compare arg1, arg2
-		.if ((\arg1 >> 12) == 4 || (\arg1 >> 12) == 8) && ((\arg2 >> 12) == 4 || (\arg2 >> 12) == 8)
-			compare_var_to_var \arg1, \arg2
-		.elseif ((\arg1 >> 12) == 4 || (\arg1 >> 12) == 8) && (\arg2 >= 0 && \arg2 <= 0xFFFF)
-			compare_var_to_value \arg1, \arg2
+		.if (((\arg1) >> 12) == 4 || ((\arg1) >> 12) == 8) && (((\arg2) >> 12) == 4 || ((\arg2) >> 12) == 8)
+			compare_var_to_var (\arg1), (\arg2)
+		.elseif (((\arg1) >> 12) == 4 || ((\arg1) >> 12) == 8) && ((\arg2) >= -0xFFFF && (\arg2) <= 0xFFFF)
+			compare_var_to_value (\arg1), ((\arg2) & 0xFFFF)
 		.else
 			.error "Invalid arguments for 'compare'"
 		.endif
@@ -1361,8 +1361,92 @@
 
 @ Supplementary
 
-	.macro goto_if_eq dest
+	.macro goto_if_trainer_not_defeated opponent, dest
+	checktrainerflag \opponent
+	goto_if 0, \dest
+	.endm
+
+	.macro goto_if_trainer_defeated opponent, dest
+	checktrainerflag \opponent
 	goto_if 1, \dest
+	.endm
+
+	.macro call_if_trainer_not_defeated opponent, dest
+	checktrainerflag \opponent
+	call_if 0, \dest
+	.endm
+
+	.macro call_if_trainer_defeated opponent, dest
+	checktrainerflag \opponent
+	call_if 1, \dest
+	.endm
+
+	.macro goto_if_unset flag, dest
+	checkflag \flag
+	goto_if 0, \dest
+	.endm
+
+	.macro goto_if_set flag, dest
+	checkflag \flag
+	goto_if 1, \dest
+	.endm
+
+	.macro goto_if_lt dest @ LESS THAN
+	goto_if 0, \dest
+	.endm	
+
+	.macro goto_if_eq dest @ EQUAL
+	goto_if 1, \dest
+	.endm
+
+	.macro goto_if_gt dest @ GREATER THAN
+	goto_if 2, \dest
+	.endm
+
+	.macro goto_if_le dest @ LESS THAN OR EQUAL
+	goto_if 3, \dest
+	.endm
+
+	.macro goto_if_ge dest @ GREATER THAN OR EQUAL
+	goto_if 4, \dest
+	.endm
+
+	.macro goto_if_ne dest @ NOT EQUAL
+	goto_if 5, \dest
+	.endm
+
+	.macro call_if_unset flag, dest
+	checkflag \flag
+	call_if 0, \dest
+	.endm
+
+	.macro call_if_set flag, dest
+	checkflag \flag
+	call_if 1, \dest
+	.endm
+
+	.macro call_if_lt dest @ LESS THAN
+	call_if 0, \dest
+	.endm
+
+	.macro call_if_eq dest @ EQUAL
+	call_if 1, \dest
+	.endm
+
+	.macro call_if_gt dest @ GREATER THAN
+	call_if 2, \dest
+	.endm
+
+	.macro call_if_le dest @ LESS THAN OR EQUAL
+	call_if 3, \dest
+	.endm
+
+	.macro call_if_ge dest @ GREATER THAN OR EQUAL
+	call_if 4, \dest
+	.endm
+
+	.macro call_if_ne dest @ NOT EQUAL
+	call_if 5, \dest
 	.endm
 
 	.macro switch var

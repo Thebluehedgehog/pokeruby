@@ -1,6 +1,7 @@
 #include "global.h"
 #include "data2.h"
 #include "battle.h"
+#include "battle_anim.h"
 #include "battle_interface.h"
 #include "battle_message.h"
 #include "item.h"
@@ -21,8 +22,7 @@
 #include "util.h"
 #include "ewram.h"
 
-//Possibly PokemonSubstruct1
-struct UnknownStruct3
+struct MovePpInfo
 {
     u16 moves[4];
     u8 pp[4];
@@ -35,8 +35,8 @@ struct UnknownStruct3
 #define SUB_803037C_TILE_DATA_OFFSET 444
 #endif
 
-extern u16 gUnknown_030042A4;
-extern u16 gUnknown_030042A0;
+extern u16 gBattle_BG0_X;
+extern u16 gBattle_BG0_Y;
 
 extern struct Window gUnknown_03004210;
 
@@ -56,25 +56,24 @@ extern u16 gBattleTypeFlags;
 extern u8 gBattleOutcome;
 extern void (*gAnimScriptCallback)(void);
 extern bool8 gAnimScriptActive;
-extern u16 gMovePowerMoveAnim;
-extern u32 gMoveDmgMoveAnim;
-extern u8 gHappinessMoveAnim;
+extern u16 gAnimMovePower;
+extern u32 gAnimMoveDmg;
+extern u8 gAnimFriendship;
 extern u16 gWeatherMoveAnim;
-extern u32 *gDisableStructMoveAnim;
-extern u32 gPID_perBank[];
+extern u32 gTransformedPersonalities[];
 extern u8 gBattleMonForms[];
 extern u16 gUnknown_02024DE8;
 extern u8 gUnknown_02024E68[];
 extern struct SpriteTemplate gUnknown_02024E8C;
-extern u8 gUnknown_0202F7C4;
+extern u8 gAnimMoveTurn;
 extern u8 gUnknown_02038470[];
-extern u16 gUnknown_030041B0;
-extern u16 gUnknown_030041B4;
-extern u16 gUnknown_030041B8;
-extern u16 gUnknown_03004280;
-extern u16 gUnknown_03004288;
-extern u16 gUnknown_030042A4;
-extern u16 gUnknown_030042C0;
+extern u16 gBattle_BG3_X;
+extern u16 gBattle_BG1_Y;
+extern u16 gBattle_BG3_Y;
+extern u16 gBattle_BG2_Y;
+extern u16 gBattle_BG2_X;
+extern u16 gBattle_BG0_X;
+extern u16 gBattle_BG1_X;
 extern u8 gUnknown_03004344;
 extern u8 gUnknown_0300434C[];
 
@@ -106,7 +105,7 @@ extern void StoreSpriteCallbackInData();
 extern void BattleLoadPlayerMonSprite();
 extern bool8 IsDoubleBattle(void);
 extern void sub_802D500(void);
-extern bool8 AnimBankSpriteExists(u8);
+extern bool8 IsBankSpritePresent(u8);
 extern bool8 move_anim_start_t3();
 extern void sub_802E460(void);
 extern void b_link_standby_message(void);
@@ -114,12 +113,12 @@ extern void sub_802D18C(void);
 extern void sub_802DF18(void);
 extern void BufferStringBattle();
 extern void sub_80326EC();
-extern void ExecuteMoveAnim();
+extern void DoMoveAnim();
 extern void sub_8031F24(void);
 extern void sub_80324BC();
 extern u8 sub_8031720();
 extern void bx_wait_t1(void);
-extern u8 GetBankByPlayerAI(u8);
+extern u8 GetBankByIdentity(u8);
 extern void sub_802DE10(void);
 extern void sub_80105EC(struct Sprite *);
 extern void sub_802D274(void);
@@ -131,7 +130,7 @@ extern void sub_802D204(void);
 extern u8 sub_8079E90();
 extern void sub_802DEAC(void);
 extern void sub_80312F0(struct Sprite *);
-extern u8 sub_8077ABC();
+extern u8 GetBankPosition();
 extern u8 sub_8077F68();
 extern u8 sub_8046400();
 extern void sub_802D798(void);
@@ -149,8 +148,8 @@ extern u8 gAbsentBankFlags;
 extern u8 gUnknown_03004344;
 extern u8 gNoOfAllBanks;
 extern u16 gBattlePartyID[];
-extern u16 gUnknown_030042A0;
-extern u16 gUnknown_030042A4;
+extern u16 gBattle_BG0_Y;
+extern u16 gBattle_BG0_X;
 extern struct Window gUnknown_03004210;
 extern const u8 BattleText_SwitchWhich[];
 extern u8 gUnknown_03004348;
@@ -168,7 +167,7 @@ extern const u8 BattleText_LinkStandby[];
 
 extern void dp11b_obj_instanciate(u8, u8, s8, s8);
 extern u8 GetBankIdentity(u8);
-extern u8 GetBankByPlayerAI(u8);
+extern u8 GetBankByIdentity(u8);
 extern void dp11b_obj_free(u8, u8);
 extern void sub_8010520(struct Sprite *);
 extern void sub_8010574(struct Sprite *);
@@ -446,7 +445,7 @@ void sub_802C098(void)
     {
         if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
          && GetBankIdentity(gActiveBank) == 2
-         && !(gAbsentBankFlags & gBitTable[GetBankByPlayerAI(0)])
+         && !(gAbsentBankFlags & gBitTable[GetBankByIdentity(0)])
          && !(gBattleTypeFlags & BATTLE_TYPE_MULTI))
         {
             if (gBattleBufferA[gActiveBank][1] == 1)
@@ -530,7 +529,7 @@ void sub_802C2EC(void)
                 i--;
                 if (i < 0)
                     i = 3;
-                gUnknown_03004344 = GetBankByPlayerAI(arr[i]);
+                gUnknown_03004344 = GetBankByIdentity(arr[i]);
             } while(gUnknown_03004344 == gNoOfAllBanks);
             i = 0;
             switch (GetBankIdentity(gUnknown_03004344))
@@ -577,7 +576,7 @@ void sub_802C2EC(void)
                 i++;
                 if (i > 3)
                     i = 0;
-                gUnknown_03004344 = GetBankByPlayerAI(arr[i]);
+                gUnknown_03004344 = GetBankByIdentity(arr[i]);
             } while (gUnknown_03004344 == gNoOfAllBanks);
             i = 0;
             switch (GetBankIdentity(gUnknown_03004344))
@@ -606,7 +605,7 @@ void sub_802C2EC(void)
     }
 }
 
-struct UnknownStruct1
+struct ChooseMoveStruct
 {
     u16 moves[4];
     u8 pp[4];
@@ -621,7 +620,7 @@ const u8 gUnknown_081FAE80[] = _("{PALETTE 5}{COLOR_HIGHLIGHT_SHADOW WHITE LIGHT
 void sub_802C68C(void)
 {
     u32 r8 = 0;
-    struct UnknownStruct1 *r6 = (struct UnknownStruct1 *)(gBattleBufferA[gActiveBank] + 4);
+    struct ChooseMoveStruct *r6 = (struct ChooseMoveStruct *)(gBattleBufferA[gActiveBank] + 4);
 
     if (gMain.newKeys & A_BUTTON)
     {
@@ -637,7 +636,7 @@ void sub_802C68C(void)
         if (r4 & 0x10)
             gUnknown_03004344 = gActiveBank;
         else
-            gUnknown_03004344 = GetBankByPlayerAI((GetBankIdentity(gActiveBank) & 1) ^ 1);
+            gUnknown_03004344 = GetBankByIdentity((GetBankIdentity(gActiveBank) & 1) ^ 1);
 
         if (gBattleBufferA[gActiveBank][1] == 0)
         {
@@ -669,10 +668,10 @@ void sub_802C68C(void)
             gBattleBankFunc[gActiveBank] = sub_802C2EC;
             if (r4 & 0x12)
                 gUnknown_03004344 = gActiveBank;
-            else if (gAbsentBankFlags & gBitTable[GetBankByPlayerAI(1)])
-                gUnknown_03004344 = GetBankByPlayerAI(3);
+            else if (gAbsentBankFlags & gBitTable[GetBankByIdentity(1)])
+                gUnknown_03004344 = GetBankByIdentity(3);
             else
-                gUnknown_03004344 = GetBankByPlayerAI(1);
+                gUnknown_03004344 = GetBankByIdentity(1);
             gSprites[gObjectBankIDs[gUnknown_03004344]].callback = sub_8010520;
         }
     }
@@ -680,8 +679,8 @@ void sub_802C68C(void)
     {
         DestroyMenuCursor();
         PlaySE(SE_SELECT);
-        gUnknown_030042A4 = 0;
-        gUnknown_030042A0 = 320;
+        gBattle_BG0_X = 0;
+        gBattle_BG0_Y = 320;
         Emitcmd33(1, 10, 0xFFFF);
         PlayerBufferExecCompleted();
     }
@@ -745,9 +744,9 @@ void sub_802C68C(void)
             else
                 gUnknown_03004344 = gMoveSelectionCursor[gActiveBank] + 1;
             sub_802E3B4(gUnknown_03004344, 27);
-            FillWindowRect(&gUnknown_03004210, 0x1016, 0x17, 0x37, 0x1C, 0x3A);
-            InitWindow(&gUnknown_03004210, BattleText_SwitchWhich, 0x290, 0x17, 0x37);
-            sub_8002F44(&gUnknown_03004210);
+            Text_FillWindowRect(&gUnknown_03004210, 0x1016, 0x17, 0x37, 0x1C, 0x3A);
+            Text_InitWindow(&gUnknown_03004210, BattleText_SwitchWhich, 0x290, 0x17, 0x37);
+            Text_PrintWindow8002F44(&gUnknown_03004210);
             gBattleBankFunc[gActiveBank] = sub_802CA60;
         }
     }
@@ -764,7 +763,7 @@ void sub_802CA60(void)
         u8 pp[4];
         u8 filler18[8];  // what is this?
     } sp0;
-    //struct UnknownStruct1 sp0;
+    //struct ChooseMoveStruct sp0;
     u8 totalPPBonuses;
 
     if (gMain.newKeys & (A_BUTTON | SELECT_BUTTON))
@@ -772,7 +771,7 @@ void sub_802CA60(void)
         PlaySE(SE_SELECT);
         if (gMoveSelectionCursor[gActiveBank] != gUnknown_03004344)
         {
-            struct UnknownStruct1 *r9 = (struct UnknownStruct1 *)&gBattleBufferA[gActiveBank][4];
+            struct ChooseMoveStruct *r9 = (struct ChooseMoveStruct *)&gBattleBufferA[gActiveBank][4];
             s32 i;
 
             i = r9->moves[gMoveSelectionCursor[gActiveBank]];
@@ -854,9 +853,9 @@ void sub_802CA60(void)
         gBattleBankFunc[gActiveBank] = sub_802C68C;
         gMoveSelectionCursor[gActiveBank] = gUnknown_03004344;
         sub_802E3B4(gMoveSelectionCursor[gActiveBank], 0);
-        FillWindowRect(&gUnknown_03004210, 0x1016, 0x17, 0x37, 0x1C, 0x3A);
-        InitWindow(&gUnknown_03004210, BattleText_PP, 0x290, 0x17, 0x37);
-        sub_8002F44(&gUnknown_03004210);
+        Text_FillWindowRect(&gUnknown_03004210, 0x1016, 0x17, 0x37, 0x1C, 0x3A);
+        Text_InitWindow(&gUnknown_03004210, BattleText_PP, 0x290, 0x17, 0x37);
+        Text_PrintWindow8002F44(&gUnknown_03004210);
         sub_802E220();
         sub_802E2D4();
     }
@@ -867,9 +866,9 @@ void sub_802CA60(void)
         sub_802E3B4(gMoveSelectionCursor[gActiveBank], 0);
         sub_802E12C(gMoveSelectionCursor[gActiveBank], BattleText_Format);
         gBattleBankFunc[gActiveBank] = sub_802C68C;
-        FillWindowRect(&gUnknown_03004210, 0x1016, 0x17, 0x37, 0x1C, 0x3A);
-        InitWindow(&gUnknown_03004210, BattleText_PP, 0x290, 0x17, 0x37);
-        sub_8002F44(&gUnknown_03004210);
+        Text_FillWindowRect(&gUnknown_03004210, 0x1016, 0x17, 0x37, 0x1C, 0x3A);
+        Text_InitWindow(&gUnknown_03004210, BattleText_PP, 0x290, 0x17, 0x37);
+        Text_PrintWindow8002F44(&gUnknown_03004210);
         sub_802E220();
         sub_802E2D4();
     }
@@ -1496,7 +1495,7 @@ void sub_802DF30(void)
 
 void sub_802DF88(void)
 {
-    if (gMain.callback2 == sub_800F808 && !gPaletteFade.active)
+    if (gMain.callback2 == BattleMainCB2 && !gPaletteFade.active)
     {
         if (gUnknown_0202E8F4 == 1)
             Emitcmd34(1, gUnknown_0202E8F5, gUnknown_02038470);
@@ -1520,7 +1519,7 @@ void sub_802E004(void)
 
 void sub_802E03C(void)
 {
-    if (gMain.callback2 == sub_800F808 && !gPaletteFade.active)
+    if (gMain.callback2 == BattleMainCB2 && !gPaletteFade.active)
     {
         Emitcmd35(1, gSpecialVar_ItemId);
         PlayerBufferExecCompleted();
@@ -1554,26 +1553,26 @@ void bx_blink_t1(void)
 
 void sub_802E12C(s32 a, const u8 *b)
 {
-    struct UnknownStruct1 *r4 = (struct UnknownStruct1 *)&gBattleBufferA[gActiveBank][4];
+    struct ChooseMoveStruct *r4 = (struct ChooseMoveStruct *)&gBattleBufferA[gActiveBank][4];
 
     StringCopy(gDisplayedStringBattle, b);
     StringAppend(gDisplayedStringBattle, gMoveNames[r4->moves[a]]);
-    InitWindow(
+    Text_InitWindow(
       &gUnknown_03004210,
       gDisplayedStringBattle,
       0x300 + a * 20,
       (a & 1) ? 11 : 1,
       (a < 2) ? 0x37 : 0x39);
-    sub_8002F44(&gUnknown_03004210);
+    Text_PrintWindow8002F44(&gUnknown_03004210);
 }
 
 void sub_802E1B0(void)
 {
-    struct UnknownStruct1 *r4 = (struct UnknownStruct1 *)&gBattleBufferA[gActiveBank][4];
+    struct ChooseMoveStruct *r4 = (struct ChooseMoveStruct *)&gBattleBufferA[gActiveBank][4];
     s32 i;
 
     gUnknown_03004348 = 0;
-    FillWindowRect(&gUnknown_03004210, 0x1016, 1, 0x37, 0x14, 0x3A);
+    Text_FillWindowRect(&gUnknown_03004210, 0x1016, 1, 0x37, 0x14, 0x3A);
     for (i = 0; i < 4; i++)
     {
         nullsub_7(i);
@@ -1587,7 +1586,7 @@ void sub_802E220(void)
 {
     if (gBattleBufferA[gActiveBank][2] != 1)
     {
-        struct UnknownStruct1 *r4 = (struct UnknownStruct1 *)&gBattleBufferA[gActiveBank][4];
+        struct ChooseMoveStruct *r4 = (struct ChooseMoveStruct *)&gBattleBufferA[gActiveBank][4];
         u8 *str = gDisplayedStringBattle;
 
         str = StringCopy(str, BattleText_Format);
@@ -1602,8 +1601,8 @@ void sub_802E220(void)
         str = ConvertIntToDecimalStringN(str, r4->pp[gMoveSelectionCursor[gActiveBank]], 1, 2);
         *str++ = CHAR_SLASH;
         ConvertIntToDecimalStringN(str, r4->unkC[gMoveSelectionCursor[gActiveBank]], 1, 2);
-        InitWindow(&gUnknown_03004210, gDisplayedStringBattle, 0x2A2, 0x19, 0x37);
-        sub_8002F44(&gUnknown_03004210);
+        Text_InitWindow(&gUnknown_03004210, gDisplayedStringBattle, 0x2A2, 0x19, 0x37);
+        Text_PrintWindow8002F44(&gUnknown_03004210);
     }
 }
 
@@ -1614,20 +1613,20 @@ void sub_802E2D4(void)
 {
     if (gBattleBufferA[gActiveBank][2] == 1)
     {
-        FillWindowRect(&gUnknown_03004210, 0x1016, 0x17, 0x37, 0x1C, 0x3A);
-        InitWindow(&gUnknown_03004210, BattleText_ForgetMove, 0x290, 0x13, 0x37);
+        Text_FillWindowRect(&gUnknown_03004210, 0x1016, 0x17, 0x37, 0x1C, 0x3A);
+        Text_InitWindow(&gUnknown_03004210, BattleText_ForgetMove, 0x290, 0x13, 0x37);
     }
     else
     {
-        struct UnknownStruct1 *r4 = (struct UnknownStruct1 *)&gBattleBufferA[gActiveBank][4];
+        struct ChooseMoveStruct *r4 = (struct ChooseMoveStruct *)&gBattleBufferA[gActiveBank][4];
         u8 *str = gDisplayedStringBattle;
 
         str = StringCopy(str, BattleText_Format);
         StringCopy(str, gTypeNames[gBattleMoves[r4->moves[gMoveSelectionCursor[gActiveBank]]].type]);
-        FillWindowRect(&gUnknown_03004210, 0x1016, 0x17, 0x39, 0x1C, 0x3A);
-        InitWindow(&gUnknown_03004210, gDisplayedStringBattle, 0x2C0, 0x17, 0x39);
+        Text_FillWindowRect(&gUnknown_03004210, 0x1016, 0x17, 0x39, 0x1C, 0x3A);
+        Text_InitWindow(&gUnknown_03004210, gDisplayedStringBattle, 0x2C0, 0x17, 0x39);
     }
-    sub_8002F44(&gUnknown_03004210);
+    Text_PrintWindow8002F44(&gUnknown_03004210);
 }
 
 const u8 gUnknown_081FAE89[][2] =
@@ -1653,7 +1652,7 @@ const u8 gUnknown_081FAE91[][2] =
 void sub_802E3B4(u8 a, int unused)
 {
     sub_814A958(0x48);
-    sub_814A880(gUnknown_081FAE89[a][0], gUnknown_081FAE89[a][1]);
+    MenuCursor_SetPos814A880(gUnknown_081FAE89[a][0], gUnknown_081FAE89[a][1]);
 }
 
 void nullsub_7(u8 a)
@@ -1663,7 +1662,7 @@ void nullsub_7(u8 a)
 void sub_802E3E4(u8 a, int unused)
 {
     sub_814A958(0x2A);
-    sub_814A880(gUnknown_081FAE91[a][0], gUnknown_081FAE91[a][1]);
+    MenuCursor_SetPos814A880(gUnknown_081FAE91[a][0], gUnknown_081FAE91[a][1]);
 }
 
 void nullsub_8(u8 a)
@@ -1696,9 +1695,9 @@ void b_link_standby_message(void)
 {
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
     {
-        gUnknown_030042A4 = 0;
-        gUnknown_030042A0 = 0;
-        sub_8002EB0(&gUnknown_03004210, BattleText_LinkStandby, 0x90, 2, 15);
+        gBattle_BG0_X = 0;
+        gBattle_BG0_Y = 0;
+        Text_InitWindow8002EB0(&gUnknown_03004210, BattleText_LinkStandby, 0x90, 2, 15);
     }
 }
 
@@ -1731,7 +1730,7 @@ void PlayerHandleGetAttributes(void)
 u32 dp01_getattr_by_ch1_for_player_pokemon_(u8 a, u8 *buffer)
 {
     struct BattlePokemon battlePokemon;
-    struct UnknownStruct3 moveData;
+    struct MovePpInfo moveData;
     u8 nickname[20];
     u8 *src;
     s16 data16;
@@ -2068,7 +2067,7 @@ void PlayerHandleSetAttributes(void)
 void dp01_setattr_by_ch1_for_player_pokemon(u8 a)
 {
     struct BattlePokemon *battlePokemon = (struct BattlePokemon *)&gBattleBufferA[gActiveBank][3];
-    struct UnknownStruct3 *moveData = (struct UnknownStruct3 *)&gBattleBufferA[gActiveBank][3];
+    struct MovePpInfo *moveData = (struct MovePpInfo *)&gBattleBufferA[gActiveBank][3];
     s32 i;
 
     switch (gBattleBufferA[gActiveBank][1])
@@ -2321,7 +2320,7 @@ void sub_802F934(u8 bank, u8 b)
     GetMonSpriteTemplate_803C56C(species, GetBankIdentity(bank));
     gObjectBankIDs[bank] = CreateSprite(
       &gUnknown_02024E8C,
-      sub_8077ABC(bank, 2),
+      GetBankPosition(bank, 2),
       sub_8077F68(bank),
       sub_8079E90(bank));
     gSprites[gUnknown_0300434C[bank]].data[1] = gObjectBankIDs[bank];
@@ -2459,7 +2458,7 @@ void PlayerHandlecmd12(void)
 {
     ewram17840.unk8 = 4;
     gDoingBattleAnim = 1;
-    move_anim_start_t4(gActiveBank, gActiveBank, GetBankByPlayerAI(1), 3);
+    move_anim_start_t4(gActiveBank, gActiveBank, GetBankByIdentity(1), 3);
     gBattleBankFunc[gActiveBank] = bx_wait_t1;
 }
 
@@ -2469,7 +2468,7 @@ void PlayerHandleBallThrow(void)
 
     ewram17840.unk8 = var;
     gDoingBattleAnim = 1;
-    move_anim_start_t4(gActiveBank, gActiveBank, GetBankByPlayerAI(1), 3);
+    move_anim_start_t4(gActiveBank, gActiveBank, GetBankByIdentity(1), 3);
     gBattleBankFunc[gActiveBank] = bx_wait_t1;
 }
 
@@ -2490,14 +2489,14 @@ void PlayerHandleMoveAnimation(void)
     {
         u16 r0 = gBattleBufferA[gActiveBank][1] | (gBattleBufferA[gActiveBank][2] << 8);
 
-        gUnknown_0202F7C4 = gBattleBufferA[gActiveBank][3];
-        gMovePowerMoveAnim = gBattleBufferA[gActiveBank][4] | (gBattleBufferA[gActiveBank][5] << 8);
-        gMoveDmgMoveAnim = gBattleBufferA[gActiveBank][6] | (gBattleBufferA[gActiveBank][7] << 8) | (gBattleBufferA[gActiveBank][8] << 16) | (gBattleBufferA[gActiveBank][9] << 24);
-        gHappinessMoveAnim = gBattleBufferA[gActiveBank][10];
+        gAnimMoveTurn = gBattleBufferA[gActiveBank][3];
+        gAnimMovePower = gBattleBufferA[gActiveBank][4] | (gBattleBufferA[gActiveBank][5] << 8);
+        gAnimMoveDmg = gBattleBufferA[gActiveBank][6] | (gBattleBufferA[gActiveBank][7] << 8) | (gBattleBufferA[gActiveBank][8] << 16) | (gBattleBufferA[gActiveBank][9] << 24);
+        gAnimFriendship = gBattleBufferA[gActiveBank][10];
         gWeatherMoveAnim = gBattleBufferA[gActiveBank][12] | (gBattleBufferA[gActiveBank][13] << 8);
-        gDisableStructMoveAnim = (u32 *)&gBattleBufferA[gActiveBank][16];
-        gPID_perBank[gActiveBank] = *gDisableStructMoveAnim;
-        if (sub_8031720(r0, gUnknown_0202F7C4) != 0)
+        gAnimDisableStructPtr = (struct DisableStruct *)&gBattleBufferA[gActiveBank][16];
+        gTransformedPersonalities[gActiveBank] = gAnimDisableStructPtr->transformedMonPersonality;
+        if (sub_8031720(r0, gAnimMoveTurn) != 0)
         {
             // Dead code. sub_8031720 always returns 0.
             PlayerBufferExecCompleted();
@@ -2529,7 +2528,7 @@ void sub_8030190(void)
         if (ewram17810[gActiveBank].unk0_6 == 0)
         {
             sub_80326EC(0);
-            ExecuteMoveAnim(r4);
+            DoMoveAnim(r4);
             ewram17810[gActiveBank].unk4 = 2;
         }
         break;
@@ -2560,10 +2559,10 @@ void sub_8030190(void)
 
 void PlayerHandlePrintString(void)
 {
-    gUnknown_030042A4 = 0;
-    gUnknown_030042A0 = 0;
+    gBattle_BG0_X = 0;
+    gBattle_BG0_Y = 0;
     BufferStringBattle(*(u16 *)&gBattleBufferA[gActiveBank][2]);
-    sub_8002EB0(&gUnknown_03004210, gDisplayedStringBattle, 0x90, 2, 15);
+    Text_InitWindow8002EB0(&gUnknown_03004210, gDisplayedStringBattle, 0x90, 2, 15);
     gBattleBankFunc[gActiveBank] = sub_802DF18;
 }
 
@@ -2579,16 +2578,16 @@ void PlayerHandlecmd18(void)
 {
     int r4;
 
-    gUnknown_030042A4 = 0;
-    gUnknown_030042A0 = 160;
-    FillWindowRect(&gUnknown_03004210, 10, 2, 15, 27, 18);
-    FillWindowRect(&gUnknown_03004210, 10, 2, 35, 16, 38);
+    gBattle_BG0_X = 0;
+    gBattle_BG0_Y = 160;
+    Text_FillWindowRect(&gUnknown_03004210, 10, 2, 15, 27, 18);
+    Text_FillWindowRect(&gUnknown_03004210, 10, 2, 35, 16, 38);
 
     gBattleBankFunc[gActiveBank] = sub_802C098;
 
-    InitWindow(&gUnknown_03004210, BattleText_MenuOptions, 400, 18, 35);
-    sub_8002F44(&gUnknown_03004210);
-    sub_814A5C0(0, 0xFFFF, 12, 11679, 0);
+    Text_InitWindow(&gUnknown_03004210, BattleText_MenuOptions, 400, 18, 35);
+    Text_PrintWindow8002F44(&gUnknown_03004210);
+    MenuCursor_Create814A5C0(0, 0xFFFF, 12, 11679, 0);
 
     for (r4 = 0; r4 < 4; r4++)
         nullsub_8(r4);
@@ -2596,8 +2595,8 @@ void PlayerHandlecmd18(void)
     sub_802E3E4(gActionSelectionCursor[gActiveBank], 0);
 
     StrCpyDecodeToDisplayedStringBattle(BattleText_OtherMenu);
-    InitWindow(&gUnknown_03004210, gDisplayedStringBattle, SUB_803037C_TILE_DATA_OFFSET, 2, 35);
-    sub_8002F44(&gUnknown_03004210);
+    Text_InitWindow(&gUnknown_03004210, gDisplayedStringBattle, SUB_803037C_TILE_DATA_OFFSET, 2, 35);
+    Text_PrintWindow8002F44(&gUnknown_03004210);
 }
 
 void PlayerHandlecmd19()
@@ -2606,22 +2605,22 @@ void PlayerHandlecmd19()
 
 void PlayerHandlecmd20(void)
 {
-    sub_814A5C0(0, 0xFFFF, 12, 0x2D9F, 0);
+    MenuCursor_Create814A5C0(0, 0xFFFF, 12, 0x2D9F, 0);
     sub_80304A8();
     gBattleBankFunc[gActiveBank] = sub_802C68C;
 }
 
 void sub_80304A8(void)
 {
-    gUnknown_030042A4 = 0;
-    gUnknown_030042A0 = 320;
+    gBattle_BG0_X = 0;
+    gBattle_BG0_Y = 320;
     sub_802E1B0();
     gUnknown_03004344 = 0xFF;
     sub_802E3B4(gMoveSelectionCursor[gActiveBank], 0);
     if (gBattleBufferA[gActiveBank][2] != 1)
     {
-        InitWindow(&gUnknown_03004210, BattleText_PP, 656, 23, 55);
-        sub_8002F44(&gUnknown_03004210);
+        Text_InitWindow(&gUnknown_03004210, BattleText_PP, 656, 23, 55);
+        Text_PrintWindow8002F44(&gUnknown_03004210);
     }
     sub_802E220();
     sub_802E2D4();
@@ -2990,7 +2989,7 @@ void PlayerHandlecmd50(void)
 
 void PlayerHandleSpriteInvisibility(void)
 {
-    if (AnimBankSpriteExists(gActiveBank))
+    if (IsBankSpritePresent(gActiveBank))
     {
         gSprites[gObjectBankIDs[gActiveBank]].invisible = gBattleBufferA[gActiveBank][1];
         sub_8031F88(gActiveBank);

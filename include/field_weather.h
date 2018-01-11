@@ -1,18 +1,6 @@
 #ifndef GUARD_WEATHER_H
 #define GUARD_WEATHER_H
 
-#define WEATHER_NONE 0
-#define WEATHER_CLOUDS 1
-#define WEATHER_RAIN_LIGHT 3
-#define WEATHER_SNOW 4
-#define WEATHER_RAIN_MED 5
-#define WEATHER_FOG_1 6
-#define WEATHER_ASH 7
-#define WEATHER_FOG_2 9
-#define WEATHER_DROUGHT 12
-#define WEATHER_RAIN_HEAVY 13
-#define WEATHER_BUBBLES 14
-
 struct Sprite;
 
 struct Weather
@@ -174,5 +162,9 @@ bool8 sub_807D770(void);
 bool8 sub_807DDFC(void);
 void SetWeather(u32);
 void UpdateWeatherPerDay(u16);
+
+extern struct Weather gWeather;
+
+extern struct Weather *const gWeatherPtr;
 
 #endif // GUARD_WEATHER_H
