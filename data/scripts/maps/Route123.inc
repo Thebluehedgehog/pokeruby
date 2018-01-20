@@ -9,14 +9,13 @@ Route123_MapScript1_151C59:: @ 8151C59
 Route123_EventScript_151C5D:: @ 8151C5D
 	lock
 	faceplayer
-	checkflag FLAG_RECEIVED_TM19
-	goto_if_eq Route123_EventScript_151CAC
+	goto_if_set FLAG_RECEIVED_TM19, Route123_EventScript_151CAC
 	msgbox Route123_Text_171D83, 4
 	special IsGrassTypeInParty
 	compare RESULT, 0
 	goto_if_eq Route123_EventScript_151CAA
 	msgbox Route123_Text_171DC2, 4
-	giveitem_std ITEM_TM19
+	giveitem_std ITEM_TM19_GIGA_DRAIN
 	compare RESULT, 0
 	goto_if_eq Route123_EventScript_1A029B
 	setflag FLAG_RECEIVED_TM19
@@ -62,7 +61,7 @@ Route123_EventScript_151CFF:: @ 8151CFF
 
 Route123_EventScript_151D16:: @ 8151D16
 	trainerbattle 0, OPPONENT_CAMERON_1, 0, Route123_Text_1C013F, Route123_Text_1C01A3
-	specialvar RESULT, sub_8082C68
+	specialvar RESULT, ShouldTryRematchBattle
 	compare RESULT, 1
 	goto_if_eq Route123_EventScript_151D3D
 	msgbox Route123_Text_1C01B1, 6
@@ -75,7 +74,7 @@ Route123_EventScript_151D3D:: @ 8151D3D
 
 Route123_EventScript_151D54:: @ 8151D54
 	trainerbattle 0, OPPONENT_JACKI_1, 0, Route123_Text_1C028C, Route123_Text_1C0303
-	specialvar RESULT, sub_8082C68
+	specialvar RESULT, ShouldTryRematchBattle
 	compare RESULT, 1
 	goto_if_eq Route123_EventScript_151D7B
 	msgbox Route123_Text_1C030F, 6

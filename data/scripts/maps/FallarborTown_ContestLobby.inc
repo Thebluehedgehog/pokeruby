@@ -11,7 +11,7 @@ FallarborTown_ContestLobby_EventScript_1539CD:: @ 81539CD
 	setvar CONTEST_RANK, 1
 	call FallarborTown_ContestLobby_EventScript_1A4E92
 	call FallarborTown_ContestLobby_EventScript_1539F8
-	special sub_80C4BF0
+	special SetContestTrainerGfxIds
 	call FallarborTown_ContestLobby_EventScript_15FBDB
 	setvar VAR_CONTEST_LOCATION, 2
 	warp MAP_LINK_CONTEST_ROOM1, 255, 7, 5
@@ -22,13 +22,13 @@ FallarborTown_ContestLobby_EventScript_1539F8:: @ 81539F8
 	lockall
 	applymovement 1, FallarborTown_ContestLobby_Movement_153A7C
 	waitmovement 0
-	playse 71
+	playse SE_HASHI
 	setmetatile 4, 2, 545, 1
 	setmetatile 4, 3, 609, 1
 	special DrawWholeMapView
 	applymovement 1, FallarborTown_ContestLobby_Movement_153A7F
 	waitmovement 0
-	playse 71
+	playse SE_HASHI
 	setmetatile 4, 2, 721, 1
 	setmetatile 4, 3, 729, 1
 	special DrawWholeMapView
@@ -92,8 +92,7 @@ FallarborTown_ContestLobby_EventScript_153A8E:: @ 8153A8E
 	end
 
 FallarborTown_ContestLobby_EventScript_153A97:: @ 8153A97
-	checkflag FLAG_CONTEST_SKETCH_CREATED
-	goto_if_eq FallarborTown_ContestLobby_EventScript_153AA9
+	goto_if_set FLAG_CONTEST_SKETCH_CREATED, FallarborTown_ContestLobby_EventScript_153AA9
 	msgbox FallarborTown_ContestLobby_Text_177246, 2
 	end
 

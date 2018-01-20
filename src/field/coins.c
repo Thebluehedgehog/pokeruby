@@ -13,13 +13,17 @@ void UpdateCoinsWindow(s32 coins, u8 x, u8 y)
 
 void ShowCoinsWindow(u32 coins, u8 x, u8 y)
 {
-    MenuDrawTextWindow(x, y, x + 10, y + 3);
+    Menu_DrawStdWindowFrame(x, y, x + 9, y + 3);
     UpdateCoinsWindow(coins, x, y);
 }
 
 void HideCoinsWindow(u8 x, u8 y)
 {
+<<<<<<< HEAD
     MenuZeroFillWindowRect(x, y, x + 10, y + 3);
+=======
+    Menu_EraseWindowRect(x, y, x + 9, y + 3);
+>>>>>>> upstream/master
 }
 
 void PrintCoins(s32 coins, u8 b, u8 x, u8 y)
@@ -46,7 +50,7 @@ void PrintCoins(s32 coins, u8 b, u8 x, u8 y)
     ptr[2] = (b - StringLength(string)) * 6;
     ptr += 3;
     StringCopy(ptr, string);
-    MenuPrint(gOtherText_Coins2, x, y);
+    Menu_PrintText(gOtherText_Coins2, x, y);
 }
 
 u16 GetCoins(void)

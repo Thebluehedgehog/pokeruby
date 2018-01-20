@@ -1333,7 +1333,7 @@ bool8 ScrCmd_drawbox(struct ScriptContext *ctx)
     u8 right = ScriptReadByte(ctx);
     u8 bottom = ScriptReadByte(ctx);
 
-    MenuDrawTextWindow(left, top, right, bottom);
+    Menu_DrawStdWindowFrame(left, top, right, bottom);
     return FALSE;
 }
 
@@ -1363,7 +1363,7 @@ bool8 ScrCmd_erasebox(struct ScriptContext *ctx)
     u8 right = ScriptReadByte(ctx);
     u8 bottom = ScriptReadByte(ctx);
 
-    MenuZeroFillWindowRect(left, top, right, bottom);
+    Menu_EraseWindowRect(left, top, right, bottom);
     return FALSE;
 }
 
@@ -1428,8 +1428,8 @@ bool8 ScrCmd_braillemessage(struct ScriptContext *ctx)
     u8 v6 = ptr[4];
     u8 v7 = ptr[5];
     StringBraille(gStringVar4, ptr + 6);
-    MenuDrawTextWindow(v2, v3, v4, v5);
-    MenuPrint(gStringVar4, v6, v7);
+    Menu_DrawStdWindowFrame(v2, v3, v4, v5);
+    Menu_PrintText(gStringVar4, v6, v7);
     return FALSE;
 }
 
@@ -1722,7 +1722,7 @@ bool8 ScrCmd_settrainerflag(struct ScriptContext *ctx)
 {
     u16 index = VarGet(ScriptReadHalfword(ctx));
 
-    trainer_flag_set(index);
+    SetTrainerFlag(index);
     return FALSE;
 }
 
@@ -1730,7 +1730,7 @@ bool8 ScrCmd_cleartrainerflag(struct ScriptContext *ctx)
 {
     u16 index = VarGet(ScriptReadHalfword(ctx));
 
-    trainer_flag_clear(index);
+    ClearTrainerFlag(index);
     return FALSE;
 }
 
@@ -1755,7 +1755,7 @@ bool8 ScrCmd_pokemart(struct ScriptContext *ctx)
 {
     void *ptr = (void *)ScriptReadWord(ctx);
 
-    CreatePokemartMenu(ptr);
+    Shop_CreatePokemartMenu(ptr);
     ScriptContext1_Stop();
     return TRUE;
 }
@@ -1764,7 +1764,7 @@ bool8 ScrCmd_pokemartdecoration(struct ScriptContext *ctx)
 {
     void *ptr = (void *)ScriptReadWord(ctx);
 
-    CreateDecorationShop1Menu(ptr);
+    Shop_CreateDecorationShop1Menu(ptr);
     ScriptContext1_Stop();
     return TRUE;
 }
@@ -1773,7 +1773,7 @@ bool8 ScrCmd_pokemartdecoration2(struct ScriptContext *ctx)
 {
     void *ptr = (void *)ScriptReadWord(ctx);
 
-    CreateDecorationShop2Menu(ptr);
+    Shop_CreateDecorationShop2Menu(ptr);
     ScriptContext1_Stop();
     return TRUE;
 }

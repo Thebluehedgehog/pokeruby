@@ -32,7 +32,7 @@
 #include "string_util.h"
 #include "strings.h"
 #include "task.h"
-#include "unknown_task.h"
+#include "scanline_effect.h"
 #include "util.h"
 #include "script_pokemon_80F9.h"
 #include "ewram.h"
@@ -101,7 +101,14 @@ static void sub_806BF24(const u8 *a, u8 monIndex, u8 c, u8 d);
 static void sub_806BB9C(u8 a);
 static void sub_806BBEC(u8 a);
 
-const u16 TMHMMoves[] = {
+EWRAM_DATA u8 gUnknown_0202E8F4 = 0;
+EWRAM_DATA u8 gUnknown_0202E8F5 = 0;
+EWRAM_DATA u8 gUnknown_0202E8F6 = 0;
+EWRAM_DATA u16 gUnknown_0202E8F8 = 0;
+EWRAM_DATA u8 gPartyMenuType = 0;
+
+const u16 TMHMMoves[] =
+{
     MOVE_FOCUS_PUNCH,
     MOVE_DRAGON_CLAW,
     MOVE_WATER_PULSE,
@@ -458,10 +465,6 @@ struct Unk201FE00
 
 extern u16 gBattleTypeFlags;
 extern u8 gTileBuffer[];
-extern u8 gUnknown_0202E8F4;
-extern u8 gUnknown_0202E8F6;
-extern u16 gUnknown_0202E8F8;
-extern u8 gPartyMenuType;
 extern u8 gLastFieldPokeMenuOpened;
 extern u8 gPlayerPartyCount;
 extern s32 gBattleMoveDamage;
@@ -490,9 +493,6 @@ extern const u8 gStatusPal_Icons[];
 #define WINDOW_RIGHT (29)
 #endif
 
-
-#ifdef NONMATCHING
-// Main handler for the party menu.
 void CB2_PartyMenuMain(void)
 {
     const struct PartyMonTextSettingsStruct *textSettings;
@@ -506,62 +506,17 @@ void CB2_PartyMenuMain(void)
     {
         // Draw mon name, level, and hp sprites
         DrawPartyMenuMonText(
-            textSettings[i].xOffset * 8,
-            textSettings[i].yOffset * 8,
-            textSettings[i].oamSettings,
+            textSettings->xOffset * 8,
+            textSettings->yOffset * 8,
+            textSettings->oamSettings,
             0,
             (i << 5) | 0x200);
+        textSettings++;
     }
 
     RunTasks();
     UpdatePaletteFade();
 }
-#else
-__attribute__((naked))
-void CB2_PartyMenuMain(void)
-{
-    asm(".syntax unified\n\
-    push {r4-r6,lr}\n\
-    sub sp, 0x4\n\
-    bl AnimateSprites\n\
-    bl BuildOamBuffer\n\
-    ldr r0, _0806AF2C @ =gPartyMenuType\n\
-    ldrb r1, [r0]\n\
-    lsls r0, r1, 1\n\
-    adds r0, r1\n\
-    lsls r0, 4\n\
-    ldr r1, _0806AF30 @ =PartyMonTextSettings\n\
-    adds r5, r0, r1\n\
-    movs r6, 0\n\
-_0806AEF8:\n\
-    ldrb r0, [r5]\n\
-    lsls r0, 3\n\
-    ldrb r1, [r5, 0x1]\n\
-    lsls r1, 3\n\
-    ldr r2, [r5, 0x4]\n\
-    lsls r3, r6, 5\n\
-    movs r4, 0x80\n\
-    lsls r4, 2\n\
-    orrs r3, r4\n\
-    str r3, [sp]\n\
-    movs r3, 0\n\
-    bl DrawPartyMenuMonText\n\
-    adds r5, 0x8\n\
-    adds r6, 0x1\n\
-    cmp r6, 0x5\n\
-    ble _0806AEF8\n\
-    bl RunTasks\n\
-    bl UpdatePaletteFade\n\
-    add sp, 0x4\n\
-    pop {r4-r6}\n\
-    pop {r0}\n\
-    bx r0\n\
-    .align 2, 0\n\
-_0806AF2C: .4byte gPartyMenuType\n\
-_0806AF30: .4byte PartyMonTextSettings\n\
-    .syntax divided\n");
-}
-#endif // NONMATCHING
 
 void VBlankCB_PartyMenu(void)
 {
@@ -668,27 +623,11 @@ bool8 SetupDefaultPartyMenu(void)
 
 bool8 InitPartyMenu(void)
 {
-    u8 *addr;
-    u32 size;
-
     switch (gMain.state)
     {
     case 0:
         SetVBlankCallback(NULL);
-        addr = (u8 *)VRAM;
-        size = VRAM_SIZE;
-        while (1)
-        {
-            DmaFill16(3, 0, addr, 0x1000);
-            addr += 0x1000;
-            size -= 0x1000;
-            if (size <= 0x1000)
-            {
-                DmaFill16(3, 0, addr, size);
-                break;
-            }
-        }
-
+        DmaFill16Large(3, 0, (void *)(VRAM + 0x0), VRAM_SIZE, 0x1000);
         DmaClear32(3, OAM, OAM_SIZE);
         DmaClear16(3, PLTT, PLTT_SIZE);
 
@@ -696,7 +635,7 @@ bool8 InitPartyMenu(void)
         gMain.state++;
         break;
     case 1:
-        remove_some_task();
+        ScanlineEffect_Stop();
         gMain.state++;
         break;
     case 2:
@@ -727,11 +666,11 @@ bool8 InitPartyMenu(void)
         gMain.state++;
         break;
     case 7:
-        SetUpWindowConfig(&gWindowConfig_81E6C90);
+        Text_LoadWindowTemplate(&gWindowTemplate_81E6C90);
         gMain.state++;
         break;
     case 8:
-        InitWindowFromConfig(&gUnknown_03004210, &gWindowConfig_81E6C90);
+        Text_InitWindowWithTemplate(&gUnknown_03004210, &gWindowTemplate_81E6C90);
         MultistepInitWindowTileData(&gUnknown_03004210, 1);
         gMain.state++;
         break;
@@ -764,7 +703,7 @@ bool8 InitPartyMenu(void)
         }
         break;
     case 13:
-        MultistepInitMenuWindowBegin(&gWindowConfig_81E6CC8);
+        MultistepInitMenuWindowBegin(&gWindowTemplate_81E6CC8);
         gMain.state++;
         break;
     case 14:
@@ -841,9 +780,7 @@ void ReDrawPartyMonBackgrounds(void)
 {
     if (ewram1B000.unk261)
     {
-        const void *src = gBGTilemapBuffers[2];
-        void *dest = (void *)(BG_VRAM + 0x3000);
-        DmaCopy16(3, src, dest, 0x800);
+        DmaCopy16Defvars(3, gBGTilemapBuffers[2], (void *)(BG_VRAM + 0x3000), 0x800);
 
         if (ewram1B000.unk261 == 2)
         {
@@ -1226,8 +1163,6 @@ void sub_806BBEC(u8 a)
     }
 }
 
-#ifdef NONMATCHING
-// The original THUMB is preserving r8 for seemingly no reason. Unsure how to match.
 void sub_806BC3C(u8 monIndex, u8 b)
 {
     u16 *vramPtr = gUnknown_08376918[IsDoubleBattle()][monIndex];
@@ -1240,74 +1175,10 @@ void sub_806BC3C(u8 monIndex, u8 b)
         vramPtr[i] = gUnknown_08E9A300[offset] + 0x10C;
         vramPtr[i + 0x20] = gUnknown_08E9A300[offset + 0x20] + 0x10C;
     }
+
+    // Some dead code was likely optimized out, but the compiler still think r8 was used.
+    asm("":::"r8");
 }
-#else
-__attribute__((naked))
-void sub_806BC3C(u8 monIndex, u8 b)
-{
-    asm(".syntax unified\n\
-    push {r4-r7,lr}\n\
-    mov r7, r8\n\
-    push {r7}\n\
-    adds r4, r0, 0\n\
-    adds r5, r1, 0\n\
-    lsls r4, 24\n\
-    lsrs r4, 24\n\
-    lsls r5, 24\n\
-    lsrs r5, 24\n\
-    ldr r6, _0806BCB0 @ =gUnknown_08376918\n\
-    bl IsDoubleBattle\n\
-    lsls r4, 2\n\
-    lsls r0, 24\n\
-    lsrs r0, 24\n\
-    lsls r1, r0, 1\n\
-    adds r1, r0\n\
-    lsls r1, 3\n\
-    adds r4, r1\n\
-    adds r4, r6\n\
-    ldr r7, [r4]\n\
-    movs r6, 0\n\
-    adds r0, r5, 0\n\
-    movs r1, 0x7\n\
-    bl __udivsi3\n\
-    lsls r0, 24\n\
-    lsrs r4, r0, 19\n\
-    ldr r5, _0806BCB4 @ =gUnknown_08E9A300\n\
-    movs r0, 0x86\n\
-    lsls r0, 1\n\
-    adds r3, r0, 0\n\
-_0806BC7C:\n\
-    adds r1, r6, r4\n\
-    lsls r2, r6, 1\n\
-    adds r2, r7\n\
-    lsls r0, r1, 1\n\
-    adds r0, r5\n\
-    ldrh r0, [r0]\n\
-    adds r0, r3, r0\n\
-    strh r0, [r2]\n\
-    adds r2, 0x40\n\
-    adds r1, 0x20\n\
-    lsls r1, 1\n\
-    adds r1, r5\n\
-    ldrh r1, [r1]\n\
-    adds r0, r3, r1\n\
-    strh r0, [r2]\n\
-    adds r0, r6, 0x1\n\
-    lsls r0, 24\n\
-    lsrs r6, r0, 24\n\
-    cmp r6, 0x6\n\
-    bls _0806BC7C\n\
-    pop {r3}\n\
-    mov r8, r3\n\
-    pop {r4-r7}\n\
-    pop {r0}\n\
-    bx r0\n\
-    .align 2, 0\n\
-_0806BCB0: .4byte gUnknown_08376918\n\
-_0806BCB4: .4byte gUnknown_08E9A300\n\
-    .syntax divided\n");
-}
-#endif // NONMATCHING
 
 void unref_sub_806BCB8(u8 a)
 {
@@ -2790,26 +2661,26 @@ void PrintPartyMenuPromptText(u8 textId, u8 b)
         switch (b)
         {
         case 0:
-            MenuDrawTextWindow(0, 16, 23, 19);
+            Menu_DrawStdWindowFrame(0, 16, 23, 19);
             break;
         case 1:
-            MenuDrawTextWindow(0, 16, 19, 19);
+            Menu_DrawStdWindowFrame(0, 16, 19, 19);
             break;
         case 2:
-            MenuDrawTextWindow(0, 16, 22, 19);
+            Menu_DrawStdWindowFrame(0, 16, 22, 19);
             break;
         case 3:
-            MenuDrawTextWindow(0, 16, 18, 19);
+            Menu_DrawStdWindowFrame(0, 16, 18, 19);
             break;
         }
 
-        MenuPrint(PartyMenuPromptTexts[textId], 1, 17);
+        Menu_PrintText(PartyMenuPromptTexts[textId], 1, 17);
     }
 }
 
 void sub_806D5A4(void)
 {
-    MenuZeroFillWindowRect(0, 16, 29, 19);
+    Menu_EraseWindowRect(0, 16, 29, 19);
 }
 
 void sub_806D5B8(u8 monIndex)
@@ -2820,7 +2691,7 @@ void sub_806D5B8(u8 monIndex)
     u8 right = gUnknown_08376948[IsDoubleBattle()][monIndex].right;
     u8 bottom = gUnknown_08376948[IsDoubleBattle()][monIndex].bottom;
 
-    ZeroFillWindowRect(&gUnknown_03004210, left, top, right, bottom);
+    Text_EraseWindowRect(&gUnknown_03004210, left, top, right, bottom);
 
     var1 = 0;
     CpuFastSet(&var1, OBJ_VRAM1 + monIndex * 0x400, 0x1000100);
@@ -2834,7 +2705,7 @@ void sub_806D668(u8 monIndex)
     u8 right = gUnknown_08376978[IsDoubleBattle()][monIndex].right;
     u8 bottom = gUnknown_08376978[IsDoubleBattle()][monIndex].bottom;
 
-    ZeroFillWindowRect(&gUnknown_03004210, left, top, right, bottom);
+    Text_EraseWindowRect(&gUnknown_03004210, left, top, right, bottom);
 
     var1 = 0;
     CpuFastSet(&var1, OBJ_VRAM1 + 0x300 + monIndex * 0x400, 0x1000040);
@@ -3427,7 +3298,7 @@ void PartyMenuDoPrintMonNickname(u8 monIndex, int b, const u8 *nameBuffer)
 {
     u32 var1 = 0;
     CpuFastSet(&var1, gTileBuffer, 0x1000100);
-    sub_8004E3C((struct WindowConfig *)&gWindowConfig_81E6CAC, gTileBuffer, nameBuffer);
+    Text_InitWindow8004E3C((struct WindowTemplate *)&gWindowTemplate_81E6CAC, gTileBuffer, nameBuffer);
     CpuFastSet(gTileBuffer, OBJ_VRAM1 + (monIndex * 0x400), 128);
 }
 
@@ -3537,7 +3408,7 @@ void PartyMenuDoPrintLevel(u8 monIndex, u8 menuLayout, u8 level)
 
     var1 = 0;
     CpuFastSet(&var1, gUnknown_02039460, 0x1000020);
-    sub_8004E3C((struct WindowConfig *)&gWindowConfig_81E6CAC, gUnknown_02039460 - 0x100 /*gTileBuffer*/, gStringVar1);
+    Text_InitWindow8004E3C((struct WindowTemplate *)&gWindowTemplate_81E6CAC, gUnknown_02039460 - 0x100 /*gTileBuffer*/, gStringVar1);
     CpuFastSet(gUnknown_02039460, OBJ_VRAM1 + 0x200 + (monIndex * 0x400), 32);
 }
 
@@ -3631,7 +3502,7 @@ void PartyMenuDoPrintHP(u8 monIndex, u8 b, u16 currentHP, u16 maxHP)
     var = 0;
 
     CpuFastSet(&var, gUnknown_02039460, 0x1000040);
-    sub_8004E3C((struct WindowConfig *)&gWindowConfig_81E6CAC, gUnknown_02039460 - 0x100 /*gTileBuffer*/, gStringVar1);
+    Text_InitWindow8004E3C((struct WindowTemplate *)&gWindowTemplate_81E6CAC, gUnknown_02039460 - 0x100 /*gTileBuffer*/, gStringVar1);
     CpuFastSet(gUnknown_02039460, OBJ_VRAM1 + 0x300 + (monIndex * 0x400), 64);
 }
 
@@ -3781,8 +3652,8 @@ void ClosePartyPopupMenu(u8 index, const struct PartyPopupMenu *menu)
 
     SetPartyPopupMenuOffsets(index, &left, &top, menu);
 
-    MenuZeroFillWindowRect(left, top, left + menu[index].width, menu[index].numChoices * 2 + top + 1);
-    HandleDestroyMenuCursors();
+    Menu_EraseWindowRect(left, top, left + menu[index].width, menu[index].numChoices * 2 + top + 1);
+    Menu_DestroyCursor();
 }
 
 TaskFunc PartyMenuGetPopupMenuFunc(u8 menuIndex, const struct PartyPopupMenu *menus, const struct MenuAction2 *menuActions, u8 itemIndex)
@@ -3797,7 +3668,7 @@ u8 sub_806E834(const u8 *message, u8 arg1)
 
     gUnknown_0202E8F6 = 1;
 
-    MenuDrawTextWindow(WINDOW_LEFT, 14, WINDOW_RIGHT, 19);
+    Menu_DrawStdWindowFrame(WINDOW_LEFT, 14, WINDOW_RIGHT, 19);
     MenuPrintMessage(message, WINDOW_LEFT + 1, 15);
 
     taskId = CreateTask(sub_806E884, 1);
@@ -3808,11 +3679,11 @@ u8 sub_806E834(const u8 *message, u8 arg1)
 
 static void sub_806E884(u8 taskId)
 {
-    if (MenuUpdateWindowText())
+    if (Menu_UpdateWindowText())
     {
         gUnknown_0202E8F6 = 0;
         if (gTasks[taskId].data[0] == 0)
-            MenuZeroFillWindowRect(WINDOW_LEFT, 14, WINDOW_RIGHT, 19);
+            Menu_EraseWindowRect(WINDOW_LEFT, 14, WINDOW_RIGHT, 19);
         DestroyTask(taskId);
     }
 }
@@ -3902,13 +3773,13 @@ void party_menu_link_mon_held_item_object(u8 taskId)
 
 void PartyMenuTryGiveMonHeldItem_806EACC(u8 taskId)
 {
-    s8 selection = ProcessMenuInputNoWrap_();
+    s8 selection = Menu_ProcessInputNoWrap_();
 
     if (selection == 0)
     {
         u16 currentItem;
 
-        MenuZeroFillWindowRect(23, 8, 29, 13);
+        Menu_EraseWindowRect(23, 8, 29, 13);
         currentItem = GetMonData(ewram1C000.pokemon, MON_DATA_HELD_ITEM);
         RemoveBagItem(ewram1C000.unk6, 1);
         if (AddBagItem(currentItem, 1) == TRUE)
@@ -3937,7 +3808,7 @@ void PartyMenuTryGiveMonHeldItem_806EACC(u8 taskId)
             return;
         if (selection == -1)
             PlaySE(SE_SELECT);
-        MenuZeroFillWindowRect(23, 8, 29, 13);
+        Menu_EraseWindowRect(23, 8, 29, 13);
     }
     gTasks[taskId].func = party_menu_link_mon_held_item_object;
 }
@@ -4039,7 +3910,7 @@ void DoTakeMail(u8 taskId, TaskFunc func)
 
 void Task_LoseMailMessage(u8 taskId)
 {
-    s8 selection = ProcessMenuInputNoWrap_();
+    s8 selection = Menu_ProcessInputNoWrap_();
 
     if (selection == 0)
     {
@@ -4052,7 +3923,7 @@ void Task_LoseMailMessage(u8 taskId)
         {
             sub_806E834(gOtherText_BagFullCannotRemoveItem, 0);
         }
-        MenuZeroFillWindowRect(23, 8, 29, 13);
+        Menu_EraseWindowRect(23, 8, 29, 13);
         gTasks[taskId].func = party_menu_link_mon_held_item_object;
     }
     else
@@ -4061,8 +3932,8 @@ void Task_LoseMailMessage(u8 taskId)
             return;
         if (selection == -1)
             PlaySE(SE_SELECT);
-        MenuZeroFillWindowRect(23, 8, 29, 13);
-        MenuZeroFillWindowRect(0, 14, 29, 19);
+        Menu_EraseWindowRect(23, 8, 29, 13);
+        Menu_EraseWindowRect(0, 14, 29, 19);
         gTasks[taskId].func = party_menu_link_mon_held_item_object;
     }
 }
@@ -4078,11 +3949,11 @@ void Task_ConfirmLoseMailMessage(u8 taskId)
 
 void Task_TakeHeldMail(u8 taskId)
 {
-    s8 selection = ProcessMenuInputNoWrap_();
+    s8 selection = Menu_ProcessInputNoWrap_();
 
     if (selection == 0)
     {
-        MenuZeroFillWindowRect(23, 8, 29, 13);
+        Menu_EraseWindowRect(23, 8, 29, 13);
         if (TakeMailFromMon2(ewram1C000.pokemon) != 0xFF)
             sub_806E834(gOtherText_MailWasSent, 0);
         else
@@ -4095,7 +3966,7 @@ void Task_TakeHeldMail(u8 taskId)
             return;
         if (selection == -1)
             PlaySE(SE_SELECT);
-        MenuZeroFillWindowRect(23, 8, 29, 13);
+        Menu_EraseWindowRect(23, 8, 29, 13);
         sub_806E834(gOtherText_MailRemovedMessageLost, 1);
         gTasks[taskId].func = Task_ConfirmLoseMailMessage;
     }
@@ -4112,7 +3983,7 @@ void Task_ConfirmTakeHeldMail(u8 taskId)
 
 u16 ItemIdToBattleMoveId(u16 item)
 {
-    u16 machineNumber = item - ITEM_TM01;
+    u16 machineNumber = item - ITEM_TM01_FOCUS_PUNCH;
     return TMHMMoves[machineNumber];
 }
 
@@ -4240,11 +4111,11 @@ void sub_806F358(u8 taskId)
 
 void sub_806F390(u8 taskId)
 {
-    s8 selection = ProcessMenuInputNoWrap_();
+    s8 selection = Menu_ProcessInputNoWrap_();
 
     if (selection == 0)
     {
-        MenuZeroFillWindowRect(23, 8, 29, 13);
+        Menu_EraseWindowRect(23, 8, 29, 13);
         sub_806E834(gOtherText_WhichMoveToForget2, 1);
         gTasks[taskId].func = sub_806F44C;
     }
@@ -4320,7 +4191,7 @@ void StopTryingToTeachMove_806F588(u8 taskId)
 
 void StopTryingToTeachMove_806F614(u8 taskId)
 {
-    MenuZeroFillWindowRect(23, 8, 29, 13);
+    Menu_EraseWindowRect(23, 8, 29, 13);
     StringCopy(gStringVar2, gMoveNames[ewram1C000.unk8]);
     StringExpandPlaceholders(gStringVar4, gOtherText_StopTryingTo);
     sub_806E834(gStringVar4, 1);
@@ -4338,11 +4209,11 @@ void StopTryingToTeachMove_806F67C(u8 taskId)
 
 void StopTryingToTeachMove_806F6B4(u8 taskId)
 {
-    s8 selection = ProcessMenuInputNoWrap_();
+    s8 selection = Menu_ProcessInputNoWrap_();
 
     if (selection == 0)
     {
-        MenuZeroFillWindowRect(23, 8, 29, 13);
+        Menu_EraseWindowRect(23, 8, 29, 13);
         GetMonNickname(ewram1C000.pokemon, gStringVar1);
         StringCopy(gStringVar2, gMoveNames[ewram1C000.unk8]);
         StringExpandPlaceholders(gStringVar4, gOtherText_DidNotLearnMove2);
@@ -4355,7 +4226,7 @@ void StopTryingToTeachMove_806F6B4(u8 taskId)
             return;
         if (selection == -1)
             PlaySE(SE_SELECT);
-        MenuZeroFillWindowRect(23, 8, 29, 13);
+        Menu_EraseWindowRect(23, 8, 29, 13);
         GetMonNickname(ewram1C000.pokemon, gStringVar1);
         StringCopy(gStringVar2, gMoveNames[ewram1C000.unk8]);
         StringExpandPlaceholders(gStringVar4, gOtherText_WantsToLearn);
@@ -4706,7 +4577,7 @@ void sub_8070088(u8 taskId)
         else
         {
             gUnknown_0202E8F4 = 1;
-            MenuZeroFillWindowRect(WINDOW_LEFT, 14, WINDOW_RIGHT, 19);
+            Menu_EraseWindowRect(WINDOW_LEFT, 14, WINDOW_RIGHT, 19);
             PlaySE(SE_KAIFUKU);
             PartyMenuUpdateLevelOrStatus(ewram1C000.pokemon, ewram1C000.unk5);
             task_pc_turn_off(&gUnknown_083769A8[IsDoubleBattle() * 12 + ewram1C000.unk5 * 2], 9);
@@ -4763,12 +4634,12 @@ void CreateItemUseMoveMenu(u8 partyMonIndex)
     u8 i;
 
     r6 = 0;
-    MenuDrawTextWindow(19, 10, 29, 19);
+    Menu_DrawStdWindowFrame(19, 10, 29, 19);
     for (i = 0; i < 4; i++)
     {
         u16 move = GetMonData(&gPlayerParty[partyMonIndex], MON_DATA_MOVE1 + i);
 
-        MenuPrint(gMoveNames[move], 20, i * 2 + 11);
+        Menu_PrintText(gMoveNames[move], 20, i * 2 + 11);
         if (move != 0)
             r6++;
     }
@@ -4780,12 +4651,12 @@ void Task_HandleItemUseMoveMenuInput(u8 taskId)
     if (gMain.newKeys & DPAD_UP)
     {
         PlaySE(SE_SELECT);
-        MoveMenuCursor(-1);
+        Menu_MoveCursor(-1);
     }
     else if (gMain.newKeys & DPAD_DOWN)
     {
         PlaySE(SE_SELECT);
-        MoveMenuCursor(1);
+        Menu_MoveCursor(1);
     }
     else if (gMain.newKeys & A_BUTTON)
     {
@@ -4827,17 +4698,17 @@ void DoPPRecoveryItemEffect(u8 taskId, u16 item, TaskFunc c)
 
 void ItemUseMoveMenu_HandleMoveSelection(u8 taskId)
 {
-    HandleDestroyMenuCursors();
-    MenuZeroFillWindowRect(19, 10, 29, 19);
+    Menu_DestroyCursor();
+    Menu_EraseWindowRect(19, 10, 29, 19);
     sub_806D5A4();
-    gTasks[taskId].data[11] = GetMenuCursorPos();
+    gTasks[taskId].data[11] = Menu_GetCursorPos();
     DoRecoverPP(taskId);
 }
 
 void ItemUseMoveMenu_HandleCancel(u8 taskId)
 {
-    HandleDestroyMenuCursors();
-    MenuZeroFillWindowRect(19, 10, 29, 19);
+    Menu_DestroyCursor();
+    Menu_EraseWindowRect(19, 10, 29, 19);
     if (gMain.inBattle)
         gTasks[ewram1C000.unk4].func = HandleBattlePartyMenu;
     else
@@ -4966,7 +4837,7 @@ void PrintStatGrowthsInLevelUpWindow(u8 taskId)
 {
     u8 i;
 
-    MenuDrawTextWindow(11, 0, 29, 7);
+    Menu_DrawStdWindowFrame(11, 0, 29, 7);
 
     for (i = 0; i < NUM_STATS; i++)
     {
@@ -4982,12 +4853,12 @@ void PrintStatGrowthsInLevelUpWindow(u8 taskId)
         x = (i / 3) * 9 + 11;
         y = ((i % 3) << 1) + 1;
 
-        MenuPrint_PixelCoords(StatNames[i], (x + 1) * 8, y * 8, 1);
+        Menu_PrintTextPixelCoords(StatNames[i], (x + 1) * 8, y * 8, 1);
 
         if (i == 2)
-            MenuPrint_PixelCoords(gOtherText_TallPlusAndRightArrow, (x + 6) * 8 + 6, y * 8, 0);
+            Menu_PrintTextPixelCoords(gOtherText_TallPlusAndRightArrow, (x + 6) * 8 + 6, y * 8, 0);
         else
-            MenuPrint_PixelCoords(gOtherText_TallPlusAndRightArrow, (x + 6) * 8 + 6, y * 8, 1);
+            Menu_PrintTextPixelCoords(gOtherText_TallPlusAndRightArrow, (x + 6) * 8 + 6, y * 8, 1);
 
         gStringVar1[0] = EXT_CTRL_CODE_BEGIN;
         gStringVar1[1] = 0x14;
@@ -4995,7 +4866,7 @@ void PrintStatGrowthsInLevelUpWindow(u8 taskId)
 
         ConvertIntToDecimalStringN(gStringVar1 + 3, ewram1B000.statGrowths[i], 1, 2);
 
-        MenuPrint_PixelCoords(gStringVar1, (x + 6) * 8 + 12, y * 8, 0);
+        Menu_PrintTextPixelCoords(gStringVar1, (x + 6) * 8 + 12, y * 8, 0);
     }
 }
 #elif GERMAN
@@ -5011,7 +4882,7 @@ void PrintStatGrowthsInLevelUpWindow(u8 taskId) {
     movs r1, 0\n\
     movs r2, 0x1D\n\
     movs r3, 0x7\n\
-    bl MenuDrawTextWindow\n\
+    bl Menu_DrawStdWindowFrame\n\
     movs r7, 0\n\
     ldr r0, _0807092C @ =gStringVar1\n\
     mov r10, r0\n\
@@ -5095,7 +4966,7 @@ _0807086C:\n\
     mov r0, r10\n\
     adds r1, r4, 0\n\
     adds r2, r5, 0\n\
-    bl MenuPrint\n\
+    bl Menu_PrintText\n\
     adds r0, r7, 0x1\n\
     lsls r0, 24\n\
     lsrs r7, r0, 24\n\
@@ -5142,7 +5013,7 @@ void PrintNewStatsInLevelUpWindow(u8 taskId)
         gStringVar1[2] = 0x06;
 
         ConvertIntToDecimalStringN(gStringVar1 + 3, ewram1B000.statGrowths[newStatIndex], 1, 3);
-        MenuPrint_PixelCoords(gStringVar1, (x + 6) * 8 + 6, y * 8, 0);
+        Menu_PrintTextPixelCoords(gStringVar1, (x + 6) * 8 + 6, y * 8, 0);
     }
 }
 
@@ -5184,7 +5055,7 @@ void Task_RareCandy3(u8 taskId)
             u16 learnedMove;
             u16 evolutionSpecies;
 
-            MenuZeroFillWindowRect(11, 0, 29, 7);
+            Menu_EraseWindowRect(11, 0, 29, 7);
 
             learnedMove = MonTryLearningNewMove(ewram1C000.pokemon, TRUE);
             ewram1B000.unk282 = 1;

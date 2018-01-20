@@ -13,7 +13,7 @@
 #include "strings2.h"
 #include "task.h"
 #include "text.h"
-#include "unknown_task.h"
+#include "scanline_effect.h"
 
 struct ResetRtcStruct
 {
@@ -267,7 +267,7 @@ void ResetRtcScreen_FreeCursorPalette(void)
 
 void ResetRtcScreen_HideChooseTimeWindow(void)
 {
-    MenuZeroFillWindowRect(3, 8, 25, 11);
+    Menu_EraseWindowRect(3, 8, 25, 11);
 }
 
 void ResetRtcScreen_PrintTime(u8 x, u8 y, u16 days, u8 hours, u8 minutes, u8 seconds)
@@ -286,13 +286,13 @@ void ResetRtcScreen_PrintTime(u8 x, u8 y, u16 days, u8 hours, u8 minutes, u8 sec
     dest = ConvertIntToDecimalStringN(dest, minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
     dest = StringCopy(dest, gUnknown_08376500);
     ConvertIntToDecimalStringN(dest, seconds, STR_CONV_MODE_LEADING_ZEROS, 2);
-    MenuPrint(gStringVar4, x, y);
+    Menu_PrintText(gStringVar4, x, y);
 }
 
 void ResetRtcScreen_ShowChooseTimeWindow(u16 days, u8 hours, u8 minutes, u8 seconds)
 {
-    MenuDrawTextWindow(3, 8, 25, 11);
-    MenuPrint(gOtherText_OK, 20, 9);
+    Menu_DrawStdWindowFrame(3, 8, 25, 11);
+    Menu_PrintText(gOtherText_OK, 20, 9);
     ResetRtcScreen_PrintTime(4, 9, days, hours, minutes, seconds);
 }
 
@@ -414,37 +414,19 @@ void Task_ResetRtc_0(u8 taskId)
 
 void CB2_InitResetRtcScreen(void)
 {
-    u8 *addr;
-    u32 size;
-
     REG_DISPCNT = 0;
     SetVBlankCallback(NULL);
-
     DmaClear16(3, PLTT, PLTT_SIZE);
-
-    addr = (u8 *)VRAM;
-    size = 0x18000;
-    while (1)
-    {
-        DmaFill16(3, 0, addr, 0x1000);
-        addr += 0x1000;
-        size -= 0x1000;
-        if (size <= 0x1000)
-        {
-            DmaFill16(3, 0, addr, size);
-            break;
-        }
-    }
-
+    DmaFill16Large(3, 0, (u8 *)VRAM, 0x18000, 0x1000);
     ResetOamRange(0, 128);
     LoadOam();
-    remove_some_task();
-    dp12_8087EA4();
+    ScanlineEffect_Stop();
+    ScanlineEffect_Clear();
     ResetSpriteData();
     ResetTasks();
     ResetPaletteFade();
-    SetUpWindowConfig(&gWindowConfig_81E6CE4);
-    InitMenuWindow(&gWindowConfig_81E6CE4);
+    Text_LoadWindowTemplate(&gWindowTemplate_81E6CE4);
+    InitMenuWindow(&gWindowTemplate_81E6CE4);
     REG_DISPCNT = 4352;
     SetVBlankCallback(VBlankCB_ResetRtcScreen);
     SetMainCallback2(CB2_ResetRtcScreen);
@@ -468,8 +450,8 @@ void VBlankCB_ResetRtcScreen(void)
 
 void ResetRtcScreen_ShowMessage(const u8 *str)
 {
-    MenuDisplayMessageBox();
-    MenuPrint(str, 2, 15);
+    Menu_DisplayDialogueFrame();
+    Menu_PrintText(str, 2, 15);
 }
 
 void Task_ShowResetRtcPrompt(u8 taskId)
@@ -479,9 +461,9 @@ void Task_ShowResetRtcPrompt(u8 taskId)
     switch (data[0])
     {
     case 0:
-        MenuZeroFillScreen();
-        MenuDrawTextWindow(0, 0, 20, 10);
-        MenuPrint(gSystemText_PresentTime, 1, 1);
+        Menu_EraseScreen();
+        Menu_DrawStdWindowFrame(0, 0, 20, 10);
+        Menu_PrintText(gSystemText_PresentTime, 1, 1);
         ResetRtcScreen_PrintTime(
             1,
             3,
@@ -489,7 +471,7 @@ void Task_ShowResetRtcPrompt(u8 taskId)
             gLocalTime.hours,
             gLocalTime.minutes,
             gLocalTime.seconds);
-        MenuPrint(gSystemText_PreviousTime, 1, 5);
+        Menu_PrintText(gSystemText_PreviousTime, 1, 5);
         ResetRtcScreen_PrintTime(
             1,
             7,
@@ -543,7 +525,7 @@ void Task_ResetRtcScreen(u8 taskId)
     case 2:
         if (gTasks[data[1]].isActive != TRUE)
         {
-            MenuZeroFillScreen();
+            Menu_EraseScreen();
             ResetRtcScreen_ShowMessage(gSystemText_PleaseResetTime);
             gLocalTime = gSaveBlock2.lastBerryTreeUpdate;
             data[1] = CreateTask(Task_ResetRtc_0, 80);
@@ -576,7 +558,7 @@ void Task_ResetRtcScreen(u8 taskId)
         }
         break;
     case 4:
-        if (TrySavingData(0) == TRUE)
+        if (Save_WriteData(0) == SAVE_STATUS_OK)
         {
             ResetRtcScreen_ShowMessage(gSystemText_SaveCompleted);
             PlaySE(SE_PINPON);

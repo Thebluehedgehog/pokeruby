@@ -17,10 +17,8 @@ Route104_MapScript1_14EEA8:: @ 814EEA8
 	end
 
 Route104_EventScript_14EEAE:: @ 814EEAE
-	checkflag FLAG_MET_PRETTY_PETAL_SHOP_OWNER
-	goto_if 0, Route104_EventScript_14EEC4
-	checkflag FLAG_BADGE03_GET
-	goto_if 0, Route104_EventScript_14EEC4
+	goto_if_unset FLAG_MET_PRETTY_PETAL_SHOP_OWNER, Route104_EventScript_14EEC4
+	goto_if_unset FLAG_BADGE03_GET, Route104_EventScript_14EEC4
 	clearflag FLAG_HIDE_FLOWER_SHOP_WORKER_OUTSIDE
 	return
 
@@ -31,8 +29,7 @@ Route104_EventScript_14EEC4:: @ 814EEC4
 Route104_EventScript_14EEC8:: @ 814EEC8
 	lock
 	faceplayer
-	checkflag FLAG_RECEIVED_CHESTO_BERRY_ROUTE104
-	goto_if_eq Route104_EventScript_14EEFF
+	goto_if_set FLAG_RECEIVED_CHESTO_BERRY_ROUTE104, Route104_EventScript_14EEFF
 	msgbox Route104_Text_1C55B9, 4
 	giveitem_std ITEM_CHESTO_BERRY
 	compare RESULT, 0
@@ -50,8 +47,7 @@ Route104_EventScript_14EEFF:: @ 814EEFF
 Route104_EventScript_14EF09:: @ 814EF09
 	lock
 	faceplayer
-	checkflag FLAG_RECEIVED_WHITE_HERB
-	goto_if_eq Route104_EventScript_14EF38
+	goto_if_set FLAG_RECEIVED_WHITE_HERB, Route104_EventScript_14EF38
 	msgbox Route104_Text_16DD91, 4
 	giveitem_std ITEM_WHITE_HERB
 	compare RESULT, 0
@@ -104,10 +100,9 @@ Route104_EventScript_14EF8A:: @ 814EF8A
 Route104_EventScript_14EF93:: @ 814EF93
 	lock
 	faceplayer
-	checkflag FLAG_RECEIVED_TM09
-	goto_if_eq Route104_EventScript_14EFC2
+	goto_if_set FLAG_RECEIVED_TM09, Route104_EventScript_14EFC2
 	msgbox Route104_Text_16DC5F, 4
-	giveitem_std ITEM_TM09
+	giveitem_std ITEM_TM09_BULLET_SEED
 	compare RESULT, 0
 	goto_if_eq Route104_EventScript_1A029B
 	setflag FLAG_RECEIVED_TM09
@@ -158,10 +153,8 @@ Route104_EventScript_14EFD5:: @ 814EFD5
 	resetobjectpriority 2, MAP_DEWFORD_TOWN
 	moveobjectoffscreen 2
 	setvar VAR_BOARD_BRINEY_BOAT_ROUTE104_STATE, 0
-	checkflag FLAG_DELIVERED_STEVEN_LETTER
-	goto_if 0, Route104_EventScript_14F08B
-	checkflag FLAG_DELIVERED_STEVEN_LETTER
-	goto_if_eq Route104_EventScript_14F095
+	goto_if_unset FLAG_DELIVERED_STEVEN_LETTER, Route104_EventScript_14F08B
+	goto_if_set FLAG_DELIVERED_STEVEN_LETTER, Route104_EventScript_14F095
 	end
 
 Route104_EventScript_14F08B:: @ 814F08B
@@ -409,7 +402,7 @@ Route104_EventScript_14F189:: @ 814F189
 
 Route104_EventScript_14F1A0:: @ 814F1A0
 	trainerbattle 0, OPPONENT_HALEY_1, 0, Route104_Text_1B8770, Route104_Text_1B87A7
-	specialvar RESULT, sub_8082C68
+	specialvar RESULT, ShouldTryRematchBattle
 	compare RESULT, 1
 	goto_if_eq Route104_EventScript_14F1C7
 	msgbox Route104_Text_1B87C3, 6
@@ -422,7 +415,7 @@ Route104_EventScript_14F1C7:: @ 814F1C7
 
 Route104_EventScript_14F1DE:: @ 814F1DE
 	trainerbattle 0, OPPONENT_WINSTON_1, 0, Route104_Text_1B88D4, Route104_Text_1B8911
-	specialvar RESULT, sub_8082C68
+	specialvar RESULT, ShouldTryRematchBattle
 	compare RESULT, 1
 	goto_if_eq Route104_EventScript_14F205
 	msgbox Route104_Text_1B8925, 6
@@ -435,7 +428,7 @@ Route104_EventScript_14F205:: @ 814F205
 
 Route104_EventScript_14F21C:: @ 814F21C
 	trainerbattle 0, OPPONENT_CINDY_1, 0, Route104_Text_1B8A24, Route104_Text_1B8A61
-	specialvar RESULT, sub_8082C68
+	specialvar RESULT, ShouldTryRematchBattle
 	compare RESULT, 1
 	goto_if_eq Route104_EventScript_14F243
 	msgbox Route104_Text_1B8A69, 6

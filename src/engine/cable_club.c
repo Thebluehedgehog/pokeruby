@@ -109,13 +109,13 @@ static void sub_8082CD4(u8 arg0, u8 arg1)
 static void sub_8082D18(u32 value)
 {
     ConvertIntToDecimalStringN(gStringVar1, value, STR_CONV_MODE_LEFT_ALIGN, 1);
-    MenuDrawTextWindow(18, 10, 28, 13);
+    Menu_DrawStdWindowFrame(18, 10, 28, 13);
     sub_8072BD8(gOtherText_PLink, 19, 11, 72);
 }
 
 static void sub_8082D4C()
 {
-    MenuZeroFillWindowRect(18, 10, 28, 13);
+    Menu_EraseWindowRect(18, 10, 28, 13);
 }
 
 static void sub_8082D60(u8 taskId, u8 arg1)
@@ -374,7 +374,7 @@ void sub_80831F8(u8 taskId)
         gFieldLinkPlayerCount = GetLinkPlayerCount_2();
         gUnknown_03004860 = GetMultiplayerId();
         sub_80081C8(gFieldLinkPlayerCount);
-        sub_8093390((struct TrainerCard *)gBlockSendBuffer);
+        TrainerCard_GenerateCardForPlayer((struct TrainerCard *)gBlockSendBuffer);
         gTasks[taskId].func = sub_8083314;
     }
 }
@@ -395,7 +395,7 @@ static void sub_8083288(u8 taskId)
         gFieldLinkPlayerCount = GetLinkPlayerCount_2();
         gUnknown_03004860 = GetMultiplayerId();
         sub_80081C8(gFieldLinkPlayerCount);
-        sub_8093390((struct TrainerCard *)gBlockSendBuffer);
+        TrainerCard_GenerateCardForPlayer((struct TrainerCard *)gBlockSendBuffer);
         gTasks[taskId].func = sub_8083314;
         sub_8007E9C(2);
     }
@@ -790,7 +790,7 @@ static void sub_80839DC(u8 taskId)
     case 3:
         sub_8055588();
         HideFieldMessageBox();
-        MenuZeroFillScreen();
+        Menu_EraseScreen();
         DestroyTask(taskId);
         EnableBothScriptContexts();
         break;
@@ -874,7 +874,7 @@ void unref_sub_8083BB0(void)
 
 void sub_8083BDC(void)
 {
-    sub_8093130(gSpecialVar_0x8006, c2_exit_to_overworld_1_continue_scripts_restart_music);
+    TrainerCard_ShowLinkCard(gSpecialVar_0x8006, c2_exit_to_overworld_1_continue_scripts_restart_music);
 }
 
 bool32 sub_8083BF4(u8 linkPlayerIndex)

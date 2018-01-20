@@ -1,5 +1,6 @@
 #include "global.h"
 #include "battle.h"
+#include "battle_anim.h"
 #include "battle_interface.h"
 #include "data2.h"
 #include "battle_811DA74.h"
@@ -22,7 +23,7 @@
 #include "util.h"
 #include "ewram.h"
 
-struct UnknownStruct3
+struct MovePpInfo
 {
     u16 moves[4];
     u8 pp[4];
@@ -40,18 +41,17 @@ extern u8 gUnknown_0300434C[];
 extern u8 gHealthboxIDs[];
 extern u16 gBattleTypeFlags;
 extern u16 gTrainerBattleOpponent;
-extern u32 *gDisableStructMoveAnim;
-extern u32 gMoveDmgMoveAnim;
-extern u16 gMovePowerMoveAnim;
-extern u8 gHappinessMoveAnim;
+extern u32 gAnimMoveDmg;
+extern u16 gAnimMovePower;
+extern u8 gAnimFriendship;
 extern u16 gWeatherMoveAnim;
-extern u32 gPID_perBank[];
-extern u8 gUnknown_0202F7C4;
+extern u32 gTransformedPersonalities[];
+extern u8 gAnimMoveTurn;
 extern u8 gAnimScriptActive;
 extern void (*gAnimScriptCallback)(void);
 extern struct Window gUnknown_03004210;
-extern u16 gUnknown_030042A0;
-extern u16 gUnknown_030042A4;
+extern u16 gBattle_BG0_Y;
+extern u16 gBattle_BG0_X;
 extern u8 gDisplayedStringBattle[];
 extern u8 gBankTarget;
 extern u8 gAbsentBankFlags;
@@ -65,7 +65,7 @@ extern struct MusicPlayerInfo gMPlay_SE2;
 extern struct MusicPlayerInfo gMPlay_BGM;
 extern u32 gBattleExecBuffer;
 
-extern u8 sub_8077ABC();
+extern u8 GetBankPosition();
 extern u8 sub_8077F68();
 extern u8 sub_8079E90();
 extern void sub_8033018(void);
@@ -91,14 +91,14 @@ extern void sub_803311C(void);
 extern void sub_8010384(struct Sprite *);
 extern bool8 mplay_80342A4(u8);
 extern u8 sub_8031720();
-extern void ExecuteMoveAnim();
+extern void DoMoveAnim();
 extern void sub_80326EC();
 extern void sub_8031F24(void);
 extern void sub_80324BC();
 extern void BufferStringBattle();
 extern void sub_80331D0(void);
 extern void sub_8036B0C(void);
-extern u8 GetBankByPlayerAI(u8);
+extern u8 GetBankByIdentity(u8);
 extern u8 sub_8036CD4(void);
 extern void sub_80330C8(void);
 extern void sub_8043D84();
@@ -108,13 +108,13 @@ extern void move_anim_start_t2_for_situation();
 extern void bx_blink_t7(void);
 extern void sub_8047858();
 extern u8 GetBankSide(u8);
-extern void sub_80E43C0();
+extern void StartBattleIntroAnim();
 extern void sub_8044CA0(u8);
 extern void nullsub_45(void);
 extern void sub_8031B74();
 extern bool8 IsDoubleBattle(void);
 extern void sub_8032E2C(void);
-extern u8 AnimBankSpriteExists();
+extern u8 IsBankSpritePresent();
 extern u8 move_anim_start_t3();
 extern void sub_80334C0(void);
 
@@ -560,7 +560,7 @@ void OpponentHandleGetAttributes(void)
 u32 sub_8033598(u8 a, u8 *buffer)
 {
     struct BattlePokemon battlePokemon;
-    struct UnknownStruct3 moveData;
+    struct MovePpInfo moveData;
     u8 nickname[20];
     u8 *src;
     s16 data16;
@@ -896,7 +896,7 @@ void OpponentHandleSetAttributes(void)
 void sub_8033E24(u8 a)
 {
     struct BattlePokemon *battlePokemon = (struct BattlePokemon *)&gBattleBufferA[gActiveBank][3];
-    struct UnknownStruct3 *moveData = (struct UnknownStruct3 *)&gBattleBufferA[gActiveBank][3];
+    struct MovePpInfo *moveData = (struct MovePpInfo *)&gBattleBufferA[gActiveBank][3];
     s32 i;
 
     switch (gBattleBufferA[gActiveBank][1])
@@ -1127,7 +1127,7 @@ void OpponentHandleLoadPokeSprite(void)
     GetMonSpriteTemplate_803C56C(species, GetBankIdentity(gActiveBank));
     gObjectBankIDs[gActiveBank] = CreateSprite(
       &gUnknown_02024E8C,
-      sub_8077ABC(gActiveBank, 2),
+      GetBankPosition(gActiveBank, 2),
       sub_8077F68(gActiveBank),
       sub_8079E90(gActiveBank));
     gSprites[gObjectBankIDs[gActiveBank]].pos2.x = -240;
@@ -1159,7 +1159,7 @@ void sub_803495C(u8 a, u8 b)
     GetMonSpriteTemplate_803C56C(species, GetBankIdentity(a));
     gObjectBankIDs[a] = CreateSprite(
       &gUnknown_02024E8C,
-      sub_8077ABC(a, 2),
+      GetBankPosition(a, 2),
       sub_8077F68(a),
       sub_8079E90(a));
     gSprites[gObjectBankIDs[a]].data[0] = a;
@@ -1325,21 +1325,21 @@ void OpponentHandleMoveAnimation(void)
         u32 r0 = gBattleBufferA[gActiveBank][1]
                | (gBattleBufferA[gActiveBank][2] << 8);
 
-        gUnknown_0202F7C4 = gBattleBufferA[gActiveBank][3];
-        gMovePowerMoveAnim = gBattleBufferA[gActiveBank][4]
+        gAnimMoveTurn = gBattleBufferA[gActiveBank][3];
+        gAnimMovePower = gBattleBufferA[gActiveBank][4]
                           | (gBattleBufferA[gActiveBank][5] << 8);
-        gMoveDmgMoveAnim = gBattleBufferA[gActiveBank][6]
+        gAnimMoveDmg = gBattleBufferA[gActiveBank][6]
                           | (gBattleBufferA[gActiveBank][7] << 8)
                           | (gBattleBufferA[gActiveBank][8] << 16)
                           | (gBattleBufferA[gActiveBank][9] << 24);
-        gHappinessMoveAnim = gBattleBufferA[gActiveBank][10];
+        gAnimFriendship = gBattleBufferA[gActiveBank][10];
         gWeatherMoveAnim = gBattleBufferA[gActiveBank][12]
                           | (gBattleBufferA[gActiveBank][13] << 8);
-        gDisableStructMoveAnim = (u32 *)&gBattleBufferA[gActiveBank][16];
-        gPID_perBank[gActiveBank] = *gDisableStructMoveAnim;
+        gAnimDisableStructPtr = (struct DisableStruct *)&gBattleBufferA[gActiveBank][16];
+        gTransformedPersonalities[gActiveBank] = gAnimDisableStructPtr->transformedMonPersonality;
 
         // Dead code. sub_8031720 always returns 0.
-        if (sub_8031720(r0, gUnknown_0202F7C4) != 0)
+        if (sub_8031720(r0, gAnimMoveTurn) != 0)
         {
             OpponentBufferExecCompleted();
         }
@@ -1371,7 +1371,7 @@ void sub_8035238(void)
         if (!ewram17810[gActiveBank].unk0_6)
         {
             sub_80326EC(0);
-            ExecuteMoveAnim(r4);
+            DoMoveAnim(r4);
             ewram17810[gActiveBank].unk4 = 2;
         }
         break;
@@ -1404,10 +1404,10 @@ void sub_8035238(void)
 
 void OpponentHandlePrintString(void)
 {
-    gUnknown_030042A4 = 0;
-    gUnknown_030042A0 = 0;
+    gBattle_BG0_X = 0;
+    gBattle_BG0_Y = 0;
     BufferStringBattle(*(u16 *)&gBattleBufferA[gActiveBank][2]);
-    sub_8002EB0(&gUnknown_03004210, gDisplayedStringBattle, 144, 2, 15);
+    Text_InitWindow8002EB0(&gUnknown_03004210, gDisplayedStringBattle, 144, 2, 15);
     gBattleBankFunc[gActiveBank] = sub_80331D0;
 }
 
@@ -1451,9 +1451,9 @@ void OpponentHandlecmd20(void)
                 gBankTarget = gActiveBank;
             if (gBattleMoves[r5->moves[r4]].target & 8)
             {
-                gBankTarget = GetBankByPlayerAI(0);
+                gBankTarget = GetBankByIdentity(0);
                 if (gAbsentBankFlags & gBitTable[gBankTarget])
-                    gBankTarget = GetBankByPlayerAI(2);
+                    gBankTarget = GetBankByIdentity(2);
             }
             r4 |= gBankTarget << 8;
             Emitcmd33(1, 10, r4);
@@ -1479,13 +1479,13 @@ void OpponentHandlecmd20(void)
         }
         else if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
         {
-            u16 r2 = GetBankByPlayerAI(Random() & 2) << 8;
+            u16 r2 = GetBankByIdentity(Random() & 2) << 8;
 
             Emitcmd33(1, 10, r4 | r2);
         }
         else
         {
-            u16 r2 = GetBankByPlayerAI(0) << 8;
+            u16 r2 = GetBankByIdentity(0) << 8;
 
             Emitcmd33(1, 10, r4 | r2);
         }
@@ -1561,7 +1561,7 @@ _08035494:\n\
     cmp r0, 0\n\
     beq _080354CE\n\
     movs r0, 0\n\
-    bl GetBankByPlayerAI\n\
+    bl GetBankByIdentity\n\
     ldr r5, _080354EC @ =gBankTarget\n\
     strb r0, [r5]\n\
     ldr r0, _080354F0 @ =gAbsentBankFlags\n\
@@ -1575,7 +1575,7 @@ _08035494:\n\
     cmp r1, 0\n\
     beq _080354CE\n\
     movs r0, 0x2\n\
-    bl GetBankByPlayerAI\n\
+    bl GetBankByIdentity\n\
     strb r0, [r5]\n\
 _080354CE:\n\
     ldr r0, _080354EC @ =gBankTarget\n\
@@ -1640,7 +1640,7 @@ _0803553C:\n\
     lsls r1, 24\n\
     lsrs r1, 24\n\
     adds r0, r1, 0\n\
-    bl GetBankByPlayerAI\n\
+    bl GetBankByIdentity\n\
     adds r2, r0, 0\n\
     lsls r2, 24\n\
     lsrs r2, 16\n\
@@ -1653,7 +1653,7 @@ _0803553C:\n\
 _0803556C: .4byte gBattleTypeFlags\n\
 _08035570:\n\
     movs r0, 0\n\
-    bl GetBankByPlayerAI\n\
+    bl GetBankByIdentity\n\
     adds r2, r0, 0\n\
     lsls r2, 24\n\
     lsrs r2, 16\n\
@@ -1692,13 +1692,13 @@ void OpponentHandlecmd22(void)
         {
             if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE))
             {
-                r5 = GetBankByPlayerAI(1);
+                r5 = GetBankByIdentity(1);
                 r6 = r5;
             }
             else
             {
-                r6 = GetBankByPlayerAI(1);
-                r5 = GetBankByPlayerAI(3);
+                r6 = GetBankByIdentity(1);
+                r5 = GetBankByIdentity(3);
             }
             for (r4 = 0; r4 < 6; r4++)
             {
@@ -1892,7 +1892,7 @@ void OpponentHandleFaintingCry(void)
 
 void OpponentHandleIntroSlide(void)
 {
-    sub_80E43C0(gBattleBufferA[gActiveBank][1]);
+    StartBattleIntroAnim(gBattleBufferA[gActiveBank][1]);
     gUnknown_02024DE8 |= 1;
     OpponentBufferExecCompleted();
 }
@@ -2003,7 +2003,7 @@ void OpponentHandlecmd50(void)
 
 void OpponentHandleSpriteInvisibility(void)
 {
-    if (AnimBankSpriteExists(gActiveBank) != 0)
+    if (IsBankSpritePresent(gActiveBank) != 0)
     {
         gSprites[gObjectBankIDs[gActiveBank]].invisible = gBattleBufferA[gActiveBank][1];
         sub_8031F88(gActiveBank);

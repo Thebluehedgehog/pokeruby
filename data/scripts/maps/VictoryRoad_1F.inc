@@ -3,8 +3,7 @@ VictoryRoad_1F_MapScripts:: @ 815DE83
 	.byte 0
 
 VictoryRoad_1F_MapScript1_15DE89:: @ 815DE89
-	checkflag FLAG_DEFEATED_WALLY_VICTORY_ROAD
-	call_if 1, VictoryRoad_1F_EventScript_15DE93
+	call_if_set FLAG_DEFEATED_WALLY_VICTORY_ROAD, VictoryRoad_1F_EventScript_15DE93
 	end
 
 VictoryRoad_1F_EventScript_15DE93:: @ 815DE93
@@ -93,7 +92,7 @@ VictoryRoad_1F_EventScript_15DF28:: @ 815DF28
 
 VictoryRoad_1F_EventScript_15DF31:: @ 815DF31
 	trainerbattle 0, OPPONENT_WALLY_3, 0, VictoryRoad_1F_Text_1979BA, VictoryRoad_1F_Text_197A23
-	specialvar RESULT, sub_8082C68
+	specialvar RESULT, ShouldTryRematchBattle
 	compare RESULT, 1
 	goto_if_eq VictoryRoad_1F_EventScript_15DF58
 	msgbox VictoryRoad_1F_Text_197A47, 6

@@ -13,7 +13,7 @@
 #include "sound.h"
 #include "sprite.h"
 #include "task.h"
-#include "unknown_task.h"
+#include "scanline_effect.h"
 
 #if ENGLISH
 #define VERSION_BANNER_SHAPE 1
@@ -41,8 +41,8 @@
 
 extern u8 gReservedSpritePaletteCount;
 extern struct MusicPlayerInfo gMPlay_BGM;
-extern u16 gUnknown_030041B4;
-extern u16 gUnknown_030042C0;
+extern u16 gBattle_BG1_Y;
+extern u16 gBattle_BG1_X;
 extern const u8 gUnknown_08E9D8CC[];
 extern const u16 gUnknown_08E9F624[];
 extern const u8 gUnknown_08E9F7E4[];
@@ -598,11 +598,11 @@ static void StartPokemonLogoShine(bool8 flashBackground)
 
 static void VBlankCB(void)
 {
-    sub_8089668();
+    ScanlineEffect_InitHBlankDmaTransfer();
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
-    REG_BG1VOFS = gUnknown_030041B4;
+    REG_BG1VOFS = gBattle_BG1_Y;
 }
 
 
@@ -644,7 +644,7 @@ void CB2_InitTitleScreen(void)
         LZ77UnCompVram(sLegendaryMonTilemap, (void *)(VRAM + 0xC000));
         LZ77UnCompVram(sBackdropTilemap, (void *)(VRAM + 0xC800));
         LoadPalette(sLegendaryMonPalettes, 0xE0, sizeof(sLegendaryMonPalettes));
-        remove_some_task();
+        ScanlineEffect_Stop();
         ResetTasks();
         ResetSpriteData();
         FreeAllSpritePalettes();
@@ -711,7 +711,7 @@ void CB2_InitTitleScreen(void)
         if (!UpdatePaletteFade())
         {
             StartPokemonLogoShine(FALSE);
-            sub_8089944(0, 0xA0, 4, 4, 0, 4, 1);
+            ScanlineEffect_InitWave(0, DISPLAY_HEIGHT, 4, 4, 0, SCANLINE_EFFECT_REG_BG1HOFS, TRUE);
             SetMainCallback2(MainCB2);
         }
         break;
@@ -836,8 +836,8 @@ static void Task_TitleScreenPhase3(u8 taskId)
             if (gTasks[taskId].tCounter & 1)
             {
                 gTasks[taskId].data[4]++;
-                gUnknown_030041B4 = gTasks[taskId].data[4];
-                gUnknown_030042C0 = 0;
+                gBattle_BG1_Y = gTasks[taskId].data[4];
+                gBattle_BG1_X = 0;
             }
             UpdateLegendaryMarkingColor(gTasks[taskId].tCounter);
             if ((gMPlay_BGM.status & 0xFFFF) == 0)

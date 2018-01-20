@@ -688,7 +688,7 @@ void GetRivalSonDaughterString(void)
     }
 }
 
-u8 sub_810E300(void)
+u8 GetBattleOutcome(void)
 {
     return gBattleOutcome;
 }
@@ -958,11 +958,11 @@ void EndLotteryCornerComputerEffect(void)
 }
 
 static void sub_810E874(void);
-void sub_810E944(void);
+void DisplayCurrentElevatorFloor(void);
 void sub_810E984(u8);
 bool8 sub_810EAC8(u8, u8);
 void sub_810EB90(u8, u8);
-void sub_810EBEC(void);
+void ShakeScreenInElevator(void);
 void sub_810EC34(u8);
 void sub_810EC9C(u8);
 void sub_810ECB0(void);
@@ -1058,29 +1058,29 @@ static void sub_810E874(void)
     ScriptContext2_Enable();
     if (gUnknown_0203925A > 5)
     {
-        MenuDrawTextWindow(0, 0, 8, 11);
+        Menu_DrawStdWindowFrame(0, 0, 8, 11);
         InitMenu(0, 1, 1, 5, 0, 7);
         gUnknown_0203925C = 0;
-        sub_80F944C();
+        ClearVerticalScrollIndicatorPalettes();
         LoadScrollIndicatorPalette();
         sub_810ECD4();
     }
     else
     {
-        MenuDrawTextWindow(0, 0, 8, 2 * gUnknown_0203925A + 1);
+        Menu_DrawStdWindowFrame(0, 0, 8, 2 * gUnknown_0203925A + 1);
         InitMenu(0, 1, 1, gUnknown_0203925A, 0, 7);
     }
     for (i = 0; i < 5 && gUnknown_03000760[i].var0 != 16; i ++)
     {
-        MenuPrint(gUnknown_083F8380[gUnknown_03000760[i].var0], 1, 2 * i + 1);
+        Menu_PrintText(gUnknown_083F8380[gUnknown_03000760[i].var0], 1, 2 * i + 1);
     }
-    sub_810E944();
+    DisplayCurrentElevatorFloor();
     CreateTask(sub_810E984, 8);
 }
 
-void sub_810E944(void)
+void DisplayCurrentElevatorFloor(void)
 {
-    MenuDrawTextWindow(20, 0, 29, 5);
+    Menu_DrawStdWindowFrame(20, 0, 29, 5);
     sub_8072BD8(gOtherText_NowOn, 21, 1, 64);
     sub_8072BD8(gUnknown_083F8380[gSpecialVar_0x8005], 21, 3, 64);
 }
@@ -1091,15 +1091,15 @@ void sub_810E984(u8 taskId)
     if (gMain.newKeys == DPAD_UP && gUnknown_0203925B != 0)
     {
         gUnknown_0203925B--;
-        curMenuPos = GetMenuCursorPos();
-        MoveMenuCursorNoWrap(-1);
+        curMenuPos = Menu_GetCursorPos();
+        Menu_MoveCursorNoWrap(-1);
         sub_810EAC8(curMenuPos, DPAD_UP);
     }
     if (gMain.newKeys == DPAD_DOWN && gUnknown_0203925B != gUnknown_0203925A - 1)
     {
         gUnknown_0203925B++;
-        curMenuPos = GetMenuCursorPos();
-        MoveMenuCursorNoWrap(+1);
+        curMenuPos = Menu_GetCursorPos();
+        Menu_MoveCursorNoWrap(+1);
         sub_810EAC8(curMenuPos, DPAD_DOWN);
     }
     if (gMain.newKeys & A_BUTTON)
@@ -1109,17 +1109,17 @@ void sub_810E984(u8 taskId)
         {
             gSpecialVar_Result = 0;
             PlaySE(SE_SELECT);
-            MenuZeroFillWindowRect(0, 0, 29, 12);
+            Menu_EraseWindowRect(0, 0, 29, 12);
             sub_810EC9C(taskId);
         }
         else
         {
             gSpecialVar_Result = 1;
             gSpecialVar_0x8005 = gUnknown_0203925B;
-            sub_810EBEC();
+            ShakeScreenInElevator();
             FieldObjectTurnByLocalIdAndMap(gSpecialVar_LastTalked, gSaveBlock1.location.mapNum, gSaveBlock1.location.mapGroup, DIR_SOUTH);
             sub_810EEDC();
-            MenuZeroFillScreen();
+            Menu_EraseScreen();
             DestroyTask(taskId);
         }
     }
@@ -1128,7 +1128,7 @@ void sub_810E984(u8 taskId)
         gSpecialVar_Result = 0;
         PlaySE(SE_SELECT);
         sub_810EEDC();
-        MenuZeroFillWindowRect(0, 0, 29, 12);
+        Menu_EraseWindowRect(0, 0, 29, 12);
         sub_810EC9C(taskId);
     }
 }
@@ -1163,10 +1163,10 @@ bool8 sub_810EAC8(u8 prevMenuPos, u8 dpadInput)
     if (flag)
     {
         sub_810EB90(newPos, 5);
-        MenuFillWindowRectWithBlankTile(2, 1, 7, 10);
+        Menu_BlankWindowRect(2, 1, 7, 10);
         for (i=0; i<5 && gUnknown_03000760[newPos].var0 != 16; newPos++, i++)
         {
-            MenuPrint(gUnknown_083F8380[gUnknown_03000760[newPos].var0], 1, i * 2 + 1);
+            Menu_PrintText(gUnknown_083F8380[gUnknown_03000760[newPos].var0], 1, i * 2 + 1);
         }
     }
     return flag;
@@ -1227,7 +1227,7 @@ bool8 sub_810EAC8(u8 prevMenuPos, u8 dpadInput)
                     "\tmovs r1, 0x1\n"
                     "\tmovs r2, 0x7\n"
                     "\tmovs r3, 0xA\n"
-                    "\tbl MenuFillWindowRectWithBlankTile\n"
+                    "\tbl Menu_BlankWindowRect\n"
                     "\tmovs r5, 0\n"
                     "\tldr r2, _0810EB88 @ =gUnknown_03000760\n"
                     "\tlsls r1, r4, 2\n"
@@ -1249,7 +1249,7 @@ bool8 sub_810EAC8(u8 prevMenuPos, u8 dpadInput)
                     "\tlsls r2, 24\n"
                     "\tlsrs r2, 24\n"
                     "\tmovs r1, 0x1\n"
-                    "\tbl MenuPrint\n"
+                    "\tbl Menu_PrintText\n"
                     "\tadds r0, r4, 0x1\n"
                     "\tlsls r0, 24\n"
                     "\tlsrs r4, r0, 24\n"
@@ -1283,7 +1283,7 @@ void sub_810EB90(u8 newPos, u8 maxItems)
     if (newPos == 0)
     {
         gUnknown_0203925C ^= 0x02;
-        DestroyVerticalScrollIndicator(0);
+        DestroyVerticalScrollIndicator(TOP_ARROW);
     }
     else
     {
@@ -1296,11 +1296,11 @@ void sub_810EB90(u8 newPos, u8 maxItems)
     else if (newPos + maxItems == gUnknown_0203925A)
     {
         gUnknown_0203925C ^= 0x01;
-        DestroyVerticalScrollIndicator(1);
+        DestroyVerticalScrollIndicator(BOTTOM_ARROW);
     }
 }
 
-void sub_810EBEC(void)
+void ShakeScreenInElevator(void)
 {
     u8 taskId = CreateTask(sub_810EC34, 9);
     gTasks[taskId].data[0] = 1;
@@ -1347,7 +1347,7 @@ void sub_810ECB0(void)
     if (gUnknown_0203925C >> 1 != 1)
     {
         gUnknown_0203925C |= 0x2;
-        CreateVerticalScrollIndicators(0, 0x24, 0x08);
+        CreateVerticalScrollIndicators(TOP_ARROW, 0x24, 0x08);
     }
 }
 
@@ -1356,7 +1356,7 @@ void sub_810ECD4(void)
     if ((gUnknown_0203925C & 1) == 0)
     {
         gUnknown_0203925C |= 0x1;
-        CreateVerticalScrollIndicators(1, 0x24, 0x48);
+        CreateVerticalScrollIndicators(BOTTOM_ARROW, 0x24, 0x48);
     }
 }
 
@@ -1428,11 +1428,11 @@ void sub_810EEDC(void)
 {
     if ((gUnknown_0203925C & 1) != 0)
     {
-        DestroyVerticalScrollIndicator(1);
+        DestroyVerticalScrollIndicator(BOTTOM_ARROW);
     }
     if ((gUnknown_0203925C >> 1) == 1)
     {
-        DestroyVerticalScrollIndicator(0);
+        DestroyVerticalScrollIndicator(TOP_ARROW);
     }
     BuyMenuFreeMemory();
 }
@@ -1539,15 +1539,15 @@ void ShowGlassWorkshopMenu(void)
 {
     u8 i;
     ScriptContext2_Enable();
-    MenuDrawTextWindow(0, 0, 10, 11);
+    Menu_DrawStdWindowFrame(0, 0, 10, 11);
     InitMenu(0, 1, 1, 5, 0, 9);
     gUnknown_0203925C = 0;
-    sub_80F944C();
+    ClearVerticalScrollIndicatorPalettes();
     LoadScrollIndicatorPalette();
     sub_810F2B4();
     for (i=0; i<5; i++)
     {
-        MenuPrint(gUnknown_083F83C0[i], 1, 2 * i + 1);
+        Menu_PrintText(gUnknown_083F83C0[i], 1, 2 * i + 1);
     }
     gUnknown_0203925B = 0;
     gUnknown_0203925A = ARRAY_COUNT(gUnknown_083F83C0);
@@ -1560,33 +1560,33 @@ void sub_810F118(u8 taskId)
     if (gMain.newKeys == DPAD_UP && gUnknown_0203925B != 0)
     {
         gUnknown_0203925B--;
-        prevCursorPos = GetMenuCursorPos();
-        MoveMenuCursorNoWrap(-1);
+        prevCursorPos = Menu_GetCursorPos();
+        Menu_MoveCursorNoWrap(-1);
         sub_810F1F4(prevCursorPos, DPAD_UP);
     }
     if (gMain.newKeys == DPAD_DOWN && gUnknown_0203925B != gUnknown_0203925A - 1)
     {
         gUnknown_0203925B++;
-        prevCursorPos = GetMenuCursorPos();
-        MoveMenuCursorNoWrap(1);
+        prevCursorPos = Menu_GetCursorPos();
+        Menu_MoveCursorNoWrap(1);
         sub_810F1F4(prevCursorPos, DPAD_DOWN);
     }
     if (gMain.newKeys & A_BUTTON)
     {
-        HandleDestroyMenuCursors();
+        Menu_DestroyCursor();
         gSpecialVar_Result = gUnknown_0203925B;
         PlaySE(SE_SELECT);
         sub_810EEDC();
-        MenuZeroFillWindowRect(0, 0, 29, 12);
+        Menu_EraseWindowRect(0, 0, 29, 12);
         sub_810EC9C(taskId);
     }
     if (gMain.newKeys & B_BUTTON)
     {
-        HandleDestroyMenuCursors();
+        Menu_DestroyCursor();
         gSpecialVar_Result = 0x7f;
         PlaySE(SE_SELECT);
         sub_810EEDC();
-        MenuZeroFillWindowRect(0, 0, 29, 12);
+        Menu_EraseWindowRect(0, 0, 29, 12);
         sub_810EC9C(taskId);
     }
 }
@@ -1621,10 +1621,10 @@ bool8 sub_810F1F4(u8 prevCursorPos, u8 dpadInput)
     if (flag)
     {
         GlassWorkshopUpdateScrollIndicators(newPos, 5);
-        MenuFillWindowRectWithBlankTile(2, 1, 9, 10);
+        Menu_BlankWindowRect(2, 1, 9, 10);
         for (i=0; i<5; newPos++, i++)
         {
-            MenuPrint(gUnknown_083F83C0[newPos], 1, 2 * i + 1);
+            Menu_PrintText(gUnknown_083F83C0[newPos], 1, 2 * i + 1);
         }
     }
     return flag;
@@ -1683,7 +1683,7 @@ bool8 sub_810F1F4(u8 prevCursorPos, u8 dpadInput)
                     "\tmovs r1, 0x1\n"
                     "\tmovs r2, 0x9\n"
                     "\tmovs r3, 0xA\n"
-                    "\tbl MenuFillWindowRectWithBlankTile\n"
+                    "\tbl Menu_BlankWindowRect\n"
                     "\tmovs r5, 0\n"
                     "\tldr r7, _0810F28C @ =gUnknown_083F83C0\n"
                     "_0810F25C:\n"
@@ -1695,7 +1695,7 @@ bool8 sub_810F1F4(u8 prevCursorPos, u8 dpadInput)
                     "\tlsls r2, 24\n"
                     "\tlsrs r2, 24\n"
                     "\tmovs r1, 0x1\n"
-                    "\tbl MenuPrint\n"
+                    "\tbl Menu_PrintText\n"
                     "\tadds r0, r4, 0x1\n"
                     "\tlsls r0, 24\n"
                     "\tlsrs r4, r0, 24\n"
@@ -1721,7 +1721,7 @@ void sub_810F290(void)
     if (gUnknown_0203925C >> 1 != 1)
     {
         gUnknown_0203925C |= 0x02;
-        CreateVerticalScrollIndicators(0, 0x2c, 0x08);
+        CreateVerticalScrollIndicators(TOP_ARROW, 0x2c, 0x08);
     }
 }
 
@@ -1730,7 +1730,7 @@ void sub_810F2B4(void)
     if (!(gUnknown_0203925C & 0x01))
     {
         gUnknown_0203925C |= 0x01;
-        CreateVerticalScrollIndicators(1, 0x2c, 0x58);
+        CreateVerticalScrollIndicators(BOTTOM_ARROW, 0x2c, 0x58);
     }
 }
 
@@ -1739,7 +1739,7 @@ void GlassWorkshopUpdateScrollIndicators(u8 newPos, u8 maxItems)
     if (newPos == 0)
     {
         gUnknown_0203925C ^= 0x02;
-        DestroyVerticalScrollIndicator(0);
+        DestroyVerticalScrollIndicator(TOP_ARROW);
     }
     else
     {
@@ -1752,7 +1752,7 @@ void GlassWorkshopUpdateScrollIndicators(u8 newPos, u8 maxItems)
     else if (newPos + maxItems == gUnknown_0203925A)
     {
         gUnknown_0203925C ^= 0x01;
-        DestroyVerticalScrollIndicator(1);
+        DestroyVerticalScrollIndicator(BOTTOM_ARROW);
     }
 }
 
@@ -1779,12 +1779,12 @@ void GetSecretBaseNearbyMapName(void)
     GetMapSectionName(gStringVar1, VarGet(VAR_SECRET_BASE_MAP), 0);
 }
 
-u16 sub_810F404(void)
+u16 GetBestBattleTowerStreak(void)
 {
     return GetGameStat(GAME_STAT_BATTLE_TOWER_BEST_STREAK);
 }
 
-void sub_810F414(void)
+void BufferEReaderTrainerName(void)
 {
     SetEReaderTrainerName(gStringVar1);
 }
@@ -1793,7 +1793,7 @@ const u8 gUnknown_083F83E0[] = {12, 2, 4, 5, 1, 8, 7, 11, 3, 10, 9, 6};
 const u8 gUnknown_083F83EC[] = {0, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5};
 const u8 gUnknown_083F83F8[] = {3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5};
 
-u8 sub_810F424(void)
+u8 GetSlotMachineId(void)
 {
     u32 v0 = gSaveBlock1.easyChatPairs[0].unk0_0 + gSaveBlock1.easyChatPairs[0].unk2 + gUnknown_083F83E0[gSpecialVar_0x8004];
     if (GetPriceReduction(2))
@@ -1803,10 +1803,10 @@ u8 sub_810F424(void)
     return gUnknown_083F83EC[v0 % 12];
 }
 
-bool8 sub_810F488(void)
+bool8 FoundAbandonedShipRoom1Key(void)
 {
     u16 *specVar = &gSpecialVar_0x8004;
-    u16 flag = 0x277;
+    u16 flag = FLAG_HIDDEN_ITEM_1F;
     *specVar = flag;
     if (!FlagGet(flag))
     {
@@ -1815,10 +1815,10 @@ bool8 sub_810F488(void)
     return TRUE;
 }
 
-bool8 sub_810F4B0(void)
+bool8 FoundAbandonedShipRoom2Key(void)
 {
     u16 *specVar = &gSpecialVar_0x8004;
-    u16 flag = 0x278;
+    u16 flag = FLAG_HIDDEN_ITEM_20;
     *specVar = flag;
     if (!FlagGet(flag))
     {
@@ -1827,10 +1827,10 @@ bool8 sub_810F4B0(void)
     return TRUE;
 }
 
-bool8 sub_810F4D4(void)
+bool8 FoundAbandonedShipRoom4Key(void)
 {
     u16 *specVar = &gSpecialVar_0x8004;
-    u16 flag = 0x279;
+    u16 flag = FLAG_HIDDEN_ITEM_21;
     *specVar = flag;
     if (!FlagGet(flag))
     {
@@ -1839,10 +1839,10 @@ bool8 sub_810F4D4(void)
     return TRUE;
 }
 
-bool8 sub_810F4FC(void)
+bool8 FoundAbandonedShipRoom6Key(void)
 {
     u16 *specVar = &gSpecialVar_0x8004;
-    u16 flag = 0x27a;
+    u16 flag = FLAG_HIDDEN_ITEM_22;
     *specVar = flag;
     if (!FlagGet(flag))
     {
@@ -1874,7 +1874,7 @@ bool8 ScrSpecial_AreLeadMonEVsMaxedOut(void)
     return FALSE;
 }
 
-u8 sub_810F5BC(void)
+u8 TryUpdateRusturfTunnelState(void)
 {
     if (!FlagGet(FLAG_RUSTURF_TUNNEL_OPENED) && gSaveBlock1.location.mapGroup == MAP_GROUP(RUSTURF_TUNNEL) && gSaveBlock1.location.mapNum == MAP_NUM(RUSTURF_TUNNEL))
     {
@@ -1995,9 +1995,9 @@ static void sub_810F814(u8 taskId)
     EnableBothScriptContexts();
 }
 
-bool8 sub_810F828(void)
+bool8 FoundBlackGlasses(void)
 {
-    return FlagGet(FLAG_UNKNOWN_2B8);
+    return FlagGet(FLAG_HIDDEN_ITEM_BLACK_GLASSES);
 }
 
 void SetRoute119Weather(void)
@@ -2040,7 +2040,7 @@ void sub_810F8FC(void)
     sub_805ADDC(6);
 }
 
-u16 sub_810F908(void)
+u16 GetDaysUntilPacifidlogTMAvailable(void)
 {
     u16 tmReceivedDay = VarGet(VAR_PACIFIDLOG_TM_RECEIVED_DAY);
     if (gLocalTime.days - tmReceivedDay >= 7)
@@ -2054,13 +2054,13 @@ u16 sub_810F908(void)
     return 7 - (gLocalTime.days - tmReceivedDay);
 }
 
-u16 sub_810F950(void)
+u16 SetPacifidlogTMReceivedDay(void)
 {
     VarSet(VAR_PACIFIDLOG_TM_RECEIVED_DAY, gLocalTime.days);
     return gLocalTime.days;
 }
 
-bool8 sub_810F96C(void)
+bool8 MonOTNameMatchesPlayer(void)
 {
     GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_OT_NAME, gStringVar1);
     if (!StringCompareWithoutExtCtrlCodes(gSaveBlock2.playerName, gStringVar1))
@@ -2070,7 +2070,7 @@ bool8 sub_810F96C(void)
     return TRUE;
 }
 
-void sub_810F9AC(void)
+void BufferLottoTicketNumber(void)
 {
     if (gSpecialVar_Result >= 10000)
     {
@@ -2109,38 +2109,38 @@ const u8 gUnknown_083F8408[] = {8,  9, 10, 11, 12, 13, 14, 15};
 const u8 gUnknown_083F8410[] = {8, 13, 14, 11, 10, 12, 15,  9};
 
 bool8 sub_810FF30(void);
-void sub_810FCE8(void);
+void UpdateMovedLilycoveFanClubMembers(void);
 void sub_810FF48(void);
 void sub_810FD80(void);
-u16 sub_810FCB0(void);
+u16 GetNumMovedLilycoveFanClubMembers(void);
 int sub_810FB9C(void);
 
 void ResetFanClub(void)
 {
-    gSaveBlock1.vars[0x41] = 0;
-    gSaveBlock1.vars[0x42] = 0;
+    gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] = 0;
+    gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_2 - VARS_START] = 0;
 }
 
 void sub_810FA74(void)
 {
     if (sub_810FF30())
     {
-        sub_810FCE8();
-        gSaveBlock1.vars[0x42] = gSaveBlock2.playTimeHours;
+        UpdateMovedLilycoveFanClubMembers();
+        gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_2 - VARS_START] = gSaveBlock2.playTimeHours;
     }
 }
 
 void sub_810FAA0(void)
 {
-    if (!((gSaveBlock1.vars[0x41] >> 7) & 1))
+    if (!((gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] >> 7) & 1))
     {
         sub_810FF48();
         sub_810FD80();
-        gSaveBlock1.vars[0x42] = gSaveBlock2.playTimeHours;
-        FlagClear(0x315);
-        FlagClear(0x316);
-        FlagClear(0x317);
-        FlagClear(0x318);
+        gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_2 - VARS_START] = gSaveBlock2.playTimeHours;
+        FlagClear(FLAG_HIDE_FANCLUB_OLD_LADY);
+        FlagClear(FLAG_HIDE_FANCLUB_BOY);
+        FlagClear(FLAG_HIDE_FANCLUB_LITTLE_BOY);
+        FlagClear(FLAG_HIDE_FANCLUB_LADY);
         VarSet(VAR_LILYCOVE_FAN_CLUB_STATE, 1);
     }
 }
@@ -2149,24 +2149,24 @@ u8 sub_810FB10(u8 a0)
 {
     if (VarGet(VAR_LILYCOVE_FAN_CLUB_STATE) == 2)
     {
-        if ((gSaveBlock1.vars[0x41] & 0x7f) + gUnknown_083F8404[a0] >= 20)
+        if ((gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] & 0x7f) + gUnknown_083F8404[a0] >= 20)
         {
-            if (sub_810FCB0() < 3)
+            if (GetNumMovedLilycoveFanClubMembers() < 3)
             {
                 sub_810FB9C();
-                gSaveBlock1.vars[0x41] &= 0xff80;
+                gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] &= 0xff80;
             }
             else
             {
-                gSaveBlock1.vars[0x41] = (gSaveBlock1.vars[0x41] & 0xff80) | 20;
+                gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] = (gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] & 0xff80) | 20;
             }
         }
         else
         {
-            gSaveBlock1.vars[0x41] += gUnknown_083F8404[a0];
+            gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] += gUnknown_083F8404[a0];
         }
     }
-    return gSaveBlock1.vars[0x41] & 0x7f;
+    return gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] & 0x7f;
 }
 
 int sub_810FB9C(void)
@@ -2175,17 +2175,17 @@ int sub_810FB9C(void)
     int retval = 0;
     for (i=0; i<8; i++)
     {
-        if (!((gSaveBlock1.vars[0x41] >> gUnknown_083F8408[i]) & 0x01))
+        if (!((gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] >> gUnknown_083F8408[i]) & 0x01))
         {
             retval = i;
             if (Random() & 1)
             {
-                gSaveBlock1.vars[0x41] |= (1 << gUnknown_083F8408[i]);
+                gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] |= (1 << gUnknown_083F8408[i]);
                 return retval;
             }
         }
     }
-    gSaveBlock1.vars[0x41] |= (1 << gUnknown_083F8408[retval]);
+    gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] |= (1 << gUnknown_083F8408[retval]);
     return retval;
 }
 
@@ -2193,85 +2193,86 @@ int sub_810FC18(void)
 {
     u8 i;
     int retval = 0;
-    if (sub_810FCB0() == TRUE)
+    if (GetNumMovedLilycoveFanClubMembers() == 1)
     {
         return 0;
     }
     for (i=0; i<8; i++)
     {
-        if ((gSaveBlock1.vars[0x41] >> gUnknown_083F8410[i]) & 1)
+        if ((gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] >> gUnknown_083F8410[i]) & 1)
         {
             retval = i;
             if (Random() & 1)
             {
-                gSaveBlock1.vars[0x41] ^= (1 << gUnknown_083F8410[i]);
+                gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] ^= (1 << gUnknown_083F8410[i]);
                 return retval;
             }
         }
     }
-    if ((gSaveBlock1.vars[0x41] >> gUnknown_083F8410[retval]) & 1)
+    if ((gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] >> gUnknown_083F8410[retval]) & 1)
     {
-        gSaveBlock1.vars[0x41] ^= (1 << gUnknown_083F8410[retval]);
+        gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] ^= (1 << gUnknown_083F8410[retval]);
     }
     return retval;
 }
 
-u16 sub_810FCB0(void)
+u16 GetNumMovedLilycoveFanClubMembers(void)
 {
     u8 i;
     u8 retval = 0;
-    for (i=0; i<8; i++)
+    for (i = 0; i < 8; i++)
     {
-        if ((gSaveBlock1.vars[0x41] >> (i + 8)) & 1)
+        if ((gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] >> (i + 8)) & 1)
         {
-            retval ++;
+            retval++;
         }
     }
+
     return retval;
 }
 
-void sub_810FCE8(void)
+void UpdateMovedLilycoveFanClubMembers(void)
 {
     u8 i = 0;
     if (gSaveBlock2.playTimeHours < 999)
     {
         while (1)
         {
-            if (sub_810FCB0() < 5)
+            if (GetNumMovedLilycoveFanClubMembers() < 5)
             {
-                gSaveBlock1.vars[0x42] = gSaveBlock2.playTimeHours;
+                gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_2 - VARS_START] = gSaveBlock2.playTimeHours;
                 break;
             }
             else if (i == 8)
             {
                 break;
             }
-            else if (gSaveBlock2.playTimeHours - gSaveBlock1.vars[0x42] < 12)
+            else if (gSaveBlock2.playTimeHours - gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_2 - VARS_START] < 12)
             {
                 return;
             }
             sub_810FC18();
-            gSaveBlock1.vars[0x42] += 12;
+            gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_2 - VARS_START] += 12;
             i++;
         }
     }
 }
 
-bool8 sub_810FD60(void)
+bool8 ShouldMoveLilycoveFanClubMember(void)
 {
-    return (gSaveBlock1.vars[0x41] >> gSpecialVar_0x8004) & 0x01;
+    return (gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] >> gSpecialVar_0x8004) & 0x01;
 }
 
 void sub_810FD80(void)
 {
-    gSaveBlock1.vars[0x41] |= 0x2000;
-    gSaveBlock1.vars[0x41] |= 0x100;
-    gSaveBlock1.vars[0x41] |= 0x400;
+    gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] |= 0x2000;
+    gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] |= 0x100;
+    gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] |= 0x400;
 }
 
 void sub_810FE1C(void *, u8, u8);
 
-void sub_810FDAC(void)
+void BufferStreakTrainerText(void)
 {
     u8 a = 0;
     u8 b = 0;
@@ -2366,12 +2367,12 @@ void sub_810FEFC(void)
 
 bool8 sub_810FF30(void)
 {
-    return (gSaveBlock1.vars[0x41] >> 7) & 0x01;
+    return (gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] >> 7) & 0x01;
 }
 
 void sub_810FF48(void)
 {
-    gSaveBlock1.vars[0x41] |= 0x80;
+    gSaveBlock1.vars[VAR_FANCLUB_UNKNOWN_1 - VARS_START] |= 0x80;
 }
 
 u8 sub_810FF60(void)

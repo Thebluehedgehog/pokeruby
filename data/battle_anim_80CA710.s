@@ -1,4 +1,4 @@
-	.include "asm/macros.inc"
+	.include "include/macros.inc"
 	.include "constants/constants.inc"
 
 	.section .rodata
@@ -2505,7 +2505,7 @@ gSpriteTemplate_83D96C4:: @ 83D96C4
 	spr_template 10201, 10201, gOamData_837DF2C, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, sub_80D58FC
 
 	.align 1
-gUnknown_083D96DC:: @ 83D96DC
+gHeatedRockCoords:: @ 83D96DC
 	.2byte -2, -5
 	.2byte -1, -1
 	.2byte  3, -6
@@ -4649,16 +4649,3 @@ gBattleAnimSpriteTemplate_83DB550:: @ 83DB550
 gUnknown_083DB568:: @ 83DB568
 @ seems to be a src element in a LoadPalette call.
 	.2byte 0x7FFF
-
-	.align 2
-gUnknown_083DB56C:: @ 83DB56C
-	.4byte task_battle_intro_80BC47C
-	.4byte task_battle_intro_80BC47C
-	.4byte task00_battle_intro_80BC6C8
-	.4byte task00_battle_intro_80BC6C8
-	.4byte task00_battle_intro_80BC6C8
-	.4byte task_battle_intro_80BC47C
-	.4byte task_battle_intro_80BC47C
-	.4byte task_battle_intro_80BC47C
-	.4byte task_battle_intro_anim
-	.4byte task_battle_intro_anim

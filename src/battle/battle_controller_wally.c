@@ -1,5 +1,6 @@
 #include "global.h"
 #include "battle.h"
+#include "battle_anim.h"
 #include "battle_interface.h"
 #include "battle_message.h"
 #include "data2.h"
@@ -19,8 +20,7 @@
 #include "util.h"
 #include "ewram.h"
 
-//Possibly PokemonSubstruct1
-struct UnknownStruct3
+struct MovePpInfo
 {
     u16 moves[4];
     u8 pp[4];
@@ -37,12 +37,11 @@ extern bool8 gDoingBattleAnim;
 extern u16 gBattlePartyID[];
 extern u8 gHealthboxIDs[];
 extern u16 gBattleTypeFlags;
-extern u16 gMovePowerMoveAnim;
-extern u32 gMoveDmgMoveAnim;
-extern u8 gHappinessMoveAnim;
+extern u16 gAnimMovePower;
+extern u32 gAnimMoveDmg;
+extern u8 gAnimFriendship;
 extern u16 gWeatherMoveAnim;
-extern u32 *gDisableStructMoveAnim;
-extern u32 gPID_perBank[];
+extern u32 gTransformedPersonalities[];
 extern void (*gAnimScriptCallback)(void);
 extern bool8 gAnimScriptActive;
 extern u8 gDisplayedStringBattle[];
@@ -52,10 +51,10 @@ extern u8 gBattleOutcome;
 extern u16 gUnknown_02024DE8;
 extern u8 gUnknown_02024E68[];
 extern struct SpriteTemplate gUnknown_02024E8C;
-extern u8 gUnknown_0202F7C4;
+extern u8 gAnimMoveTurn;
 extern struct Window gUnknown_03004210;
-extern u16 gUnknown_030042A0;
-extern u16 gUnknown_030042A4;
+extern u16 gBattle_BG0_Y;
+extern u16 gBattle_BG0_X;
 extern u8 gUnknown_0300434C[];
 extern const u8 BattleText_WallyMenu[];
 extern const u8 BattleText_MenuOptions[];
@@ -76,9 +75,9 @@ extern void PlayerHandlecmd1(void);
 extern void LoadPlayerTrainerBankSprite();
 extern u8 GetBankIdentity(u8);
 extern void sub_80313A0(struct Sprite *);
-extern u8 GetBankByPlayerAI(u8);
+extern u8 GetBankByIdentity(u8);
 extern u8 sub_8031720();
-extern void ExecuteMoveAnim();
+extern void DoMoveAnim();
 extern void sub_80326EC();
 extern void sub_8031F24(void);
 extern void sub_80324BC();
@@ -86,13 +85,13 @@ extern void BufferStringBattle();
 extern u8 GetBankSide(u8);
 extern void sub_80304A8(void);
 extern void sub_8047858();
-extern void sub_80E43C0();
+extern void StartBattleIntroAnim();
 extern void oamt_add_pos2_onto_pos1();
 extern void sub_8078B34(struct Sprite *);
 extern void sub_8030E38(struct Sprite *);
 extern void StoreSpriteCallbackInData();
 extern u8 sub_8046400();
-extern u8 sub_8077ABC();
+extern u8 GetBankPosition();
 extern u8 sub_8077F68();
 extern u8 sub_8079E90();
 extern void sub_80312F0(struct Sprite *);
@@ -364,7 +363,7 @@ void sub_81374C4(void)
 
 void sub_81374FC(void)
 {
-    if (gMain.callback2 == sub_800F808
+    if (gMain.callback2 == BattleMainCB2
      && !gPaletteFade.active)
     {
         Emitcmd35(1, gSpecialVar_ItemId);
@@ -413,7 +412,7 @@ void sub_81376B8(void)
         FreeSpriteTilesByTag(0x27F9);
         FreeSpritePaletteByTag(0x27F9);
         CreateTask(c3_0802FDF4, 10);
-        sub_80324F8(&gPlayerParty[gBattlePartyID[gActiveBank]], gActiveBank);
+        HandleLowHpMusicChange(&gPlayerParty[gBattlePartyID[gActiveBank]], gActiveBank);
         WallyBufferExecCompleted();
     }
 }
@@ -430,7 +429,7 @@ void sub_81377B0(void)
     }
     else
     {
-        sub_80324F8(&gPlayerParty[gBattlePartyID[gActiveBank]], gActiveBank);
+        HandleLowHpMusicChange(&gPlayerParty[gBattlePartyID[gActiveBank]], gActiveBank);
         WallyBufferExecCompleted();
     }
 }
@@ -528,7 +527,7 @@ void WallyHandleGetAttributes(void)
 u32 sub_8137A84(u8 a, u8 *buffer)
 {
     struct BattlePokemon battlePokemon;
-    struct UnknownStruct3 moveData;
+    struct MovePpInfo moveData;
     u8 nickname[20];
     u8 *src;
     s16 data16;
@@ -856,7 +855,7 @@ void WallyHandleSetAttributes(void)
 void sub_8138294(u8 a)
 {
     struct BattlePokemon *battlePokemon = (struct BattlePokemon *)&gBattleBufferA[gActiveBank][3];
-    struct UnknownStruct3 *moveData = (struct UnknownStruct3 *)&gBattleBufferA[gActiveBank][3];
+    struct MovePpInfo *moveData = (struct MovePpInfo *)&gBattleBufferA[gActiveBank][3];
     s32 i;
 
     switch (gBattleBufferA[gActiveBank][1])
@@ -1067,7 +1066,7 @@ void sub_8138294(u8 a)
         SetMonData(&gPlayerParty[a], MON_DATA_TOUGH_RIBBON, &gBattleBufferA[gActiveBank][3]);
         break;
     }
-    sub_80324F8(&gPlayerParty[gBattlePartyID[gActiveBank]], gActiveBank);
+    HandleLowHpMusicChange(&gPlayerParty[gBattlePartyID[gActiveBank]], gActiveBank);
 }
 
 void WallyHandlecmd3(void)
@@ -1150,7 +1149,7 @@ void WallyHandlecmd12(void)
 {
     ewram17840.unk8 = 4;
     gDoingBattleAnim = TRUE;
-    move_anim_start_t4(gActiveBank, gActiveBank, GetBankByPlayerAI(1), 4);
+    move_anim_start_t4(gActiveBank, gActiveBank, GetBankByIdentity(1), 4);
     gBattleBankFunc[gActiveBank] = bx_wait_t5;
 }
 
@@ -1160,7 +1159,7 @@ void WallyHandleBallThrow(void)
 
     ewram17840.unk8 = val;
     gDoingBattleAnim = TRUE;
-    move_anim_start_t4(gActiveBank, gActiveBank, GetBankByPlayerAI(1), 4);
+    move_anim_start_t4(gActiveBank, gActiveBank, GetBankByIdentity(1), 4);
     gBattleBankFunc[gActiveBank] = bx_wait_t5;
 }
 
@@ -1171,16 +1170,16 @@ void WallyHandlePuase(void)
 
 void WallyHandleMoveAnimation(void)
 {
-    u16 r0 = gBattleBufferA[gActiveBank][1] | (gBattleBufferA[gActiveBank][2] << 8);
+    u16 move = gBattleBufferA[gActiveBank][1] | (gBattleBufferA[gActiveBank][2] << 8);
 
-    gUnknown_0202F7C4 = gBattleBufferA[gActiveBank][3];
-    gMovePowerMoveAnim = gBattleBufferA[gActiveBank][4] | (gBattleBufferA[gActiveBank][5] << 8);
-    gMoveDmgMoveAnim = gBattleBufferA[gActiveBank][6] | (gBattleBufferA[gActiveBank][7] << 8) | (gBattleBufferA[gActiveBank][8] << 16) | (gBattleBufferA[gActiveBank][9] << 24);
-    gHappinessMoveAnim = gBattleBufferA[gActiveBank][10];
+    gAnimMoveTurn = gBattleBufferA[gActiveBank][3];
+    gAnimMovePower = gBattleBufferA[gActiveBank][4] | (gBattleBufferA[gActiveBank][5] << 8);
+    gAnimMoveDmg = gBattleBufferA[gActiveBank][6] | (gBattleBufferA[gActiveBank][7] << 8) | (gBattleBufferA[gActiveBank][8] << 16) | (gBattleBufferA[gActiveBank][9] << 24);
+    gAnimFriendship = gBattleBufferA[gActiveBank][10];
     gWeatherMoveAnim = gBattleBufferA[gActiveBank][12] | (gBattleBufferA[gActiveBank][13] << 8);
-    gDisableStructMoveAnim = (u32 *)&gBattleBufferA[gActiveBank][16];
-    gPID_perBank[gActiveBank] = *gDisableStructMoveAnim;
-    if (sub_8031720(r0, gUnknown_0202F7C4) != 0)
+    gAnimDisableStructPtr = (struct DisableStruct *)&gBattleBufferA[gActiveBank][16];
+    gTransformedPersonalities[gActiveBank] = gAnimDisableStructPtr->transformedMonPersonality;
+    if (sub_8031720(move, gAnimMoveTurn) != 0)
     {
         // Dead code. sub_8031720 always returns 0.
         WallyBufferExecCompleted();
@@ -1211,7 +1210,7 @@ void sub_81390D0(void)
         if (ewram17810[gActiveBank].unk0_6 == 0)
         {
             sub_80326EC(0);
-            ExecuteMoveAnim(r4);
+            DoMoveAnim(r4);
             ewram17810[gActiveBank].unk4 = 2;
         }
         break;
@@ -1241,13 +1240,13 @@ void WallyHandlePrintString(void)
 {
     u16 *ptr;
 
-    gUnknown_030042A4 = 0;
-    gUnknown_030042A0 = 0;
+    gBattle_BG0_X = 0;
+    gBattle_BG0_Y = 0;
     ptr = (u16 *)&gBattleBufferA[gActiveBank][2];
     if (*ptr == 2)
         DestroyMenuCursor();
     BufferStringBattle(*ptr);
-    sub_8002EB0(&gUnknown_03004210, gDisplayedStringBattle, 0x90, 2, 15);
+    Text_InitWindow8002EB0(&gUnknown_03004210, gDisplayedStringBattle, 0x90, 2, 15);
     gBattleBankFunc[gActiveBank] = sub_8137454;
 }
 
@@ -1263,25 +1262,25 @@ void WallyHandlecmd18(void)
 {
     s32 i;
 
-    gUnknown_030042A4 = 0;
-    gUnknown_030042A0 = 160;
+    gBattle_BG0_X = 0;
+    gBattle_BG0_Y = 160;
     gUnknown_03004210.paletteNum = 0;
-    FillWindowRect_DefaultPalette(&gUnknown_03004210, 10, 2, 15, 27, 18);
-    FillWindowRect_DefaultPalette(&gUnknown_03004210, 10, 2, 35, 16, 36);
+    Text_FillWindowRectDefPalette(&gUnknown_03004210, 10, 2, 15, 27, 18);
+    Text_FillWindowRectDefPalette(&gUnknown_03004210, 10, 2, 35, 16, 36);
     gBattleBankFunc[gActiveBank] = sub_81372BC;
-    InitWindow(&gUnknown_03004210, BattleText_MenuOptions, 400, 18, 35);
-    sub_8002F44(&gUnknown_03004210);
-    sub_814A5C0(0, 0xFFFF, 12, 0x2D9F, 0);
+    Text_InitWindow(&gUnknown_03004210, BattleText_MenuOptions, 400, 18, 35);
+    Text_PrintWindow8002F44(&gUnknown_03004210);
+    MenuCursor_Create814A5C0(0, 0xFFFF, 12, 0x2D9F, 0);
     for (i = 0; i < 4; i++)
         nullsub_8(i);
     sub_802E3E4(0, 0);
     StrCpyDecodeToDisplayedStringBattle(BattleText_WallyMenu);
 #ifdef ENGLISH
-    InitWindow(&gUnknown_03004210, gDisplayedStringBattle, 440, 2, 35);
+    Text_InitWindow(&gUnknown_03004210, gDisplayedStringBattle, 440, 2, 35);
 #else
-    InitWindow(&gUnknown_03004210, gDisplayedStringBattle, 444, 2, 35);
+    Text_InitWindow(&gUnknown_03004210, gDisplayedStringBattle, 444, 2, 35);
 #endif
-    sub_8002F44(&gUnknown_03004210);
+    Text_PrintWindow8002F44(&gUnknown_03004210);
 }
 
 void WallyHandlecmd19(void)
@@ -1471,7 +1470,7 @@ void WallyHandleFaintingCry(void)
 
 void WallyHandleIntroSlide(void)
 {
-    sub_80E43C0(gBattleBufferA[gActiveBank][1]);
+    StartBattleIntroAnim(gBattleBufferA[gActiveBank][1]);
     gUnknown_02024DE8 |= 1;
     WallyBufferExecCompleted();
 }
@@ -1511,7 +1510,7 @@ void sub_81398BC(u8 bank)
     GetMonSpriteTemplate_803C56C(species, GetBankIdentity(bank));
     gObjectBankIDs[bank] = CreateSprite(
       &gUnknown_02024E8C,
-      sub_8077ABC(bank, 2),
+      GetBankPosition(bank, 2),
       sub_8077F68(bank),
       sub_8079E90(bank));
     gSprites[gUnknown_0300434C[bank]].data[1] = gObjectBankIDs[bank];

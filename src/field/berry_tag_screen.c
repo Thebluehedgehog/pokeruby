@@ -29,7 +29,7 @@ struct Struct2000000
 };
 
 extern struct Struct2000000 gSharedMem;
-extern u16 gUnknown_030041B4;
+extern u16 gBattle_BG1_Y;
 
 static EWRAM_DATA u8 gUnknown_0203932C = 0;
 static EWRAM_DATA s16 gUnknown_0203932E[5] = {0};
@@ -77,8 +77,8 @@ static void sub_8146014(void)
 
 static void sub_814602C(void)
 {
-    REG_BG0VOFS = gUnknown_030041B4;
-    REG_BG1VOFS = gUnknown_030041B4;
+    REG_BG0VOFS = gBattle_BG1_Y;
+    REG_BG1VOFS = gBattle_BG1_Y;
 
     LoadOam();
     ProcessSpriteCopyRequests();
@@ -93,7 +93,7 @@ static bool8 sub_8146058(void)
     switch (gMain.state)
     {
     case 0:
-        sub_80F9438();
+        ClearVideoCallbacks();
         sub_80F9368();
         sub_8146288();
         REG_BLDCNT = 0;
@@ -109,11 +109,11 @@ static bool8 sub_8146058(void)
         gMain.state += 1;
         break;
     case 3:
-        SetUpWindowConfig(&gWindowConfig_81E6E18);
+        Text_LoadWindowTemplate(&gWindowTemplate_81E6E18);
         gMain.state += 1;
         break;
     case 4:
-        MultistepInitMenuWindowBegin(&gWindowConfig_81E6E18);
+        MultistepInitMenuWindowBegin(&gWindowTemplate_81E6E18);
         gMain.state += 1;
         break;
     case 5:
@@ -183,13 +183,12 @@ static void sub_8146288(void)
     REG_BG1CNT = BGCNT_PRIORITY(2) | BGCNT_CHARBASE(0) | BGCNT_SCREENBASE(5) | BGCNT_16COLOR | BGCNT_TXT256x256;
     REG_BG2CNT = BGCNT_PRIORITY(0) | BGCNT_CHARBASE(0) | BGCNT_SCREENBASE(6) | BGCNT_16COLOR | BGCNT_TXT256x256;
     REG_BG3CNT = BGCNT_PRIORITY(3) | BGCNT_CHARBASE(0) | BGCNT_SCREENBASE(7) | BGCNT_16COLOR | BGCNT_TXT256x256;
-    gUnknown_030041B4 = 0;
+    gBattle_BG1_Y = 0;
 }
 
 bool8 sub_81462B8(void)
 {
     u16 i;
-    void *addr;
 
     switch (gSharedMem.var_1FFFF)
     {
@@ -213,8 +212,7 @@ bool8 sub_81462B8(void)
             else
                 gBGTilemapBuffers[2][i] = 0x5042;
         }
-        addr = (void *)(VRAM + 0x3800);
-        DmaCopy16(3, gBGTilemapBuffers[2], addr, 0x800);
+        DmaCopy16Defvars(3, gBGTilemapBuffers[2], (void *)(VRAM + 0x3800), 0x800);
         gSharedMem.var_1FFFF += 1;
         break;
     case 4:
@@ -280,18 +278,18 @@ static void sub_81464E4(void)
     berryInfo = GetBerryInfo(gSpecialVar_ItemId + OFFSET_7B + 1);
 
     ConvertIntToDecimalStringN(gStringVar1, gSpecialVar_ItemId - FIRST_BERRY + 1, STR_CONV_MODE_LEADING_ZEROS, 2);
-    MenuPrint(gStringVar1, 12, 4);
+    Menu_PrintText(gStringVar1, 12, 4);
 
 #if ENGLISH
-    MenuPrint(berryInfo->name, 14, 4);
+    Menu_PrintText(berryInfo->name, 14, 4);
 #elif GERMAN
     StringCopy(buffer, berryInfo->name);
     StringAppend(buffer, gOtherText_Berry2);
-    MenuPrint(buffer, 14, 4);
+    Menu_PrintText(buffer, 14, 4);
 #endif
 
-    MenuPrint(berryInfo->description1, 4, 14);
-    MenuPrint(berryInfo->description2, 4, 16);
+    Menu_PrintText(berryInfo->description1, 4, 14);
+    Menu_PrintText(berryInfo->description2, 4, 16);
 
 #ifdef UNITS_IMPERIAL
     size = (berryInfo->size * 1000) / 254;
@@ -301,7 +299,7 @@ static void sub_81464E4(void)
     sizeMajor = size / 100;
 #endif
 
-    MenuPrint(gOtherText_Size, 11, 7);
+    Menu_PrintText(gOtherText_Size, 11, 7);
     if (berryInfo->size != 0)
     {
 #ifdef UNITS_IMPERIAL
@@ -311,18 +309,18 @@ static void sub_81464E4(void)
         ConvertIntToDecimalStringN(gStringVar1, berryInfo->size / 10, STR_CONV_MODE_LEFT_ALIGN, 2);
         ConvertIntToDecimalStringN(gStringVar2, berryInfo->size % 10, STR_CONV_MODE_LEFT_ALIGN, 2);
 #endif
-        MenuPrint(gContestStatsText_Unknown1, 16, 7);
+        Menu_PrintText(gContestStatsText_Unknown1, 16, 7);
     }
     else
     {
-        MenuPrint(gOtherText_ThreeQuestions2, 16, 7);
+        Menu_PrintText(gOtherText_ThreeQuestions2, 16, 7);
     }
 
-    MenuPrint(gOtherText_Firm, 11, 9);
+    Menu_PrintText(gOtherText_Firm, 11, 9);
     if (berryInfo->firmness != 0)
-        MenuPrint(gUnknown_0841192C[berryInfo->firmness - 1], 16, 9);
+        Menu_PrintText(gUnknown_0841192C[berryInfo->firmness - 1], 16, 9);
     else
-        MenuPrint(gOtherText_ThreeQuestions2, 16, 9);
+        Menu_PrintText(gOtherText_ThreeQuestions2, 16, 9);
 }
 
 static void sub_8146600(u8 berry)
@@ -394,17 +392,17 @@ static void sub_8146798(u8 taskId)
 {
     s16 *taskData = gTasks[taskId].data;
 
-    gUnknown_030041B4 = (gUnknown_030041B4 + taskData[0]) & 0xFF;
-    if ((taskData[0] > 0 && gUnknown_030041B4 == 144)
-     || (taskData[0] < 0 && gUnknown_030041B4 == 112))
+    gBattle_BG1_Y = (gBattle_BG1_Y + taskData[0]) & 0xFF;
+    if ((taskData[0] > 0 && gBattle_BG1_Y == 144)
+     || (taskData[0] < 0 && gBattle_BG1_Y == 112))
     {
         sub_8146810(gTasks[taskId].data[1]);
         sub_81468BC();
     }
-    if (gUnknown_030041B4 == 0)
+    if (gBattle_BG1_Y == 0)
     {
-        gTasks[taskId].data[0] = gUnknown_030041B4;
-        gTasks[taskId].data[1] = gUnknown_030041B4;
+        gTasks[taskId].data[0] = gBattle_BG1_Y;
+        gTasks[taskId].data[1] = gBattle_BG1_Y;
         gTasks[taskId].func = sub_8146480;
     }
 }
@@ -445,7 +443,7 @@ static void sub_8146810(s8 berry)
 
 static void sub_81468BC(void)
 {
-    MenuZeroFillWindowRect(0, 4, 29, 19);
+    Menu_EraseWindowRect(0, 4, 29, 19);
     sub_81464E4();
 
     // center of berry sprite

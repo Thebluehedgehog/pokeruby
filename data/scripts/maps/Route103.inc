@@ -18,7 +18,7 @@ Route103_EventScript_14EB92:: @ 814EB92
 
 Route103_EventScript_14EBAB:: @ 814EBAB
 	msgbox Route103_Text_16D57A, 4
-	playbgm 415, 1
+	playbgm BGM_GIRL_SUP, TRUE
 	applymovement 2, Route103_Movement_1A0839
 	waitmovement 0
 	applymovement 2, Route103_Movement_1A0833
@@ -34,7 +34,7 @@ Route103_EventScript_14EBAB:: @ 814EBAB
 
 Route103_EventScript_14EC04:: @ 814EC04
 	msgbox Route103_Text_16D762, 4
-	playbgm 421, 1
+	playbgm BGM_BOY_SUP, TRUE
 	applymovement 2, Route103_Movement_1A0839
 	waitmovement 0
 	applymovement 2, Route103_Movement_1A0833
@@ -100,7 +100,7 @@ Route103_EventScript_14ECD9:: @ 814ECD9
 Route103_EventScript_14ED0C:: @ 814ED0C
 	applymovement 2, Route103_Movement_14ED67
 	waitmovement 0
-	playse 10
+	playse SE_DANSA
 	applymovement 2, Route103_Movement_14ED6B
 	waitmovement 0
 	goto Route103_EventScript_14ED46
@@ -109,7 +109,7 @@ Route103_EventScript_14ED0C:: @ 814ED0C
 Route103_EventScript_14ED29:: @ 814ED29
 	applymovement 2, Route103_Movement_14ED71
 	waitmovement 0
-	playse 10
+	playse SE_DANSA
 	applymovement 2, Route103_Movement_14ED74
 	waitmovement 0
 	goto Route103_EventScript_14ED46
@@ -173,7 +173,7 @@ Route103_EventScript_14ED94:: @ 814ED94
 
 Route103_EventScript_14EDAB:: @ 814EDAB
 	trainerbattle 4, OPPONENT_AMY_AND_LIV_1, 0, Route103_Text_1B7DF7, Route103_Text_1B7E3B, Route103_Text_1B7EAC
-	specialvar RESULT, sub_8082C68
+	specialvar RESULT, ShouldTryRematchBattle
 	compare RESULT, 1
 	goto_if_eq Route103_EventScript_14EDD6
 	msgbox Route103_Text_1B7E50, 6
@@ -186,7 +186,7 @@ Route103_EventScript_14EDD6:: @ 814EDD6
 
 Route103_EventScript_14EDF1:: @ 814EDF1
 	trainerbattle 4, OPPONENT_AMY_AND_LIV_1, 0, Route103_Text_1B7EFB, Route103_Text_1B7F20, Route103_Text_1B7F8E
-	specialvar RESULT, sub_8082C68
+	specialvar RESULT, ShouldTryRematchBattle
 	compare RESULT, 1
 	goto_if_eq Route103_EventScript_14EE1C
 	msgbox Route103_Text_1B7F40, 6
@@ -204,7 +204,7 @@ Route103_EventScript_14EE37:: @ 814EE37
 
 Route103_EventScript_14EE4E:: @ 814EE4E
 	trainerbattle 0, OPPONENT_MIGUEL_1, 0, Route103_Text_1B82A9, Route103_Text_1B82EC
-	specialvar RESULT, sub_8082C68
+	specialvar RESULT, ShouldTryRematchBattle
 	compare RESULT, 1
 	goto_if_eq Route103_EventScript_14EE75
 	msgbox Route103_Text_1B830D, 6

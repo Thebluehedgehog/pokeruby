@@ -1,18 +1,6 @@
 #ifndef GUARD_WEATHER_H
 #define GUARD_WEATHER_H
 
-#define WEATHER_NONE 0
-#define WEATHER_CLOUDS 1
-#define WEATHER_RAIN_LIGHT 3
-#define WEATHER_SNOW 4
-#define WEATHER_RAIN_MED 5
-#define WEATHER_FOG_1 6
-#define WEATHER_ASH 7
-#define WEATHER_FOG_2 9
-#define WEATHER_DROUGHT 12
-#define WEATHER_RAIN_HEAVY 13
-#define WEATHER_BUBBLES 14
-
 struct Sprite;
 
 struct Weather
@@ -41,11 +29,11 @@ struct Weather
     u8 filler4A0[0x6B6-0x4A0];
     s8 unknown_6B6;
     u8 filler_6B7[0xC0-0xB7];
-    s8 unknown_6C0;
-    s8 unknown_6C1;
-    u8 unknown_6C2;
-    u8 unknown_6C3;
-    u16 unknown_6C4;
+    s8 gammaIndex;
+    s8 gammaTargetIndex;
+    u8 gammaStepDelay;
+    u8 gammaStepFrameCounter;
+    u16 fadeDestColor;
     u8 unknown_6C6;
     u8 unknown_6C7;
     u8 unknown_6C8;
@@ -140,18 +128,27 @@ void nullsub_38(void);
 void sub_807CB10(void);
 void sub_807CC24(void);
 void sub_807CCAC(void);
-u8 sub_807CDC4(void);
-u8 sub_807CE24(void);
-u8 sub_807CE7C(void);
+u8 RainSnowShadeBlend_807CDC4(void);
+u8 DroughtBlend_807CE24(void);
+u8 Fog1Blend_807CE7C(void);
 void nullsub_39(void);
 
 // ASM
-void sub_807CEBC(u8, u8, s8);
-//void sub_807D1BC(u8, u8, u8, u8, u16);
-void sub_807D1BC(u8 a, u8 a2, s8 c, u8 d, u16 e);
-void sub_807D304(s8 a, u8 arg2, u16 c);
-void sub_807D424(u8, u16);
+void BlendSomething_807CEBC(u8, u8, s8);
+//void BlendSomething_807D1BC(u8, u8, u8, u8, u16);
+void BlendSomething_807D1BC(u8 a, u8 a2, s8 c, u8 d, u16 e);
+void BlendSomething_807D304(s8 a, u8 arg2, u16 c);
+void BlendSomething_807D424(u8, u16);
 // ...
+
+enum
+{
+    FADE_FROM_BLACK,
+    FADE_TO_BLACK,
+    FADE_FROM_WHITE,
+    FADE_TO_WHITE,
+};
+
 void fade_screen(u8, u8);
 // ...
 void sub_807D78C(u8 tag);
@@ -174,5 +171,9 @@ bool8 sub_807D770(void);
 bool8 sub_807DDFC(void);
 void SetWeather(u32);
 void UpdateWeatherPerDay(u16);
+
+extern struct Weather gWeather;
+
+extern struct Weather *const gWeatherPtr;
 
 #endif // GUARD_WEATHER_H
